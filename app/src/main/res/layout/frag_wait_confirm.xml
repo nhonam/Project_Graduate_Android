@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:elevation="3dp"
+
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/returnOrderWait"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="90dp"
+            android:layout_marginLeft="100dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+
+                android:gravity="center"
+                android:text="Đơn Hàng Chờ Xác Nhận"
+                android:textColor="#353535"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:src="@drawable/img_mess" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="-3dp"
+        android:background="#FFE5BE">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/img_buy_cart"/>
+
+        <TextView
+            android:layout_width="match_parent"
+
+            android:text="  Cảm ơn bản đã đồng hành cũng shop ❤️"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/exsitOrderWait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/notItemOrderWait"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            ></ImageView>
+        <TextView
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn chưa mua đơn hàng nào"/>
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/listViewWaitOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
