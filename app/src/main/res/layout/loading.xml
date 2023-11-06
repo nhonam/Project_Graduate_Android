@@ -14,14 +14,14 @@
         android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/message"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/message"
-        android:layout_width="150dp"
-        android:layout_height="56dp"
-        android:text=" Please Wait "
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_56sdp"
+        android:text=" Vui lòng chờ ...  "
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

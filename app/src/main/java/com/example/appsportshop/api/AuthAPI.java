@@ -82,7 +82,6 @@ public class AuthAPI {
         JSONObject postData = new JSONObject();
         postData.put("username", username);
         postData.put("password", password);
-        postData.put("role", "EMPLOYEE");
         JSONObject requestBody = new JSONObject();
         requestBody.put("data", postData);
 

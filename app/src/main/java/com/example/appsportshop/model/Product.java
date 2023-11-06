@@ -13,6 +13,8 @@ public class Product  implements Serializable {
     private String urlImage;
     private String publicId;
 
+    private int star;
+
     private boolean isSelect;
 
     public Product() {
@@ -89,6 +91,14 @@ public class Product  implements Serializable {
 
     public void setSelect(boolean select) {
         isSelect = select;
+    }\
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
     }
 
     public Product(long id, String nameProduct, int stockQuantity, float price, String category, String description, String urlImage, String publicId, boolean isSelect) {

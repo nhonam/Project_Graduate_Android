@@ -2,6 +2,7 @@ package com.example.appsportshop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -94,6 +95,7 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onError(VolleyError error) {
+                Log.d("statuscode", String.valueOf(error.networkResponse.statusCode));
                 if (error.networkResponse.statusCode == 400) {
                     edtUserName.setText("");
                     edtRePassword.setText("");
@@ -102,13 +104,14 @@ public class Register extends AppCompatActivity {
                     dialog.dismissdialog();
                     CustomToast.makeText(Register.this, "Tài khoản đã tồn tại!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
                 } else {
+                    Log.d("ERROR API Resgister",error.getMessage());
                     // Handle other error codes here
                     edtUserName.setText("");
                     edtRePassword.setText("");
                     edtPassword.setText("");
                     edtUserName.requestFocus();
                     dialog.dismissdialog();
-                    CustomToast.makeText(Register.this, "Tài khoản đã tồn tại!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+                    CustomToast.makeText(Register.this, "Xem lại kết nối mạng!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
 
                 }
             }

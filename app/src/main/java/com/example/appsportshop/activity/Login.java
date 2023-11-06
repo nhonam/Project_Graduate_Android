@@ -1,8 +1,5 @@
 package com.example.appsportshop.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +8,9 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
@@ -23,13 +23,10 @@ import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.example.appsportshop.utils.dialog;
-import com.itextpdf.layout.element.Image;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 public class Login extends AppCompatActivity {
 
@@ -179,12 +176,12 @@ public class Login extends AppCompatActivity {
 
     private void APILoginDefault() throws JSONException {
         dialog dialog = new dialog(Login.this);
-//        dialog.startLoadingdialog();
+        dialog.startLoadingdialog();
         AuthAPI.LoginAPI(getApplicationContext(), Utils.BASE_URL + "auth/login", username, password, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONObject res = response.getJSONObject("data");
-                String role = res.getString("role");
+                JSONObject role = res.getJSONObject("role");
                 SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();
@@ -229,13 +226,13 @@ public class Login extends AppCompatActivity {
 //                System.out.println(singletonUser.getBirthday()+"woa-------------");
                 singletonUser.setPassword(password);
 
-                singletonUser.setRole(role);
+                singletonUser.setRole(role.getString("name"));
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));
 
-
-                if (role.equalsIgnoreCase("CUSTOMER")) {
+                //nếu là Custommer
+                if (role.getLong("id")== 3) {
 
 
                     if (singletonUser.getFullName().equalsIgnoreCase("null") || singletonUser.getEmail().equalsIgnoreCase("null") || singletonUser.getPhone().equalsIgnoreCase("null") || singletonUser.getAdress().equalsIgnoreCase("null")) {
@@ -248,8 +245,8 @@ public class Login extends AppCompatActivity {
                         startActivity(intent);
                     }
 
-
-                } else if (role.equalsIgnoreCase("EMPLOYEE")) {
+                // nếu user là employee
+                } else if (role.getLong("id") == 2) {
                     if (singletonUser.getFullName() == null || singletonUser.getEmail() == null || singletonUser.getPhone() == null || singletonUser.getAdress() == null) {
 
                         Intent intent = new Intent(Login.this, Update_Profile.class);
@@ -260,18 +257,18 @@ public class Login extends AppCompatActivity {
                         startActivity(intent);
                     }
 
-
+                    //nếu user là admin
                 } else {
                     Intent intent = new Intent(Login.this, MainAdmin.class);
                     FragManagerProduct.isDisplayManagerProd=true;
                     startActivity(intent);
                 }
-                dialog.startLoadingdialog();
+                dialog.dismissdialog();
             }
 
             @Override
             public void onError(VolleyError error) {
-                dialog.startLoadingdialog();
+                dialog.dismissdialog();
             }
         });
     }
