@@ -81,7 +81,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginRight="30dp"
                     android:fontFamily="@font/shopee6"
-                    android:text="0.0vnđ"
+                    android:text="0.0 VND"
                     android:textColor="#252424"
                     android:textSize="18dp" />
 

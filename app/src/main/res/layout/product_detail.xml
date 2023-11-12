@@ -197,39 +197,73 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/infoSP"
-              >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/addCart"
-                    android:layout_width="match_parent"
+<!--                btn thêm vào giỏ hàng-->
+                <LinearLayout
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="#ee4d2d"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="Mua Sản Phẩm"
-                    android:textColor="@color/white"
-                    android:layout_marginRight="5dp"
-                    android:textSize="15dp"
-                    android:textStyle="bold|normal" />
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/infoSP"
+                    >
+                    <TextView
+                        android:id="@+id/addCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ee4d2d"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="Thêm vào giỏ hàng"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"
+                        android:textSize="15dp"
+                        android:textStyle="bold|normal" />
+                </LinearLayout>
+<!--                btn mua sản phẩm-->
+                <LinearLayout
+                    android:layout_gravity="left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/infoSP"
+                    >
+
+                    <TextView
+
+                        android:id="@+id/buy_product"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#ee4d2d"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="Mua Sản Phẩm"
+                        android:textColor="@color/white"
+                        android:layout_marginRight="5dp"
+                        android:textSize="15dp"
+                        android:textStyle="bold|normal" />
 
 
 
-                <!--        <Button-->
-                <!--            android:id="@+id/addCart"-->
-                <!--            android:text="Thêm giỏi hàng"-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"></Button>-->
-                <!--        <Button-->
-                <!--            android:id="@+id/buy"-->
-                <!--            android:text="Mua"-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"></Button>-->
+                    <!--        <Button-->
+                    <!--            android:id="@+id/addCart"-->
+                    <!--            android:text="Thêm giỏi hàng"-->
+                    <!--            android:layout_width="wrap_content"-->
+                    <!--            android:layout_height="wrap_content"></Button>-->
+                    <!--        <Button-->
+                    <!--            android:id="@+id/buy"-->
+                    <!--            android:text="Mua"-->
+                    <!--            android:layout_width="wrap_content"-->
+                    <!--            android:layout_height="wrap_content"></Button>-->
+                </LinearLayout>
             </LinearLayout>
+
+
 
             <TextView
                 android:layout_marginTop="10dp"

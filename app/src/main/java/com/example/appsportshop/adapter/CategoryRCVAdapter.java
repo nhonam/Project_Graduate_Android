@@ -2,6 +2,7 @@ package com.example.appsportshop.adapter;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
+import com.example.appsportshop.activity.MainEmployee;
+import com.example.appsportshop.model.Category;
 
 import org.json.JSONException;
+
+import java.util.List;
 
 
 public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.ViewHolder> {
     //Dữ liệu hiện thị là danh sách sinh viên
-    private String[] logoNameList;
-    private int[] imgPhotoList;
-    // Lưu Context để dễ dàng truy cập
-
-
+    private List<Category> categoryList;
     private Context mContext;
 
     private OnItemClickListener mOnItemClickListener;
@@ -30,16 +32,14 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
         public void onItemClick(View view, int position) throws JSONException;
     }
 
-    public CategoryRCVAdapter(Context mContext, String[] logoNameList, int[] imgPhotoList, OnItemClickListener onItemClickListener) {
-        this.imgPhotoList = imgPhotoList;
-        this.logoNameList = logoNameList;
+    public CategoryRCVAdapter(Context mContext, List<Category> categoryList,OnItemClickListener onItemClickListener) {
+        this.categoryList = categoryList;
         this.mOnItemClickListener = onItemClickListener;
         this.mContext = mContext;
     }
 
-    public void setListData(String[] logoNameList, int[] imgPhotoList) {
-        this.imgPhotoList = imgPhotoList;
-        this.logoNameList = logoNameList;
+    public void setListData(List<Category> categoryList) {
+        this.categoryList = categoryList;
         notifyDataSetChanged();
     }
 
@@ -77,8 +77,8 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.imgCategory.setImageResource(imgPhotoList[position]);
-        holder.txtNameCategory.setText(logoNameList[position]);
+        Glide.with( mContext).load(categoryList.get(position).getImageURL()).into( holder.imgCategory);
+        holder.txtNameCategory.setText(categoryList.get(position).getCategoryName());
 
     }
 
@@ -86,7 +86,7 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
 
     @Override
     public int getItemCount() {
-        return logoNameList.length;}
+        return categoryList.size();}
 
     /**
      * Lớp nắm giữ cấu trúc view

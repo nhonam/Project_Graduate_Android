@@ -179,7 +179,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
 
-                        android:hint="Nhập vào giá thành vnđ"
+                        android:hint="Nhập vào giá thành VND"
                         android:textColor="@color/black"
                         />
 

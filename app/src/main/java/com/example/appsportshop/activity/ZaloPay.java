@@ -107,8 +107,8 @@ public class  ZaloPay extends AppCompatActivity {
 
                 System.out.println(" -------------------o zalopay"+ tongtien);
                 try {
-                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim());
-                    Log.d("Amount", txtAmount.getText().toString());
+                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim().replace(".",""));
+                    Log.d("Amount", txtAmount.getText().toString().trim().replace(".",""));
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");
                     Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();

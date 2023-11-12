@@ -2,6 +2,7 @@ package com.example.appsportshop.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -36,14 +37,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ProductDetail extends AppCompatActivity {
+    //sản phẩm người dùng mua kjhi bấm nút mua
+    public static Cart Product_bought = null;
     ImageView Img_ProductDetail, btnBackHome, btnCart;
     TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail,tvsupplier, tvactivity,tvenvironment,tvbrand,tvunit ;
-    TextView addCart;
+    TextView addCart,btnBuyProduct;
 
     private Product product;
     SingletonUser singletonUser = SingletonUser.getInstance();
     BottomSheetDialog dialogSelectQuanti;
     int quantiCart = 0;
+
 
     String category,supplier,activity,environment,brand,unit;
 
@@ -90,7 +94,7 @@ public class ProductDetail extends AppCompatActivity {
 
                     dialogSelectQuanti = new BottomSheetDialog(ProductDetail.this);
 //                    dialogSelectQuanti.dismiss();
-                    createDialog();
+
 
                     setEvent();
 
@@ -143,6 +147,18 @@ public class ProductDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                createDialogAddCart();
+
+                dialogSelectQuanti.show();
+
+            }
+        });
+
+        btnBuyProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                createDialogBuy();
                 dialogSelectQuanti.show();
 
             }
@@ -170,12 +186,14 @@ public class ProductDetail extends AppCompatActivity {
     }
 
 
-    private void createDialog() {
+    private void createDialogAddCart() {
         View view = getLayoutInflater().inflate(R.layout.bottom_sheet, null, false);
         Button btnSubmit = view.findViewById(R.id.submit_quanti);
         TextView btnreduce = view.findViewById(R.id.reduce);
         TextView btnIncrease = view.findViewById(R.id.increase);
         TextView quanti = view.findViewById(R.id.quantityCart);
+
+
         quantiCart = Integer.parseInt(quanti.getText().toString());
         btnreduce.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,10 +227,75 @@ public class ProductDetail extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     if (singletonUser.getToken() == null) {
+                        CustomToast.makeText(ProductDetail.this, "Vui lòng đăng nhập để tiếp tục !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
                         Intent intent = new Intent(getApplicationContext(), Login.class);
                         startActivity(intent);
                     }else
-                        addToCart();
+                            addToCart();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                dialogSelectQuanti.dismiss();
+            }
+        });
+        dialogSelectQuanti.setContentView(view);
+
+    }
+
+    private void createDialogBuy() {
+        View view = getLayoutInflater().inflate(R.layout.bottom_sheet, null, false);
+        Button btnSubmit = view.findViewById(R.id.submit_quanti);
+        TextView btnreduce = view.findViewById(R.id.reduce);
+        TextView btnIncrease = view.findViewById(R.id.increase);
+        TextView quanti = view.findViewById(R.id.quantityCart);
+
+
+            Button  submit_quanti = view.findViewById(R.id.submit_quanti);
+            submit_quanti.setText("MUA SẢN PHẨM");
+
+
+        quantiCart = Integer.parseInt(quanti.getText().toString());
+        btnreduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int quantity = Integer.parseInt(quanti.getText().toString()) - 1;
+                if (quantity <= 0) {
+                    CustomToast.makeText(ProductDetail.this, "Vui Lòng Chọn Số Lượng Lớn Hơn 0 !!!", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
+                    quanti.setText("1");
+                } else {
+                    quanti.setText(String.valueOf(quantity));
+                }
+                quantiCart = Integer.parseInt(quanti.getText().toString());
+
+
+            }
+        });
+
+        btnIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(quanti.getText().toString()) + 1;
+                quanti.setText(String.valueOf(quantity));
+
+                quantiCart = Integer.parseInt(quanti.getText().toString());
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (singletonUser.getToken() == null) {
+                        CustomToast.makeText(ProductDetail.this, "Vui lòng đăng nhập để tiếp tục !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
+                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                        startActivity(intent);
+                    }else
+
+                        BuyProduct();
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -239,6 +322,20 @@ public class ProductDetail extends AppCompatActivity {
         });
     }
 
+    private void BuyProduct() throws JSONException {
+        Product_bought = new Cart();
+        Product_bought.setQuantity(quantiCart);  // số lượng sản phẩm muốn mua
+        Product_bought.setPrice_total(product.getPrice());
+        Product_bought.setUrlImage(product.getUrlImage());
+        Product_bought.setNameProduct(product.getNameProduct());
+        Product_bought.setIdProduct(String.valueOf(product.getId()));
+
+        Intent intent = new Intent(getApplicationContext(), Payment.class);
+        Address.isDisplay = false;
+        intent.putExtra("tongTien",String.valueOf(product.getPrice()*quantiCart));
+        startActivity(intent);
+    }
+
     private void mapping() {
         Img_ProductDetail = findViewById(R.id.img_ProductDetail);
         nameProductDetail = findViewById(R.id.nameProductDetail);
@@ -254,6 +351,7 @@ public class ProductDetail extends AppCompatActivity {
         tvenvironment = findViewById(R.id.environment);
         tvunit = findViewById(R.id.unit);
         tvsupplier = findViewById(R.id.supplier);
+        btnBuyProduct = findViewById(R.id.buy_product);
 
 
     }

@@ -3,6 +3,7 @@ package com.example.appsportshop.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -289,9 +290,11 @@ public class Login extends AppCompatActivity {
         AuthAPI.LoginAPI(getApplicationContext(), Utils.BASE_URL + "auth/login", username, password, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
+                Log.d("Respone_Login_Sucess", response.toString());
 
                 JSONObject res = response.getJSONObject("data");
-                String role = res.getString("role");
+                JSONObject roleObj = response.getJSONObject("role");
+                String role = res.getString("name");
                 SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();
@@ -381,7 +384,7 @@ public class Login extends AppCompatActivity {
                 edtUserName.setText("");
                 edtpassWord.setText("");
                 edtUserName.requestFocus();
-                System.err.println("Error in onError APIlogin in (login.java)" + error.getMessage());
+                Log.d("Respone_Login_Error", error.getMessage());
                 dialog.dismissdialog();
                 CustomToast.makeText(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 

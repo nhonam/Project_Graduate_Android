@@ -91,7 +91,7 @@ public class Product  implements Serializable {
 
     public void setSelect(boolean select) {
         isSelect = select;
-    }\
+    }
 
     public int getStar() {
         return star;

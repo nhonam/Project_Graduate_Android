@@ -18,8 +18,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
-import com.example.appsportshop.fragment.Admin.FragManagerProduct;
-import com.example.appsportshop.fragment.Admin.FragRevenue;
 import com.example.appsportshop.fragment.Customer.FragProfile;
 import com.example.appsportshop.fragment.Employee.FragOrder;
 import com.example.appsportshop.fragment.Employee.FragSell;

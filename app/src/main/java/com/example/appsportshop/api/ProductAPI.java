@@ -128,8 +128,8 @@ public class ProductAPI {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         JSONObject postData = new JSONObject();
-        postData.put("idProduct", idProduct);
         postData.put("idUser", idUser);
+        postData.put("idProduct", idProduct);
         postData.put("quantity", quantity);
 
         JSONObject requestBody = new JSONObject();

@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
+import com.example.appsportshop.activity.ProductDetail;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.CartAPI;
 import com.example.appsportshop.fragment.Customer.FragCart;
@@ -39,7 +40,7 @@ public class CartAdapter extends ArrayAdapter<Cart> {
 
     ArrayList<Cart> listCart ;
     public static Double  sumCart=0.0;
-
+    DecimalFormat formatter = new DecimalFormat("#,###");
     ArrayList<Cart> listCartTmp = new ArrayList<Cart>();
 
 
@@ -133,7 +134,6 @@ public class CartAdapter extends ArrayAdapter<Cart> {
         viewHolder.txtQuanti.setText("x"+ String.valueOf(cart.getQuantity()));
 //        viewHolder.txtShopName.setText(cart.getShopName());
 
-        DecimalFormat formatter = new DecimalFormat("#,###");
         String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", cart.getPrice_total())));
 
         viewHolder.txtPrice.setText(formattedValue +" VND");
@@ -169,6 +169,8 @@ public class CartAdapter extends ArrayAdapter<Cart> {
         });
 
 
+
+
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -176,18 +178,21 @@ public class CartAdapter extends ArrayAdapter<Cart> {
 
                 if(checkAll()){
                     FragCart.cbCheckAll.setChecked(true);
-
-                    FragCart.tongTien.setText( String.format("%.0f",sumCart)+" vnđ");
+                    String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", sumCart)));
+                    FragCart.tongTien.setText( formattedValue+" VND");
                 }else {
                     FragCart.cbCheckAll.setChecked(false);
-                    FragCart.tongTien.setText( String.format("%.0f",sumCart)+" vnđ");
+                    String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", sumCart)));
+                    FragCart.tongTien.setText( formattedValue+" VND");
                 }
                 if(cart.getSelected()){
                     sumCart += cart.getPrice_total();
                 } else if (!cart.getSelected()) {
                     sumCart -= cart.getPrice_total();
                 }
-                FragCart.tongTien.setText( String.format("%.0f",sumCart)+" vnđ");
+
+                String formattedValue = formatter.format( Double.valueOf(String.format("%.0f",sumCart)));
+                FragCart.tongTien.setText( formattedValue+" VND");
 //                System.out.println(sumCart);
 
             }

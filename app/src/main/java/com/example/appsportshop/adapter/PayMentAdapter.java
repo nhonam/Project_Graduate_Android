@@ -1,31 +1,21 @@
 package com.example.appsportshop.adapter;
 
 
-
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.model.Cart;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.appsportshop.utils.UtilCommon;
 
 import java.util.ArrayList;
 
@@ -59,7 +49,7 @@ public class PayMentAdapter extends ArrayAdapter<Cart> {
         viewHolder.txtQuantity.setText("x"+String.valueOf(cart.getQuantity()));
 //        viewHolder.txtShopName.setText(cart.getShopName());
 
-        viewHolder.txtPrice.setText(  String.format("%.0f",cart.getPrice_total())+" VND" );
+        viewHolder.txtPrice.setText(  UtilCommon.FormatPrice((double) cart.getPrice_total())+" VND" );
         Glide.with(myContext).load(cart.getUrlImage()).into(viewHolder.ImgCart);
         return view;
     }

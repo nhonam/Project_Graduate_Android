@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
-import android.util.Base64;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -27,23 +26,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
+import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.ApiServiceRetrofit;
 import com.example.appsportshop.fragment.Admin.FragManagerProduct;
+import com.example.appsportshop.model.Category;
 import com.example.appsportshop.model.Product;
-import com.example.appsportshop.service.CategoryService;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.RealPathUtil;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.example.appsportshop.utils.dialog;
-import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -75,7 +77,7 @@ String path="";
 
 
 
-    String[]  ListCategory ;
+    List<String> ListCategory ;
 
     dialog loadding = new dialog(ManagerProductDetail.this);
 
@@ -95,7 +97,11 @@ String path="";
 //        if(product.getId()!=null)
 //        System.out.println("id   "+product.getId());
         mapping();
-        setEvent();
+        try {
+            setEvent();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void mapping() {
@@ -346,65 +352,95 @@ String path="";
 
     }
 
-    private void  setEvent() {
+    private void  setEvent() throws JSONException {
 
-        ListCategory = CategoryService.loadLogoName().toArray(new String[0]);
-        adapterCategory = new ArrayAdapter(this, android.R.layout.simple_list_item_1, ListCategory);
-        spCategory.setAdapter(adapterCategory);
-//        int selectionPosition= adapterCategory.getPosition(product.getCategory());
-//        spCategory.setSelection(categoryCurrent);
-        //nếu tồn tại product , khi bấm bấm update
-        if (product != null) {
-            Glide.with(this).load(product.getUrlImage()).into(imgProduct);
-
-            edtName.setText(product.getNameProduct());
-
-            edtQuanti.setText(String.valueOf(product.getStockQuantity()));
-//            edtPrice.setText(String.valueOf(product.getPrice()));
-            edtPrice.setText(String.format("%.0f", product.getPrice()));
-            edtDescription.setText(product.getDescription());
-
-            categoryCurrent = adapterCategory.getPosition(product.getCategory());
-            spCategory.setSelection(categoryCurrent);
-            spCategory.setEnabled(false);
-        }
-
-        btnImage.setOnClickListener(new View.OnClickListener() {
+        //get listName category
+        List<Category> list = new ArrayList<>();
+        APICommon.APIGetWithOutJWT(getApplicationContext(), "category/getAllCategory", new APICallBack() {
             @Override
-            public void onClick(View view) {
-                showPictureDialog();
-            }
-        });
+            public void onSuccess(JSONObject response) throws JSONException {
+                JSONArray data = response.getJSONArray("data");
+                JSONObject categoryObj = new JSONObject();
+                Category category1 = new Category();
 
-        btnExit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ManagerProductDetail.this, MainAdmin.class);
-                FragManagerProduct.isDisplayManagerProd= true;
-                startActivity(intent);
+                for (int i = 0; i < data.length(); i++) {
+                    categoryObj = data.getJSONObject(i);
+                    category1.setCategoryName(categoryObj.getString("categoryName"));
+                    category1.setImageURL(categoryObj.getString("imageUrl"));
+                    list.add(category1);
 
-            }
-        });
-
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // click lưu khi update
-                if (product != null) {
-
-                    SaveUpdate();
-
-                } else {
-                    try {
-                        SaveCreate();
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
                 }
 
+
+                for (int i = 0; i < list.size(); i++) {
+                    ListCategory.add(list.get(i).getCategoryName());
+                }
+
+                adapterCategory = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, ListCategory);
+                spCategory.setAdapter(adapterCategory);
+//        int selectionPosition= adapterCategory.getPosition(product.getCategory());
+//        spCategory.setSelection(categoryCurrent);
+                //nếu tồn tại product , khi bấm bấm update
+                if (product != null) {
+                    Glide.with(getApplicationContext()).load(product.getUrlImage()).into(imgProduct);
+
+                    edtName.setText(product.getNameProduct());
+
+                    edtQuanti.setText(String.valueOf(product.getStockQuantity()));
+//            edtPrice.setText(String.valueOf(product.getPrice()));
+                    edtPrice.setText(String.format("%.0f", product.getPrice()));
+                    edtDescription.setText(product.getDescription());
+
+                    categoryCurrent = adapterCategory.getPosition(product.getCategory());
+                    spCategory.setSelection(categoryCurrent);
+                    spCategory.setEnabled(false);
+                }
+
+                btnImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        showPictureDialog();
+                    }
+                });
+
+                btnExit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(ManagerProductDetail.this, MainAdmin.class);
+                        FragManagerProduct.isDisplayManagerProd= true;
+                        startActivity(intent);
+
+                    }
+                });
+
+
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // click lưu khi update
+                        if (product != null) {
+
+                            SaveUpdate();
+
+                        } else {
+                            try {
+                                SaveCreate();
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
             }
         });
+
 
 
     }

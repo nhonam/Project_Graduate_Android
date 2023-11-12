@@ -2,12 +2,14 @@ package com.example.appsportshop.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -30,12 +32,14 @@ import com.example.appsportshop.fragment.Customer.MainOrder;
 import com.example.appsportshop.model.Cart;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
+import com.example.appsportshop.utils.UtilCommon;
 import com.example.appsportshop.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import vn.zalopay.sdk.Environment;
@@ -50,7 +54,7 @@ public class Payment extends AppCompatActivity {
 
     Boolean isShipcode =null;
 
-
+    DecimalFormat formatter = new DecimalFormat("#,###");
 
     public static Boolean  isActive = false;
     ArrayList<Cart> listProductPayment;
@@ -101,18 +105,28 @@ public class Payment extends AppCompatActivity {
             districtName = singletonUser.getAdress();
             sdtName.setText(nameShip+"| (+84) "+phoneNumber);
             ship_adree.setText(districtName);
-            tongTien =getIntent().getStringExtra("tongTien");
+            tongTien = getIntent().getStringExtra("tongTien");
 
         }
 
 
-//        getList những sản phẩm được mua form FragCart
         listProductPayment = new ArrayList<>();
-        for (int i = 0; i < FragCart.listCart.size(); i++) {
-            if (FragCart.listCart.get(i).getSelected()) {
-                listProductPayment.add(FragCart.listCart.get(i));
+        //nếu == null tức là mua trực tiếp chứ không phải mua từ giỏ hàng
+        if (FragCart.listCart==null) {
+
+           listProductPayment.add(ProductDetail.Product_bought);
+
+
+        }else {
+            //        getList những sản phẩm được mua form FragCart
+
+            for (int i = 0; i < FragCart.listCart.size(); i++) {
+                if (FragCart.listCart.get(i).getSelected()) {
+                    listProductPayment.add(FragCart.listCart.get(i));
+                }
             }
         }
+
 
 //        listProductPayment= FragCart.listCart;
 
@@ -121,9 +135,12 @@ public class Payment extends AppCompatActivity {
         //lấy iduser được gửi từ FragCart
 //        Intent intent = getIntent();
 
-        tongThanhtoan.setText(tongTien);
-        tongthanhtoan1.setText(tongTien);
-        tongthanhtoan2.setText(tongTien);
+//        String amount  = UtilCommon.FormatPrice(Double.parseDouble(tongTien));
+//        Log.d("tongtien",tongTien);
+
+        tongThanhtoan.setText(  tongTien);
+        tongthanhtoan1.setText( tongTien);
+        tongthanhtoan2.setText(  tongTien);
 
 //        if(!TextUtils.isEmpty(nameShip)&&!TextUtils.isEmpty(phoneNumber)&&!TextUtils.isEmpty(homeNumber)&&!TextUtils.isEmpty(districtName)) {
 //            sdtName.setText(nameShip+"| (+84) "+phoneNumber);

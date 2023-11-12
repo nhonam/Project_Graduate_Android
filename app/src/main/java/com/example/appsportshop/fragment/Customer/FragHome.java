@@ -2,6 +2,7 @@ package com.example.appsportshop.fragment.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,10 +22,10 @@ import com.example.appsportshop.adapter.CategoryRCVAdapter;
 import com.example.appsportshop.adapter.ProductLatestAdapter;
 import com.example.appsportshop.adapter.SliderAdapter;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.ProductAPI;
-import com.example.appsportshop.service.CategoryService;
+import com.example.appsportshop.model.Category;
 import com.example.appsportshop.service.InternetConnect;
-import com.example.appsportshop.utils.ObjectWrapperForBinder;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -41,23 +40,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragHome extends Fragment {
-
     GridView gr_productList;
     RecyclerView rcvCategory;
 
     //Name Category Product
-    String[] nameLogo;
-    //logo Category Product
-    int[] imgLogo;
+    List<Category> categoryList = new ArrayList<>();
     //get listproduct recive from api
     JSONArray listProduct = new JSONArray();
-
     List<String> nameProductList = new ArrayList<String>();
-
     List<Double> priceProductList = new ArrayList<Double>();
-
     List<String> urlProductList = new ArrayList<String>();
-
     CategoryRCVAdapter categoryRCVAdapter;
     ProductLatestAdapter latestProduct_test;
     SliderAdapter sliderAdapter;
@@ -111,8 +103,8 @@ public class FragHome extends Fragment {
         SingletonUser singletonUser = SingletonUser.getInstance();
         Mapping(view);
         idUserCurrent = singletonUser.getIdUser();
-        nameLogo = CategoryService.loadLogoName().toArray(new String[0]);
-        imgLogo = CategoryService.loadLogo();
+//        nameLogo = CategoryService.loadLogoName().toArray(new String[0]);
+//        imgLogo = CategoryService.loadLogo();
         nameProductList.clear();
         priceProductList.clear();
         urlProductList.clear();
@@ -189,67 +181,93 @@ public class FragHome extends Fragment {
             }
         });
     }
-    private void setAdapter() {
-        //setCategoryProduct and click item category
-        categoryRCVAdapter = new CategoryRCVAdapter(getContext(), nameLogo, imgLogo, (view, position) -> {
-            category = nameLogo[position];
-            //call api all product của category
-            ProductAPI.GetProductByCategory(getContext(), Utils.BASE_URL + "product/byCategory?categoryName="+category, new APICallBack() {
+    private void setAdapter() throws JSONException {
 
-                @Override
-                public void onSuccess(JSONObject response) {
-                    try {
-                        nameProductList.clear();
-                        priceProductList.clear();
-                        urlProductList.clear();
+        APICommon.APIGetWithOutJWT(getContext(), "category/getAllCategory", new APICallBack() {
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
 
-                        listProduct = response.getJSONArray("data");
+                JSONArray data = response.getJSONArray("data");
+                JSONObject categoryObj = new JSONObject();
+                Category category1 ;
+                categoryList.clear();
+                for (int i = 0; i < data.length(); i++) {
+                     category1 = new Category();
+                    categoryObj = data.getJSONObject(i);
 
-                        JSONObject productTmp;
-                        String urlImgTmp = "";
-                        for (int i = 0; i < listProduct.length(); i++) {
+                    category1.setCategoryName(categoryObj.getString("categoryName"));
+                    category1.setImageURL(categoryObj.getString("imageUrl"));
+                    categoryList.add(category1);
 
-
+                }
 
 
-                            productTmp = (JSONObject) listProduct.get(i);
-                            nameProductList.add((String) productTmp.get("productName"));
-                            urlImgTmp = (String) productTmp.get("imageUrl");
-                            priceProductList.add((productTmp.getDouble("price")));
-                            urlProductList.add(urlImgTmp);
+                //setCategoryProduct and click item category
+                categoryRCVAdapter = new CategoryRCVAdapter(getContext(), categoryList, (view, position) -> {
+                    category = categoryList.get(position).getCategoryName();
+                    //call api all product của category
+
+                    APICommon.APIGetWithOutJWT(getContext(), "product/byCategory?categoryName=" + category, new APICallBack() {
+                        @Override
+                        public void onSuccess(JSONObject response) throws JSONException {
+                            nameProductList.clear();
+                            priceProductList.clear();
+                            urlProductList.clear();
+                            Log.d("Respone_FragHome_Product_By_Category_onSuccess",category);
+
+                            listProduct = response.getJSONArray("data");
+
+                            JSONObject productTmp;
+                            String urlImgTmp = "";
+                            for (int i = 0; i < listProduct.length(); i++) {
+
+                                productTmp = (JSONObject) listProduct.get(i);
+                                nameProductList.add((String) productTmp.get("productName"));
+                                urlImgTmp = (String) productTmp.get("imageUrl");
+                                priceProductList.add((productTmp.getDouble("price")));
+                                urlProductList.add(urlImgTmp);
 //                                System.out.println(urlImgTmp);
 
+                            }
+                            latestProduct_test.notifyDataSetChanged();
+
                         }
-                        latestProduct_test.notifyDataSetChanged();
 
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
+                        @Override
+                        public void onError(VolleyError error) {
+                            Log.d("Respone_FragHome_Product_By_Category_onSuccess",error.getMessage());
 
-                }
+                        }
+                    });
 
-                @Override
-                public void onError(VolleyError error) {
+                });
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
+                gridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
+                rcvCategory.setLayoutManager(gridLayoutManager);
+                rcvCategory.setAdapter(categoryRCVAdapter);
 
-                }
-            });
+                // setlatestProduct_test
+
+                latestProduct_test = new ProductLatestAdapter(getContext(), nameProductList, priceProductList, urlProductList);
+                gr_productList.setAdapter(latestProduct_test);
+
+                //setAdapterSlider
+                sliderAdapter = new SliderAdapter(imgSliders);
+                sliderView.setSliderAdapter(sliderAdapter);
+                sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                sliderView.startAutoCycle();
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
         });
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
-        gridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-        rcvCategory.setLayoutManager(gridLayoutManager);
-        rcvCategory.setAdapter(categoryRCVAdapter);
 
-        // setlatestProduct_test
 
-        latestProduct_test = new ProductLatestAdapter(getContext(), nameProductList, priceProductList, urlProductList);
-        gr_productList.setAdapter(latestProduct_test);
 
-        //setAdapterSlider
-        sliderAdapter = new SliderAdapter(imgSliders);
-        sliderView.setSliderAdapter(sliderAdapter);
-        sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-        sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-        sliderView.startAutoCycle();
+
     }
     private void Mapping(View view) {
         rcvCategory = view.findViewById(R.id.productCategory);
