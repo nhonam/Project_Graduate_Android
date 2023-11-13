@@ -3,6 +3,7 @@ package com.example.appsportshop.fragment.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class FragCart extends Fragment implements Serializable {
 
         mapping(view);
         if (singletonUser.getToken()==null) {
+            Log.d("nam","token null");
             Intent intent = new Intent(getContext(), Login.class);
             startActivity(intent);
         }else {

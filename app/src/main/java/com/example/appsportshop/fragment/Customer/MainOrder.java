@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appsportshop.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainOrder extends AppCompatActivity {
+public class  MainOrder extends AppCompatActivity {
 
 
     private FragWaitConfirm fragWaitConfirm =null;
@@ -46,7 +46,6 @@ public class MainOrder extends AppCompatActivity {
                 )
                 .replace(R.id.content_main_order, fragWaitConfirm)
                 .commit();
-
 
 
         navi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
