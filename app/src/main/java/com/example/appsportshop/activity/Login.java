@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
         mapping();
 
         try {
-            if (!username.equalsIgnoreCase("") || !password.equalsIgnoreCase(""))
+            if (ReadPassWord())
                 APILoginDefault();
         } catch (JSONException e) {
             System.err.println("Error catch LoginAPI in class (Login.java)" + e.getMessage());
@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity {
 //        System.out.println("doc mat khau "+sharedPreferences.getString("username","")+sharedPreferences.getString("password",""));
         username = sharedPreferences.getString("username", "");
         password = sharedPreferences.getString("password", "");
-        if (password.equalsIgnoreCase("")) {
+        if (password.equalsIgnoreCase("") || password == null ||username.equalsIgnoreCase("") || username == null) {
 //            btnBack.setVisibility(View.GONE);
             return false;
         }
@@ -293,8 +293,8 @@ public class Login extends AppCompatActivity {
                 Log.d("Respone_Login_Sucess", response.toString());
 
                 JSONObject res = response.getJSONObject("data");
-                JSONObject roleObj = response.getJSONObject("role");
-                String role = res.getString("name");
+                JSONObject roleObj = res.getJSONObject("role");
+                String role = roleObj.getString("name");
                 SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();

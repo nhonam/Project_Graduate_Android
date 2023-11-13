@@ -42,8 +42,8 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPaySDK;
+//import vn.zalopay.sdk.Environment;
+//import vn.zalopay.sdk.ZaloPaySDK;
 
 public class Payment extends AppCompatActivity {
 
@@ -191,15 +191,15 @@ public class Payment extends AppCompatActivity {
                     }
                 }else {
 
-                    Intent intent = new Intent(Payment.this, ZaloPay.class);
-
-                    int spaceIndex = tongThanhtoan.getText().toString().indexOf(' ');
-
-                    String amountStr = tongThanhtoan.getText().toString().substring(0, spaceIndex); // Lấy phần số từ đầu chuỗi đến vị trí khoảng trắng
-
-                    System.out.println(amountStr+"nhonam++++++++++++");
-                    intent.putExtra("tongtien", amountStr);
-                    startActivity(intent);
+//                    Intent intent = new Intent(Payment.this, ZaloPay.class);
+//
+//                    int spaceIndex = tongThanhtoan.getText().toString().indexOf(' ');
+//
+//                    String amountStr = tongThanhtoan.getText().toString().substring(0, spaceIndex); // Lấy phần số từ đầu chuỗi đến vị trí khoảng trắng
+//
+//                    System.out.println(amountStr+"nhonam++++++++++++");
+//                    intent.putExtra("tongtien", amountStr);
+//                    startActivity(intent);
 
 //                    Intent intent1= new Intent(Payment.this, ZaloPay.class);
 //                    startActivity(intent1);

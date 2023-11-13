@@ -2,6 +2,7 @@ package com.example.appsportshop.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 
@@ -42,28 +43,39 @@ public class Main_Customer extends AppCompatActivity {
 //        LoadDataInLocal();
 
         // mở lên sẽ vào fragHome
-        FragHome.isDispHomeCustommer = false;
-        fragHome = new FragHome();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(
-                        R.anim.fade_out,  // enter
-                        R.anim.slide_out_left  // exit
-                )
-                .replace(R.id.content_main, fragHome)
-                .commit();
-        loadingFragment();
+
+
 
         if (ReadPassWord()){
             try {
                 APILoginDefault();
+                FragHome.isDispHomeCustommer = false;
+                fragHome = new FragHome();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.fade_out,  // enter
+                                R.anim.slide_out_left  // exit
+                        )
+                        .replace(R.id.content_main, fragHome)
+                        .commit();
+                loadingFragment();
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
+        }else {
+            FragHome.isDispHomeCustommer = false;
+            fragHome = new FragHome();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            R.anim.fade_out,  // enter
+                            R.anim.slide_out_left  // exit
+                    )
+                    .replace(R.id.content_main, fragHome)
+                    .commit();
+            loadingFragment();
         }
-
-
-
         mapping();
         //nếu bấm lưu trong UpdateProfile thì nhảy qua fragProfile
 
@@ -187,7 +199,7 @@ public class Main_Customer extends AppCompatActivity {
         try {
             username = sharedPreferences.getString("username", "");
             password = sharedPreferences.getString("password", "");
-            if (password.equalsIgnoreCase("") || password == null) {
+            if (password.equalsIgnoreCase("") || password == null ||username.equalsIgnoreCase("") || username == null) {
 //            btnBack.setVisibility(View.GONE);
                 return false;
             }

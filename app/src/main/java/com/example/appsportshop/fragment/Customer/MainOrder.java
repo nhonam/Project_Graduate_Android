@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appsportshop.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainOrder extends AppCompatActivity {
+public class  MainOrder extends AppCompatActivity {
 
 
     private FragWaitConfirm fragWaitConfirm =null;
@@ -35,7 +35,6 @@ public class MainOrder extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.acti_main_order);
         mapping();
-
 
         navi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
