@@ -1,14 +1,8 @@
 package com.example.appsportshop.activity;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +15,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.VolleyError;
-
 import com.example.appsportshop.R;
 import com.example.appsportshop.adapter.PayMentAdapter;
 import com.example.appsportshop.api.APICallBack;
@@ -32,7 +25,6 @@ import com.example.appsportshop.fragment.Customer.MainOrder;
 import com.example.appsportshop.model.Cart;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
-import com.example.appsportshop.utils.UtilCommon;
 import com.example.appsportshop.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -41,9 +33,6 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPaySDK;
 
 public class Payment extends AppCompatActivity {
 
@@ -193,12 +182,13 @@ public class Payment extends AppCompatActivity {
 
                     Intent intent = new Intent(Payment.this, ZaloPay.class);
 
-                    int spaceIndex = tongThanhtoan.getText().toString().indexOf(' ');
+                    int spaceIndex = tongThanhtoan.getText().toString().indexOf('.');
+                    Log.d("nam", String.valueOf(tongThanhtoan.getText()));
 
-                    String amountStr = tongThanhtoan.getText().toString().substring(0, spaceIndex); // Lấy phần số từ đầu chuỗi đến vị trí khoảng trắng
+//                    String amountStr = tongThanhtoan.getText().toString().substring(0, spaceIndex); // Lấy phần số từ đầu chuỗi đến vị trí khoảng trắng
 
-                    System.out.println(amountStr+"nhonam++++++++++++");
-                    intent.putExtra("tongtien", amountStr);
+//                    System.out.println(tongThanhtoan.getText()+"nhonam++++++++++++");
+                    intent.putExtra("tongtien", tongThanhtoan.getText());
                     startActivity(intent);
 
 //                    Intent intent1= new Intent(Payment.this, ZaloPay.class);
@@ -242,7 +232,7 @@ public class Payment extends AppCompatActivity {
 
         OrderAPI.BuyProduct(getApplicationContext(),
                 Utils.BASE_URL + "order/buy", singletonUser.getIdUser(),
-                1, String.valueOf(ship_adree.getText()), idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
+                 String.valueOf(ship_adree.getText()), idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
                         RemoveProductInCart();

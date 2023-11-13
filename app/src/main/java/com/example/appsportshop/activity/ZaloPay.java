@@ -83,9 +83,19 @@ public class  ZaloPay extends AppCompatActivity {
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         listProductPayment = new ArrayList<>();
-        for (int i = 0; i < FragCart.listCart.size(); i++) {
-            if (FragCart.listCart.get(i).getSelected()) {
-                listProductPayment.add(FragCart.listCart.get(i));
+        //nếu == null tức là mua trực tiếp chứ không phải mua từ giỏ hàng
+        if (FragCart.listCart==null) {
+
+            listProductPayment.add(ProductDetail.Product_bought);
+
+
+        }else {
+            //        getList những sản phẩm được mua form FragCart
+
+            for (int i = 0; i < FragCart.listCart.size(); i++) {
+                if (FragCart.listCart.get(i).getSelected()) {
+                    listProductPayment.add(FragCart.listCart.get(i));
+                }
             }
         }
         Intent intent = getIntent();
@@ -177,7 +187,7 @@ public class  ZaloPay extends AppCompatActivity {
 
         OrderAPI.BuyProduct(getApplicationContext(),
                 Utils.BASE_URL + "order/buy", singletonUser.getIdUser(),
-                1, Payment.diaChiShip, idProducts, idQuantities, Payment.sdtNgNhan, Payment.tenNgNhan, new APICallBack() {
+                Payment.diaChiShip, idProducts, idQuantities, Payment.sdtNgNhan, Payment.tenNgNhan, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
                         RemoveProductInCart();

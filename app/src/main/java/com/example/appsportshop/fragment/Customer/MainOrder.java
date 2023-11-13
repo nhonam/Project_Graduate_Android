@@ -36,6 +36,18 @@ public class MainOrder extends AppCompatActivity {
         setContentView(R.layout.acti_main_order);
         mapping();
 
+        if (fragWaitConfirm == null)
+            fragWaitConfirm = new FragWaitConfirm();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fade_out,  // enter
+                        R.anim.slide_out_left  // exit
+                )
+                .replace(R.id.content_main_order, fragWaitConfirm)
+                .commit();
+
+
 
         navi.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

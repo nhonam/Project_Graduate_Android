@@ -307,7 +307,7 @@
                             android:gravity="end"
                             android:id="@+id/tongthanhtoan"
                             android:paddingEnd="5dp"
-                            android:text=" đ3.476.000"
+                            android:text="3.476.000"
                             android:textSize="13dp" />
                     </LinearLayout>
 
@@ -355,7 +355,7 @@
                             android:gravity="end"
                             android:id="@+id/tongthanhtoan2"
                             android:paddingEnd="5dp"
-                            android:text="đ3.467.000"
+                            android:text="3.467.000"
                             android:textColor="#F47224"
                             android:textSize="16dp" />
                     </LinearLayout>

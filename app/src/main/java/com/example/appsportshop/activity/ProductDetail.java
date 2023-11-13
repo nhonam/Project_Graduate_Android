@@ -26,6 +26,7 @@ import com.example.appsportshop.model.Product;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.ObjectWrapperForBinder;
 import com.example.appsportshop.utils.SingletonUser;
+import com.example.appsportshop.utils.UtilCommon;
 import com.example.appsportshop.utils.Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -332,7 +333,8 @@ public class ProductDetail extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         Address.isDisplay = false;
-        intent.putExtra("tongTien",String.valueOf(product.getPrice()*quantiCart));
+
+        intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice()*quantiCart)));
         startActivity(intent);
     }
 

@@ -293,8 +293,8 @@ public class Login extends AppCompatActivity {
                 Log.d("Respone_Login_Sucess", response.toString());
 
                 JSONObject res = response.getJSONObject("data");
-                JSONObject roleObj = response.getJSONObject("role");
-                String role = res.getString("name");
+                JSONObject roleObj = res.getJSONObject("role");
+                String role = roleObj.getString("name");
                 SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();

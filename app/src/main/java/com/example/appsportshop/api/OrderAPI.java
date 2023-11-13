@@ -20,13 +20,12 @@ import java.util.Map;
 public class OrderAPI {
     static SingletonUser singletonUser = SingletonUser.getInstance();
 
-    public static void BuyProduct(Context context, String url, long idUser, long idShipMethod, String
+    public static void BuyProduct(Context context, String url, long idUser, String
             adress, String idProducts,String idQuantities,String phone, String tenNgNhan, APICallBack callBack) throws JSONException {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         JSONObject postData = new JSONObject();
         postData.put("id_user", idUser);
-        postData.put("id_ship_method", idShipMethod);
         postData.put("adress", adress);
         postData.put("idProducts", idProducts);
         postData.put("idQuantities", idQuantities);
