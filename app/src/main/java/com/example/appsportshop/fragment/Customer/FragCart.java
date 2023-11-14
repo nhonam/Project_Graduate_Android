@@ -91,7 +91,7 @@ public class FragCart extends Fragment implements Serializable {
 
         mapping(view);
         if (singletonUser.getToken()==null) {
-            Log.d("nam","token null");
+            CustomToast.makeText(getContext(), "Vui lòng đăng nhập để tiếp tục !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
             Intent intent = new Intent(getContext(), Login.class);
             startActivity(intent);
         }else {

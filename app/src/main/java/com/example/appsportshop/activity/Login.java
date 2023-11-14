@@ -232,7 +232,9 @@ public class Login extends AppCompatActivity {
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));
 
+
                 //nếu là Custommer
+
                 if (role.getLong("id")== 3) {
 
 
@@ -294,7 +296,7 @@ public class Login extends AppCompatActivity {
 
                 JSONObject res = response.getJSONObject("data");
                 JSONObject roleObj = res.getJSONObject("role");
-                String role = roleObj.getString("name");
+
                 SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();
@@ -339,13 +341,13 @@ public class Login extends AppCompatActivity {
 //                System.out.println(singletonUser.getBirthday()+"woa-------------");
                 singletonUser.setPassword(password);
 
-                singletonUser.setRole(role);
+                singletonUser.setRole(roleObj.getString("name"));
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));
 
 
-                if (role.equalsIgnoreCase("CUSTOMER")) {
+                if (roleObj.getString("name").equalsIgnoreCase("CUSTOMER")) {
 
 
                     if (singletonUser.getFullName().equalsIgnoreCase("") || singletonUser.getEmail().equalsIgnoreCase("") || singletonUser.getPhone().equalsIgnoreCase("") || singletonUser.getAdress().equalsIgnoreCase("")) {
@@ -359,7 +361,7 @@ public class Login extends AppCompatActivity {
                     }
 
 
-                } else if (role.equalsIgnoreCase("EMPLOYEE")) {
+                } else if (roleObj.getString("name").equalsIgnoreCase("EMPLOYEE")) {
                     if (singletonUser.getFullName() == null || singletonUser.getEmail() == null || singletonUser.getPhone() == null || singletonUser.getAdress() == null) {
 
                         Intent intent = new Intent(Login.this, Update_Profile.class);

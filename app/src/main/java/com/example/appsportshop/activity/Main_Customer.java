@@ -42,10 +42,9 @@ public class Main_Customer extends AppCompatActivity {
         setContentView(R.layout.main_layout);
 //        LoadDataInLocal();
 
-        // mở lên sẽ vào fragHome
+        // mở lên sẽ vào fragHome();
 
-
-
+        sharedPreferences = getSharedPreferences("matkhau", MODE_PRIVATE);
         if (ReadPassWord()){
             try {
                 APILoginDefault();
@@ -199,6 +198,8 @@ public class Main_Customer extends AppCompatActivity {
         try {
             username = sharedPreferences.getString("username", "");
             password = sharedPreferences.getString("password", "");
+            Log.d("username", username);
+            Log.d("password", password);
             if (password.equalsIgnoreCase("") || password == null ||username.equalsIgnoreCase("") || username == null) {
 //            btnBack.setVisibility(View.GONE);
                 return false;
@@ -217,7 +218,7 @@ public class Main_Customer extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONObject res = response.getJSONObject("data");
-                String role = res.getString("role");
+                JSONObject roleObj = res.getJSONObject("role");
 //                SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();
@@ -262,7 +263,7 @@ public class Main_Customer extends AppCompatActivity {
 //                System.out.println(singletonUser.getBirthday()+"woa-------------");
                 singletonUser.setPassword(password);
 
-                singletonUser.setRole(role);
+                singletonUser.setRole(roleObj.getString("name"));
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));

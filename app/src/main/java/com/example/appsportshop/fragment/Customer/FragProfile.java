@@ -1,9 +1,13 @@
 package com.example.appsportshop.fragment.Customer;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +19,13 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.activity.Login;
+import com.example.appsportshop.activity.Main_Customer;
 import com.example.appsportshop.activity.Update_Profile;
+import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
 
 public class FragProfile extends Fragment {
@@ -37,7 +44,7 @@ public class FragProfile extends Fragment {
 
     LinearLayout btnLogout, btnUpdateProfile;
 
-
+    SharedPreferences sharedPreferences;
     SingletonUser userCurrent = SingletonUser.getInstance();
 
     @Override
@@ -48,7 +55,12 @@ public class FragProfile extends Fragment {
 
         mapping(view);
 
-        if (userCurrent.getToken()== null) {
+        sharedPreferences = getActivity().getSharedPreferences("matkhau", MODE_PRIVATE);
+
+
+        if (ReadPassWord()== false) {
+            CustomToast.makeText(getContext(), "Vui lòng đăng nhập để tiếp tục !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
             Intent intent = new Intent(getContext(), Login.class);
             startActivity(intent);
         } else {
@@ -76,7 +88,22 @@ public class FragProfile extends Fragment {
 
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
+    private Boolean ReadPassWord() {
 
+        try {
+            String username = sharedPreferences.getString("username", "");
+            String password = sharedPreferences.getString("password", "");
+            Log.d("username", username);
+            Log.d("password", password);
+            if (password.equalsIgnoreCase("") || password == null || username.equalsIgnoreCase("") || username == null) {
+//            btnBack.setVisibility(View.GONE);
+                return false;
+            }
+            return true;
+        } catch (Exception R) {
+            return false;
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -86,6 +113,8 @@ public class FragProfile extends Fragment {
     }
 
     private void loadInfoUser() {
+
+        Log.d("nhonam", userCurrent.getRole().toString());
 
         if (userCurrent.getRole().equalsIgnoreCase("ADMIN"))
             ordered.setVisibility(View.GONE);
@@ -112,14 +141,14 @@ public class FragProfile extends Fragment {
         }
 
 
-        Glide.with(getContext()).load(userCurrent.getAvatarUrl()).into(avtUser);
+        Glide.with(getContext()).load(userCurrent.getAvatarUrl()).error(R.drawable.error_load_image).into(avtUser);
         nameUser.setText(userCurrent.getFullName());
         idProfile.setText(String.valueOf(userCurrent.getIdUser()));
         emailProfile.setText(userCurrent.getEmail());
         fullName.setText(userCurrent.getFullName());
         phoneProfile.setText(userCurrent.getPhone());
         adressProfile.setText(userCurrent.getAdress());
-//        birthdayProfile.setText(userCurrent.getBirthday());
+        birthdayProfile.setText(userCurrent.getBirthday());
 
 
     }
@@ -150,7 +179,7 @@ public class FragProfile extends Fragment {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("matkhau", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("matkhau", MODE_PRIVATE);
                 sharedPreferences.edit().clear().commit();
                 SingletonUser singletonUser = SingletonUser.getInstance();
                 singletonUser.clearValues();
