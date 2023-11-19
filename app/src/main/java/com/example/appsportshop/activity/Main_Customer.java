@@ -45,12 +45,8 @@ public class Main_Customer extends AppCompatActivity {
         setContentView(R.layout.main_layout);
 //        LoadDataInLocal();
 
-        // mở lên sẽ vào fragHome
+        // mở lên sẽ vào fragHome();
 
-
-
-        Log.d("nhonam-Repassword", ReadPassWord().toString());
-        Log.d("nhonam-isLogin", isLogin.toString());
         if (ReadPassWord()){
             try {
                 //getIntent PutExtra từ Update Profile nếu isLogin = true thì phải đăng nhập, không thì thôi
@@ -210,6 +206,8 @@ public class Main_Customer extends AppCompatActivity {
 
             username = sharedPreferences.getString("username", "");
             password = sharedPreferences.getString("password", "");
+            Log.d("username", username);
+            Log.d("password", password);
             if (password.equalsIgnoreCase("") || password == null ||username.equalsIgnoreCase("") || username == null) {
 //            btnBack.setVisibility(View.GONE);
                 return false;

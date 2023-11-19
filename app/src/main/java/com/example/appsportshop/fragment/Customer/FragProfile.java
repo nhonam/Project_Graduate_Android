@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.activity.Login;
+
 import com.example.appsportshop.activity.MainAdmin;
 import com.example.appsportshop.activity.MainEmployee;
 import com.example.appsportshop.activity.Main_Customer;
@@ -29,6 +32,11 @@ import com.example.appsportshop.activity.Update_Profile;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.AuthAPI;
 import com.example.appsportshop.fragment.Admin.FragManagerProduct;
+
+import com.example.appsportshop.activity.Main_Customer;
+import com.example.appsportshop.activity.Update_Profile;
+import com.example.appsportshop.utils.CustomToast;
+
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.example.appsportshop.utils.dialog;
@@ -53,7 +61,12 @@ public class FragProfile extends Fragment {
     LinearLayout btnLogout, btnUpdateProfile;
     SharedPreferences sharedPreferences;
 
+
     SingletonUser singletonUser = SingletonUser.getInstance();
+
+
+    SingletonUser userCurrent = SingletonUser.getInstance();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +76,12 @@ public class FragProfile extends Fragment {
 
         mapping(view);
 
-        if (ReadPassWord()==false) {
+        sharedPreferences = getActivity().getSharedPreferences("matkhau", MODE_PRIVATE);
+
+
+        if (!ReadPassWord()) {
+            CustomToast.makeText(getContext(), "Vui lòng đăng nhập để tiếp tục !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
 
             Intent intent = new Intent(getContext(), Login.class);
             startActivity(intent);
@@ -147,24 +165,24 @@ public class FragProfile extends Fragment {
         return view;
     }
 
-    private Boolean ReadPassWord() {
-
-        try {
-            sharedPreferences = getContext().getSharedPreferences("matkhau", MODE_PRIVATE);
-            String username = sharedPreferences.getString("username", "");
-            String password = sharedPreferences.getString("password", "");
-            if (password.equalsIgnoreCase("") || password == null || username.equalsIgnoreCase("") || username == null) {
-//            btnBack.setVisibility(View.GONE);
-                return false;
-            }
-            return true;
-
-        } catch (Exception R) {
-            return false;
-        }
-//        System.out.println("doc mat khau "+sharedPreferences.getString("username","")+sharedPreferences.getString("password",""));
-
-    }
+//    private Boolean ReadPassWord() {
+//
+//        try {
+//            sharedPreferences = getContext().getSharedPreferences("matkhau", MODE_PRIVATE);
+//            String username = sharedPreferences.getString("username", "");
+//            String password = sharedPreferences.getString("password", "");
+//            if (password.equalsIgnoreCase("") || password == null || username.equalsIgnoreCase("") || username == null) {
+////            btnBack.setVisibility(View.GONE);
+//                return false;
+//            }
+//            return true;
+//
+//        } catch (Exception R) {
+//            return false;
+//        }
+////        System.out.println("doc mat khau "+sharedPreferences.getString("username","")+sharedPreferences.getString("password",""));
+//
+//    }
 
     private OnBackPressedCallback callback;
 
@@ -181,7 +199,22 @@ public class FragProfile extends Fragment {
 
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
     }
+    private Boolean ReadPassWord() {
 
+        try {
+            String username = sharedPreferences.getString("username", "");
+            String password = sharedPreferences.getString("password", "");
+            Log.d("username", username);
+            Log.d("password", password);
+            if (password.equalsIgnoreCase("") || password == null || username.equalsIgnoreCase("") || username == null) {
+//            btnBack.setVisibility(View.GONE);
+                return false;
+            }
+            return true;
+        } catch (Exception R) {
+            return false;
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -199,6 +232,14 @@ public class FragProfile extends Fragment {
 //            ordered.setVisibility(View.GONE);
         if (singletonUser.getFullName() == null) {
             singletonUser.setFullName("");
+
+        Log.d("nhonam", userCurrent.getRole().toString());
+
+        if (userCurrent.getRole().equalsIgnoreCase("ADMIN"))
+            ordered.setVisibility(View.GONE);
+        if (userCurrent.getFullName() == null) {
+            userCurrent.setFullName("");
+
         }
 
         if (singletonUser.getEmail() == null) {
@@ -220,14 +261,16 @@ public class FragProfile extends Fragment {
         }
 
 
-        Glide.with(getContext()).load(singletonUser.getAvatarUrl()).into(avtUser);
-        nameUser.setText(singletonUser.getFullName());
-        idProfile.setText(String.valueOf(singletonUser.getIdUser()));
-        emailProfile.setText(singletonUser.getEmail());
-        fullName.setText(singletonUser.getFullName());
-        phoneProfile.setText(singletonUser.getPhone());
-        adressProfile.setText(singletonUser.getAdress());
-//        birthdayProfile.setText(userCurrent.getBirthday());
+
+        Glide.with(getContext()).load(userCurrent.getAvatarUrl()).error(R.drawable.error_load_image).into(avtUser);
+        nameUser.setText(userCurrent.getFullName());
+        idProfile.setText(String.valueOf(userCurrent.getIdUser()));
+        emailProfile.setText(userCurrent.getEmail());
+        fullName.setText(userCurrent.getFullName());
+        phoneProfile.setText(userCurrent.getPhone());
+        adressProfile.setText(userCurrent.getAdress());
+        birthdayProfile.setText(userCurrent.getBirthday());
+
 
 
     }

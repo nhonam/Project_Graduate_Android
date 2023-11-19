@@ -94,6 +94,8 @@ public class Update_Profile extends AppCompatActivity {
         imgProfile = findViewById(R.id.img_profile_avatar);
         tvChangAvt = findViewById(R.id.txt_profile_btn_change_avatar);
 
+        Log.d("sing", singletonUser.getRole());
+
         btnSave = findViewById(R.id.btnSaveProfile);
 
     }
@@ -168,10 +170,8 @@ public class Update_Profile extends AppCompatActivity {
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
-                    if (userCur.getRole().equalsIgnoreCase("EMPLOYEE")){
-                        startActivity(new Intent(Update_Profile.this, MainEmployee.class));
 
-                    }else
+                  }
                     if (userCur.getRole().equalsIgnoreCase("ADMIN")) {
                         FragProfile.isDisplay = true;
                         startActivity(new Intent(Update_Profile.this, MainAdmin.class));
@@ -186,11 +186,8 @@ public class Update_Profile extends AppCompatActivity {
                         startActivity(intent);
 
                     }
+
                 }
-
-
-
-            }
         });
 
         tvBirthdat.setOnClickListener(new View.OnClickListener() {
@@ -300,6 +297,8 @@ public class Update_Profile extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JSONObject> call, Throwable t) {
                     System.err.println("failed"+t.toString());
+                    CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+
                 }
             });
         }else {
@@ -318,6 +317,8 @@ public class Update_Profile extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<JSONObject> call, Throwable t) {
                     System.err.println("failed"+t.toString());
+                    CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+
                 }
             });
 
@@ -326,11 +327,17 @@ public class Update_Profile extends AppCompatActivity {
     }
 
     private void callAPIgetInfo() throws JSONException {
+
+        CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thành công !!!", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
         UserAPI.getUserbyId(getApplicationContext(), Utils.BASE_URL + "user/findById/" + singletonUser.getIdUser(), new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONObject res = response.getJSONObject("data");
-                JSONObject role = res.getJSONObject("role");
+
+                JSONObject roleObj = res.getJSONObject("role");
+                String role = roleObj.getString("name");
+
 
                 singletonUser.setIdUser(res.getLong("id"));
                 singletonUser.setUserName(res.getString("username"));
@@ -341,10 +348,28 @@ public class Update_Profile extends AppCompatActivity {
                 singletonUser.setEmail(res.getString("email"));
                 singletonUser.setBirthday(res.getString("birthday"));
                 singletonUser.setPhone(res.getString("phone"));
-                singletonUser.setRole(role.getString("name"));
+                singletonUser.setRole(role);
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
 //                singletonUser.setToken(response.getString("token"));
+
+
+                Log.d("role", userCur.getRole());
+                if (userCur.getRole().equalsIgnoreCase("EMPLOYEE")){
+                    startActivity(new Intent(Update_Profile.this, MainEmployee.class));
+
+                }else
+                if (userCur.getRole().equalsIgnoreCase("ADMIN")) {
+                    FragProfile.isDisplay = true;
+                    startActivity(new Intent(Update_Profile.this, MainAdmin.class));
+
+                }
+                else
+                if (userCur.getRole().equalsIgnoreCase("CUSTOMER")) {
+                    FragProfile.isDisplay = true;
+                    startActivity(new Intent(Update_Profile.this, Main_Customer.class));
+
+                }
 
             }
 

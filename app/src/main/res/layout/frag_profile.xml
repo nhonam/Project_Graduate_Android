@@ -9,14 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="@dimen/_7sdp">
 
 
 
         <LinearLayout
-
+            android:layout_weight="1"
             android:layout_gravity="center"
             android:id="@+id/logout"
+            android:gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -43,14 +44,16 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="40dp"
-           android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="end"
             android:id="@+id/updateInfo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -58,13 +61,10 @@
 
 
             <TextView
-
-
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="Cập nhật thông tin"
-                android:layout_marginLeft="16dp"
                 android:textColor="#7B6F72">
 
             </TextView>
