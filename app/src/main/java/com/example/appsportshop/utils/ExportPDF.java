@@ -53,8 +53,8 @@ public class ExportPDF extends Activity {
         // initializing our variables.
 //        generatePDFbtn = findViewById(R.id.idBtnGeneratePDF);
         Resources res = context.getResources();
-        int id = R.drawable.img;
-        bmp = BitmapFactory.decodeResource(res, R.drawable.img);
+        int id = R.drawable.logoshop;
+        bmp = BitmapFactory.decodeResource(res, R.drawable.logoshop);
 
         scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false);
 
@@ -65,8 +65,8 @@ public class ExportPDF extends Activity {
         // initializing our variables.
 //        generatePDFbtn = findViewById(R.id.idBtnGeneratePDF);
         Resources res = context.getResources();
-        int id = R.drawable.img;
-        bmp = BitmapFactory.decodeResource(res, R.drawable.img);
+        int id = R.drawable.logoshop;
+        bmp = BitmapFactory.decodeResource(res, R.drawable.logoshop);
 
         scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false);
 

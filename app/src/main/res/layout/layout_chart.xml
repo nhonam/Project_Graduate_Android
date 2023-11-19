@@ -28,14 +28,13 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imgCategoryProduct"
-                    android:src="@drawable/img"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                    android:elevation="15dp"
-                    android:padding="5dp"
-                    android:layout_gravity="center"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:elevation="15dp"
+                    android:padding="5dp"
+                    android:src="@drawable/trong"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
 
                     />
             </RelativeLayout>

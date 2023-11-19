@@ -84,7 +84,7 @@
     </RelativeLayout>
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/avt_User"
-        android:src="@drawable/img"
+        android:src="@drawable/trong"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
         android:elevation="15dp"
         android:padding="5dp"
