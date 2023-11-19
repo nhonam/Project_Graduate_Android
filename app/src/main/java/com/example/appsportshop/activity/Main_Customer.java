@@ -24,6 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PublicKey;
+
 public class Main_Customer extends AppCompatActivity {
 
     FragHome fragHome = null;
@@ -34,6 +36,7 @@ public class Main_Customer extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private String username = "";
     private String password = "";
+    public static Boolean isLogin = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +49,15 @@ public class Main_Customer extends AppCompatActivity {
 
 
 
+        Log.d("nhonam-Repassword", ReadPassWord().toString());
+        Log.d("nhonam-isLogin", isLogin.toString());
         if (ReadPassWord()){
             try {
-                APILoginDefault();
+                //getIntent PutExtra từ Update Profile nếu isLogin = true thì phải đăng nhập, không thì thôi
+//                Update_Profile
+                System.out.println(isLogin +"+--------------");
+                if(isLogin)
+                    APILoginDefault();
                 FragHome.isDispHomeCustommer = false;
                 fragHome = new FragHome();
                 getSupportFragmentManager()
@@ -197,6 +206,8 @@ public class Main_Customer extends AppCompatActivity {
     private Boolean ReadPassWord() {
 
         try {
+            sharedPreferences = getSharedPreferences("matkhau", MODE_PRIVATE);
+
             username = sharedPreferences.getString("username", "");
             password = sharedPreferences.getString("password", "");
             if (password.equalsIgnoreCase("") || password == null ||username.equalsIgnoreCase("") || username == null) {
@@ -217,7 +228,7 @@ public class Main_Customer extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONObject res = response.getJSONObject("data");
-                String role = res.getString("role");
+                JSONObject roleObj = res.getJSONObject("role");
 //                SaveInfoToLocal(username, password);
 
                 SingletonUser singletonUser = SingletonUser.getInstance();
@@ -262,7 +273,7 @@ public class Main_Customer extends AppCompatActivity {
 //                System.out.println(singletonUser.getBirthday()+"woa-------------");
                 singletonUser.setPassword(password);
 
-                singletonUser.setRole(role);
+                singletonUser.setRole(roleObj.getString("name"));
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));

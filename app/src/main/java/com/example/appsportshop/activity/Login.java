@@ -384,7 +384,7 @@ public class Login extends AppCompatActivity {
                 edtUserName.setText("");
                 edtpassWord.setText("");
                 edtUserName.requestFocus();
-                Log.d("Respone_Login_Error", error.getMessage());
+//                Log.d("Respone_Login_Error", error.getMessage());
                 dialog.dismissdialog();
                 CustomToast.makeText(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 

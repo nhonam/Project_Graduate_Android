@@ -100,15 +100,13 @@ public class Payment extends AppCompatActivity {
 
 
         listProductPayment = new ArrayList<>();
-        //nếu == null tức là mua trực tiếp chứ không phải mua từ giỏ hàng
-        if (FragCart.listCart==null) {
+        //tức là mua trực tiếp chứ không phải mua từ giỏ hàng
+        if (ProductDetail.Product_bought!=null) {
 
            listProductPayment.add(ProductDetail.Product_bought);
 
-
         }else {
             //        getList những sản phẩm được mua form FragCart
-
             for (int i = 0; i < FragCart.listCart.size(); i++) {
                 if (FragCart.listCart.get(i).getSelected()) {
                     listProductPayment.add(FragCart.listCart.get(i));

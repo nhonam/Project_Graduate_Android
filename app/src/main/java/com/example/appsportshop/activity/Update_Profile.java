@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.DatePicker;
@@ -33,6 +34,7 @@ import com.example.appsportshop.api.AuthAPI;
 import com.example.appsportshop.api.UpdateUser;
 import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.fragment.Customer.FragProfile;
+import com.example.appsportshop.fragment.Customer.MainOrder;
 import com.example.appsportshop.model.User;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.RealPathUtil;
@@ -178,7 +180,10 @@ public class Update_Profile extends AppCompatActivity {
                     else
                     if (userCur.getRole().equalsIgnoreCase("CUSTOMER")) {
                         FragProfile.isDisplay = true;
-                        startActivity(new Intent(Update_Profile.this, Main_Customer.class));
+                        // gửi flag qua MainCustomer để bỏ qua bước login
+                        Main_Customer.isLogin = false;
+                        Intent intent = new Intent(Update_Profile.this, Main_Customer.class);
+                        startActivity(intent);
 
                     }
                 }
@@ -240,8 +245,8 @@ public class Update_Profile extends AppCompatActivity {
         user.setFullName(singletonUser.getFullName());
         user.setEmail(singletonUser.getEmail());
         user.setAdress(singletonUser.getAdress());
-        System.out.println(singletonUser.getBirthday()+"test");
 
+        Log.d("nhonam",singletonUser.getRole()+"test");
         if(singletonUser.getBirthday().isEmpty()){
 
             user.setBirthday(null);
@@ -325,7 +330,7 @@ public class Update_Profile extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONObject res = response.getJSONObject("data");
-                String role = res.getString("role");
+                JSONObject role = res.getJSONObject("role");
 
                 singletonUser.setIdUser(res.getLong("id"));
                 singletonUser.setUserName(res.getString("username"));
@@ -336,10 +341,11 @@ public class Update_Profile extends AppCompatActivity {
                 singletonUser.setEmail(res.getString("email"));
                 singletonUser.setBirthday(res.getString("birthday"));
                 singletonUser.setPhone(res.getString("phone"));
-                singletonUser.setRole(role);
+                singletonUser.setRole(role.getString("name"));
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
 //                singletonUser.setToken(response.getString("token"));
+
             }
 
             @Override
