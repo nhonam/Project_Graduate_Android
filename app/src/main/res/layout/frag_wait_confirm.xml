@@ -9,11 +9,10 @@
     >
 
     <LinearLayout
+        android:weightSum="1"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
         android:elevation="3dp"
 
         android:layout_marginBottom="1dp"
@@ -21,16 +20,19 @@
 
 
         <ImageView
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
             android:id="@+id/returnOrderWait"
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_back" />
 
         <LinearLayout
+            android:gravity="center"
+            android:layout_weight="0.6"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="90dp"
-            android:layout_marginLeft="100dp">
+            android:layout_height="match_parent"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
@@ -43,32 +45,9 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:src="@drawable/img_mess" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="-3dp"
-        android:background="#FFE5BE">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/img_buy_cart"/>
-
-        <TextView
-            android:layout_width="match_parent"
-
-            android:text="  Cảm ơn bản đã đồng hành cũng shop ❤️"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/exsitOrderWait"
@@ -88,6 +67,14 @@
             android:text="Bạn chưa mua đơn hàng nào"/>
 
     </LinearLayout>
+    <SearchView
+
+        android:id="@+id/search_order"
+        style="@style/border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:background="#CAC4C4" />
     <ListView
         android:id="@+id/listViewWaitOrder"
         android:layout_width="match_parent"

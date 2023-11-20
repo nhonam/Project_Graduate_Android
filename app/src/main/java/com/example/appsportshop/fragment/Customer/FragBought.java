@@ -144,12 +144,12 @@ public class FragBought extends Fragment {
                     cartTemp.setId_order_status(cartTmpObj.getLong("id_order_status"));
 
 
-                    if (cartTemp.getId_order_status()!=1)
+                    if (cartTemp.getId_order_status()==4) // đã mua thành công
                         orderBought.add(cartTemp);
 
                 }
                 exsitOrder.setVisibility(View.GONE);
-                Glide.with(getContext()).load("http://res.cloudinary.com/dzljztsyy/image/upload/v1691631791/shop_sport/ae4f5d04-28b3-4cd0-aabb-0fe63bdcef37.jpg").into(notItemOrder);
+                Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
 
                 if (orderBought.size()==0){
                     exsitOrder.setVisibility(View.VISIBLE);

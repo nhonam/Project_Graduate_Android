@@ -151,7 +151,7 @@ public class FragCart extends Fragment implements Serializable {
 
     private void setEvent() {
         exsit.setVisibility(View.GONE);
-        Glide.with(getContext()).load("http://res.cloudinary.com/dzljztsyy/image/upload/v1691631791/shop_sport/ae4f5d04-28b3-4cd0-aabb-0fe63bdcef37.jpg").into(notCart);
+        Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notCart);
 
         if (listCart.size()==0){
             exsit.setVisibility(View.VISIBLE);

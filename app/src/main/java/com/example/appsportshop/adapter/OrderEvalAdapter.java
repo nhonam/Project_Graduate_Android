@@ -30,7 +30,7 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class OrderAdapter extends ArrayAdapter<Cart> {
+public class OrderEvalAdapter extends ArrayAdapter<Cart> {
     Context myContext;
     int myLayout;
 
@@ -38,7 +38,7 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
 
 
 
-    public OrderAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Cart> listCart) {
+    public OrderEvalAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Cart> listCart) {
         super(context, resource, listCart);
         this.myContext = context;
         this.myLayout = resource;

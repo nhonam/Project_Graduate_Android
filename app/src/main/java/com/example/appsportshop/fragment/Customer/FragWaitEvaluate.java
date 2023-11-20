@@ -5,21 +5,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
 import com.example.appsportshop.R;
+import com.example.appsportshop.model.Cart;
 
-//đơn hàng chờ xác nhận
+import java.util.ArrayList;
+
+//Đánh giá sản phẩm ( những sản phẩm đã mua thành công nhưng chưa đánh giá )
 public class FragWaitEvaluate extends Fragment {
-
-
+    // danh sách sản phẩm đã mua nhưng chưa đánh giá
+    public ArrayList<Cart> orderEvaluate;
+    ListView listViewOrderEval;
     private OnBackPressedCallback callback;
 
     private void mapping(View view) {
-
-
 
     }
 

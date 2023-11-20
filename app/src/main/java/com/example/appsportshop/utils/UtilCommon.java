@@ -9,4 +9,5 @@ public class UtilCommon {
         String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", price)));
         return formattedValue;
     }
+
 }

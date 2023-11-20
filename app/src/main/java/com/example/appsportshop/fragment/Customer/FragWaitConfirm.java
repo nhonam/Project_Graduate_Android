@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
@@ -20,9 +21,11 @@ import com.example.appsportshop.R;
 import com.example.appsportshop.activity.Main_Customer;
 import com.example.appsportshop.activity.ProductDetail;
 import com.example.appsportshop.adapter.OrderAdapter;
+import com.example.appsportshop.adapter.ProductManagerAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.OrderAPI;
 import com.example.appsportshop.model.Cart;
+import com.example.appsportshop.model.Product;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 
@@ -32,7 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-//đơn hàng chờ xác nhận
+//trạng thái đơn hàng
 public class FragWaitConfirm extends Fragment {
 
  // danh sách sản phẩm trong đơn hàng chờ duyệt
@@ -42,6 +45,9 @@ public class FragWaitConfirm extends Fragment {
     OrderAdapter orderAdapter;
     ImageView btnReturn, notItemOrder;
     LinearLayout exsitOrder;
+    SearchView searchView;
+
+
     SingletonUser singletonUser = SingletonUser.getInstance();
 
 
@@ -53,7 +59,8 @@ public class FragWaitConfirm extends Fragment {
         btnReturn = view.findViewById(R.id.returnOrderWait);
         notItemOrder = view.findViewById(R.id.notItemOrderWait);
 
-
+        searchView = view.findViewById(R.id.search_order);
+        searchView.setQueryHint("Nhập vào thông sản phẩm để tìm kiếm");
     }
 
     @Override
@@ -122,6 +129,33 @@ public class FragWaitConfirm extends Fragment {
                 startActivity(new Intent(getContext(), Main_Customer.class));
             }
         });
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                ArrayList<Cart> list = new ArrayList<>();
+                for (Cart product : orderWating
+                ) {
+
+                    if (product.getNameProduct().toLowerCase().contains(s.toLowerCase()))  {
+                        list.add(product);
+                    }
+                }
+                orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, list);
+                listViewOrder.setAdapter(orderAdapter);
+
+
+                return false;
+            }
+        });
     }
     private void getOrderItemByIdUser() throws JSONException {
 
@@ -149,7 +183,7 @@ public class FragWaitConfirm extends Fragment {
 
                 }
                 exsitOrder.setVisibility(View.GONE);
-                Glide.with(getContext()).load("http://res.cloudinary.com/dzljztsyy/image/upload/v1691631791/shop_sport/ae4f5d04-28b3-4cd0-aabb-0fe63bdcef37.jpg").into(notItemOrder);
+                Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
 
                 if (orderWating.size()==0){
                     exsitOrder.setVisibility(View.VISIBLE);

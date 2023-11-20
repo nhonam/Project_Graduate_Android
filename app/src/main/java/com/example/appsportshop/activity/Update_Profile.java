@@ -238,6 +238,8 @@ public class Update_Profile extends AppCompatActivity {
     private User getInfoUser() {
         User user = new User();
 
+        if (singletonUser== null)
+            return null;
         user.setIdUser(singletonUser.getIdUser());
         user.setFullName(singletonUser.getFullName());
         user.setEmail(singletonUser.getEmail());

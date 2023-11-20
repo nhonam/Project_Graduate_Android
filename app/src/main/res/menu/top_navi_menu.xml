@@ -7,7 +7,7 @@
         android:id="@+id/waitconfirm"
         android:enabled="true"
         
-        android:title="Chờ xác nhận"/>
+        android:title="Trạng thái đơn hàng"/>
     <item
         android:id="@+id/orderbought"
         android:enabled="true"
