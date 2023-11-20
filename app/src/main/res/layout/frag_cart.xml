@@ -61,7 +61,7 @@
         <TextView
             android:layout_width="match_parent"
 
-            android:text="  Có hai phương thức thành toán là thanh toán khi nhận hàng và thanh toán bằng MoMo"
+            android:text="  Có hai phương thức thành toán là thanh toán khi nhận hàng và thanh toán bằng Zalo Pay"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -100,27 +100,6 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-3dp"
-            android:background="#FFE5BE"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/img_buy_cart" />
-
-            <TextView
-                android:layout_width="352dp"
-                android:layout_height="wrap_content"
-
-                android:text="  Khi thanh toán bằng MoMo bạn có thể nhận nhiều ưu đãi hơn từ các nhãn hàng" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

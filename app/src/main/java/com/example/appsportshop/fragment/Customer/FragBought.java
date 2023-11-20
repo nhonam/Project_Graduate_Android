@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
@@ -43,10 +44,11 @@ public class FragBought extends Fragment {
     ImageView btnReturn, notItemOrder;
     LinearLayout exsitOrder;
     SingletonUser singletonUser = SingletonUser.getInstance();
-
+    SearchView searchView;
     private OnBackPressedCallback callback;
 
     private void mapping(View view) {
+        searchView = view.findViewById(R.id.search_order_bought);
         listViewOrder = view.findViewById(R.id.listViewOrder_Bought);
         exsitOrder = view.findViewById(R.id.exitOrderBought);
         btnReturn = view.findViewById(R.id.returnOrderBought);
@@ -122,6 +124,33 @@ public class FragBought extends Fragment {
                 startActivity(new Intent(getContext(), Main_Customer.class));
             }
         });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                ArrayList<Cart> list = new ArrayList<>();
+                for (Cart product : orderBought
+                ) {
+
+                    if (product.getNameProduct().toLowerCase().contains(s.toLowerCase()))  {
+                        list.add(product);
+                    }
+                }
+                orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, list);
+                listViewOrder.setAdapter(orderAdapter);
+
+
+                return false;
+            }
+        });
+
     }
     private void getOrderItemByIdUser() throws JSONException {
 
@@ -148,14 +177,21 @@ public class FragBought extends Fragment {
                         orderBought.add(cartTemp);
 
                 }
-                exsitOrder.setVisibility(View.GONE);
-                Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
 
                 if (orderBought.size()==0){
+
+                    Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
+                    notItemOrder.setVisibility(View.VISIBLE);
+
                     exsitOrder.setVisibility(View.VISIBLE);
+                }else {
+                    exsitOrder.setVisibility(View.GONE);
+                    notItemOrder.setVisibility(View.GONE);
+
+                    orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, orderBought);
+                    listViewOrder.setAdapter(orderAdapter);
                 }
-                orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, orderBought);
-                listViewOrder.setAdapter(orderAdapter);
+
             }
 
             @Override

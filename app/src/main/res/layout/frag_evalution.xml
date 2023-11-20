@@ -62,11 +62,11 @@
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
-        android:id="@+id/exitOrder"
+        android:id="@+id/exitOrderEval"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/notItemOrder"
+            android:id="@+id/notItemOrderEval"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             ></ImageView>
@@ -79,6 +79,16 @@
             android:text="Bạn chưa mua đơn hàng nào"/>
 
     </LinearLayout>
+
+    <SearchView
+
+        android:id="@+id/search_order_eval"
+        style="@style/border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:background="#CAC4C4" />
+
     <ListView
         android:id="@+id/listViewOrderEval"
         android:layout_width="match_parent"

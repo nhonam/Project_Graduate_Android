@@ -177,19 +177,25 @@ public class FragWaitConfirm extends Fragment {
                     cartTemp.setIdProduct(cartTmpObj.getString("id_product"));
                     cartTemp.setId_order_status(cartTmpObj.getLong("id_order_status"));
 
-
-                    if (cartTemp.getId_order_status()==1)
                         orderWating.add(cartTemp);
 
                 }
-                exsitOrder.setVisibility(View.GONE);
-                Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
+
 
                 if (orderWating.size()==0){
                     exsitOrder.setVisibility(View.VISIBLE);
+                    Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
+                    searchView.setVisibility(View.GONE);
+                    notItemOrder.setVisibility(View.VISIBLE);
+                }else
+                {
+                    exsitOrder.setVisibility(View.GONE);
+                    searchView.setVisibility(View.VISIBLE);
+                    notItemOrder.setVisibility(View.GONE);
+                    orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, orderWating);
+                    listViewOrder.setAdapter(orderAdapter);
                 }
-                orderAdapter = new OrderAdapter(getContext(), R.layout.row_order, orderWating);
-                listViewOrder.setAdapter(orderAdapter);
+
             }
 
             @Override

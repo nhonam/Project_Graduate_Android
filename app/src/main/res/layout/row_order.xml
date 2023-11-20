@@ -155,7 +155,7 @@
             <TextView
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:text="Đang chờ xác nhận"
+                android:text="Đang chờ xác nhận |"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></TextView>
             <View
@@ -173,7 +173,7 @@
             <TextView
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:text="Đã xác nhận"
+                android:text="Đã xác nhận |"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></TextView>
                     <View
@@ -193,7 +193,7 @@
             <TextView
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:text="Đang giao"
+                android:text="Đang giao |"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></TextView>
             <View
@@ -206,14 +206,14 @@
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:layout_width="0dp"
             android:layout_height="@dimen/_20sdp">
 
             <TextView
                 android:textSize="@dimen/_10sdp"
                 android:textStyle="bold"
-                android:text="Đã giao"
+                android:text="Đã giao |"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></TextView>
             <View

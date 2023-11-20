@@ -132,7 +132,7 @@ public class OrderAdapter extends ArrayAdapter<Cart> {
             public void onClick(View v) {
                 //Call api xóa
                 try {
-                    UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/delete-order/" + idOrder, new APICallBack() {
+                    UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/cancel-order/" + idOrder, new APICallBack() {
                         @Override
                         public void onSuccess(JSONObject response) throws JSONException {
                             if (response.getLong("data") == 1) {
