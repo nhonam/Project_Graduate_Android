@@ -15,7 +15,7 @@
 
             <ImageView
                 android:layout_marginLeft="10dp"
-                android:id="@+id/imgOrder"
+                android:id="@+id/imgOrderEval"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="5dp"
@@ -23,7 +23,7 @@
                 android:layout_marginBottom="5dp"
                 android:src="@drawable/trong" />
             <TextView
-                android:id="@+id/Madon"
+                android:id="@+id/MadonEval"
                 android:text="  Mã Đơn Hàng: "
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -48,7 +48,7 @@
                     android:src="@drawable/ic_store" />
 
                 <TextView
-                    android:id="@+id/nameShopOrder"
+                    android:id="@+id/nameShopOrderEval"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="3dp"
@@ -63,12 +63,12 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="19dp">
+                android:layout_height="@dimen/_19sdp">
 
                 <TextView
-                    android:id="@+id/nameProductOrder"
+                    android:id="@+id/nameProductOrderEval"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
 
                     android:text="Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand -Lamo Store(V427)" />
             </RelativeLayout>
@@ -84,17 +84,17 @@
                 android:textSize="11dp" />
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="25dp"
+                android:layout_width="100sp"
+                android:layout_height="@dimen/_24sdp"
                 android:src="@drawable/freeship" />
 
             <TextView
-                android:id="@+id/priceOrder"
+                android:id="@+id/priceOrderEval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
 
-                android:text="399.000đ"
+                android:text="399.000 VND"
                 android:textColor="#f57224"
                 android:textSize="18dp" />
 
@@ -109,141 +109,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/giam"
+                    android:id="@+id/giamEval"
                     android:layout_width="100dp"
                     android:layout_height="18dp"
                     android:gravity="center"
                     android:text="Số Lượng : " />
 
                 <TextView
-                    android:id="@+id/quantiOrder"
+                    android:id="@+id/quantiOrderEval"
                     android:layout_width="50dp"
                     android:layout_height="18dp"
                     android:gravity="center"
                     android:text="1" />
 
-                <TextView
-                    android:id="@+id/Huydon"
-                    android:text="Hủy Đơn Mua"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-
-
-
-
 
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-    </LinearLayout>
-    <LinearLayout
-        android:weightSum="1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_20sdp">
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:text="Đang chờ xác nhận"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
-            <View
-                android:id="@+id/proccess_status"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@color/orange"  android:layout_width="match_parent"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:text="Đã xác nhận"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
-                    <View
-                        android:visibility="gone"
-                        android:layout_weight="0.2"
-                        android:id="@+id/confirm_status"
-                        android:layout_height="@dimen/_10sdp"
-                        android:background="@color/orange"  android:layout_width="match_parent"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:text="Đang giao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
-            <View
-                android:layout_weight="0.2"
-                android:visibility="gone"
-                android:id="@+id/shipping_status"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@color/orange"  android:layout_width="match_parent"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:text="Đã giao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
-            <View
-                android:layout_weight="0.2"
-                android:id="@+id/shipped_status"
-                android:visibility="gone"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@color/orange"  android:layout_width="match_parent"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="0.2"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/_20sdp">
-
-            <TextView
-                android:textSize="@dimen/_10sdp"
-                android:textStyle="bold"
-                android:text="Đã hủy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
-            <View
-                android:visibility="gone"
-                android:layout_weight="0.2"
-                android:id="@+id/cancel_status"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@color/red"  android:layout_width="match_parent"/>
-
-        </LinearLayout>
-
 
     </LinearLayout>
 

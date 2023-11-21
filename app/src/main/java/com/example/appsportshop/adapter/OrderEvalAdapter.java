@@ -3,9 +3,11 @@ package com.example.appsportshop.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,9 +32,10 @@ import org.json.JSONObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class OrderEvalAdapter extends ArrayAdapter<Cart> {
+public class OrderEvalAdapter extends ArrayAdapter<Cart>   {
     Context myContext;
     int myLayout;
+
 
     ArrayList<Cart> listCart ;
 
@@ -62,6 +65,7 @@ public class OrderEvalAdapter extends ArrayAdapter<Cart> {
         Cart cart = listCart.get(i);
 //        System.out.println(cart.getQuantity()+"nânnanana");
 
+
         viewHolder.txtProductName.setText(cart.getNameProduct());
         viewHolder.txtQuanti.setText(String.valueOf(cart.getQuantity()));
         DecimalFormat formatter = new DecimalFormat("#,###");
@@ -70,116 +74,18 @@ public class OrderEvalAdapter extends ArrayAdapter<Cart> {
         viewHolder.Madon.setText("  Mã Đơn Hàng: "+cart.getId());
 
         Glide.with(myContext).load(cart.getUrlImage()).into(viewHolder.ImgCart);
-        //set trạng thái
-        long idOrder = cart.getId_order_status();
-        if (idOrder==1){
-            viewHolder.proccess_status.setVisibility(View.VISIBLE);
-        }else   viewHolder.proccess_status.setVisibility(View.GONE);
-
-        if (idOrder==2){
-            viewHolder.comfirm.setVisibility(View.VISIBLE);
-        }else viewHolder.comfirm.setVisibility(View.GONE);
-
-        if (idOrder==3){
-            viewHolder.shipping.setVisibility(View.VISIBLE);
-        }else viewHolder.shipping.setVisibility(View.GONE);
-
-        if (idOrder==4){
-            viewHolder.shipped.setVisibility(View.VISIBLE);
-        }else  viewHolder.shipped.setVisibility(View.GONE);
-
-        if (idOrder==5){
-            viewHolder.cancel.setVisibility(View.VISIBLE);
-        }else  viewHolder.cancel.setVisibility(View.GONE);
-
-
-
-
-        if (cart.getId_order_status()!=1) {
-            viewHolder.huyDon.setVisibility(View.GONE);
-        }else {
-            viewHolder.huyDon.setVisibility(View.VISIBLE);
-            viewHolder.huyDon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickCancel(cart.getId());
-                }
-            });
-        }
-
-
 
 
 
         return view;
     }
 
-    private void clickCancel(long idOrder) {
-        Dialog dialog = new Dialog(myContext);
-
-        dialog.setContentView(R.layout.alert_yes_no);
-
-        Button btnYes = dialog.findViewById(R.id.YES);
-        TextView txt_popup_title= dialog.findViewById(R.id.txt_popup_title);
-        txt_popup_title.setText("HỦY BỎ ĐƠN HÀNG");
-        TextView txt_popup_content = dialog.findViewById(R.id.txt_popup_content);
-        txt_popup_content.setText("Bạn có chắc muốn hủy đơn hàng !!!");
-        Button btnNo = dialog.findViewById(R.id.NO);
 
 
-        btnYes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Call api xóa
-                try {
-                    UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/delete-order/" + idOrder, new APICallBack() {
-                        @Override
-                        public void onSuccess(JSONObject response) throws JSONException {
-                            if (response.getLong("data") == 1) {
-                                dialog.dismiss();
-
-
-                                CustomToast.makeText(myContext, "Hủy đơn đặt hàng thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-                                myContext.startActivity(new Intent( myContext.getApplicationContext(), MainOrder.class));
-
-                            }else {
-                                dialog.dismiss();
-                                CustomToast.makeText(myContext, "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onError(VolleyError error) {
-//                            CustomToast.makeText(myContext, "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-                            dialog.dismiss();
-
-                        }
-                    });
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-
-                dialog.dismiss();
-            }
-        });
-        btnNo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-
-        dialog.show();
-    }
 
     private class ViewHolder {
 
-        TextView txtShopName, txtProductName, txtPrice, huyDon, txtQuanti, Madon;
-        View proccess_status, comfirm, shipping, shipped, cancel;
+        TextView txtShopName, txtProductName, txtPrice, txtQuanti, Madon;
 
         ImageView ImgCart;
 
@@ -187,19 +93,13 @@ public class OrderEvalAdapter extends ArrayAdapter<Cart> {
 
 
         public ViewHolder(View view) {
-            txtShopName = view.findViewById(R.id.nameShopOrder);
-            huyDon = view.findViewById(R.id.Huydon);
-            Madon = view.findViewById(R.id.Madon);
-            txtProductName = view.findViewById(R.id.nameProductOrder);
-            txtPrice = view.findViewById(R.id.priceOrder);
-            txtQuanti = view.findViewById(R.id.quantiOrder);
-            ImgCart = view.findViewById(R.id.imgOrder);
+            txtShopName = view.findViewById(R.id.nameShopOrderEval);
+            Madon = view.findViewById(R.id.MadonEval);
+            txtProductName = view.findViewById(R.id.nameProductOrderEval);
+            txtPrice = view.findViewById(R.id.priceOrderEval);
+            txtQuanti = view.findViewById(R.id.quantiOrderEval);
+            ImgCart = view.findViewById(R.id.imgOrderEval);
 
-            proccess_status = view.findViewById(R.id.proccess_status);
-            comfirm = view.findViewById(R.id.confirm_status);
-            shipping = view.findViewById(R.id.shipping_status);
-            shipped = view.findViewById(R.id.shipped_status);
-            cancel = view.findViewById(R.id.cancel_status);
 
         }
 

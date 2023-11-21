@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#41000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/card_white_22_background"
+        android:padding="25dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá sản phẩm"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đánh giá của bạn sẽ giúp cửa hàng phát triển hơn"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:gravity="center" />
+        <LinearLayout
+
+            android:layout_marginTop="@dimen/_20sdp"
+            android:id="@+id/evalua_cmt_main"
+            app:layout_constraintTop_toBottomOf="@+id/evaluate_Title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center">
+
+
+
+
+            <ImageView
+                android:id="@+id/avt_evaluate"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:src="@drawable/trong" />
+
+            <LinearLayout
+                android:paddingTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:numStars="5"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:max="5"
+                    android:isIndicator="false"
+                    android:stepSize="1"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                    android:id="@+id/rating_evaluate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rating="3.5" /> <!-- default rating-->
+
+
+                <EditText
+                    android:id="@+id/cmt_evaluate"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sản phẩm rất tốt rất nên mua" />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp">
+
+
+
+            <TextView
+                android:id="@+id/sent_eval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Gửi"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold" />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

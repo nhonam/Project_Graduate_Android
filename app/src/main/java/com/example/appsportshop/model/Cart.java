@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class Cart implements Serializable {
 
-    long id;
+    long id; //id cart or id_order
+    long id_order_item = 0;
     //full name của user
     private String nameProduct;
     private String idProduct;
@@ -14,6 +15,14 @@ public class Cart implements Serializable {
     private Boolean isSelected = false;
 
     long id_order_status =1;
+
+    public long getId_order_item() {
+        return id_order_item;
+    }
+
+    public void setId_order_item(long id_order_item) {
+        this.id_order_item = id_order_item;
+    }
 
     public long getId_order_status() {
         return id_order_status;

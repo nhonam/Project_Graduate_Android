@@ -1,16 +1,21 @@
 package com.example.appsportshop.fragment.Customer;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
@@ -19,12 +24,12 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.Main_Customer;
-import com.example.appsportshop.activity.ProductDetail;
-import com.example.appsportshop.adapter.OrderAdapter;
 import com.example.appsportshop.adapter.OrderEvalAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.OrderAPI;
+import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.model.Cart;
+import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 
@@ -106,14 +111,8 @@ public class FragWaitEvaluate extends Fragment {
         listViewOrderEval.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String idProduct = orderEvaluateList.get(i).getIdProduct();
-                Intent intent = new Intent(getContext(), ProductDetail.class);
-
-                intent.putExtra("idProduct",idProduct);
-//                OrderItem.isChose = true;
-//                intent.putExtra("tongTien",tongTien.getText().toString());
-                startActivity(intent);
-
+                Log.d("id", String.valueOf(orderEvaluateList.get(i).getId()));
+//                showDialog(orderEvaluateList.get(i).getId_order_item(), orderEvaluateList.get(i).getUrlImage(), orderEvaluateList.get(i).getIdProduct());
             }
         });
 
@@ -145,7 +144,7 @@ public class FragWaitEvaluate extends Fragment {
                         list.add(product);
                     }
                 }
-                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order, list);
+                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.evaluate_comment, list);
                 listViewOrderEval.setAdapter(orderEvalAdapter);
 
 
@@ -166,6 +165,8 @@ public class FragWaitEvaluate extends Fragment {
 //
 
                     Cart cartTemp = new Cart();
+
+//                    cartTemp.setId_order_item(cartTmpObj.getLong("id_order_item"));
                     cartTemp.setId(cartTmpObj.getLong("id_order"));
                     cartTemp.setQuantity(cartTmpObj.getInt("quantity"));
                     cartTemp.setPrice_total(cartTmpObj.getLong("price"));
@@ -178,20 +179,24 @@ public class FragWaitEvaluate extends Fragment {
 
                 }
 
-
-                if (orderEvaluateList.size()==0){
-                    exsitOrder.setVisibility(View.VISIBLE);
-                    Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
-                    searchView.setVisibility(View.GONE);
-                    notItemOrder.setVisibility(View.VISIBLE);
-                }else
-                {
-                    exsitOrder.setVisibility(View.GONE);
-                    searchView.setVisibility(View.VISIBLE);
-                    notItemOrder.setVisibility(View.GONE);
-                    orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order, orderEvaluateList);
+                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, orderEvaluateList);
                     listViewOrderEval.setAdapter(orderEvalAdapter);
-                }
+
+//                if (orderEvaluateList.size()==0 ){
+//                    exsitOrder.setVisibility(View.VISIBLE);
+//                    Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
+//                    searchView.setVisibility(View.GONE);
+//                    notItemOrder.setVisibility(View.VISIBLE);
+//                    listViewOrderEval.setVisibility(View.GONE);
+//
+//                }else
+//                { listViewOrderEval.setVisibility(View.VISIBLE);
+//                    exsitOrder.setVisibility(View.GONE);
+//                    searchView.setVisibility(View.VISIBLE);
+//                    notItemOrder.setVisibility(View.GONE);
+//                    orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, orderEvaluateList);
+//                    listViewOrderEval.setAdapter(orderEvalAdapter);
+//                }
 
             }
 
@@ -201,6 +206,65 @@ public class FragWaitEvaluate extends Fragment {
             }
         });
     }
+
+    private void showDialog(long idOrderItem, String imageProduct, String idProduct) {
+        Dialog dialog = new Dialog(getContext());
+
+        dialog.setContentView(R.layout.evaluate_comment);
+
+        TextView btnSent = dialog.findViewById(R.id.sent_eval);
+        EditText comment = dialog.findViewById(R.id.cmt_evaluate);
+
+        ImageView avtProduct = dialog.findViewById(R.id.avt_evaluate);
+        RatingBar ratingBar = dialog.findViewById(R.id.rating_evaluate);
+
+
+        Glide.with(getContext()).load(imageProduct).into(avtProduct);
+
+        btnSent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Call api xóa
+                JSONObject postData = new JSONObject();
+                try {
+                    postData.put("comment",comment.getText().toString().trim() );
+                    postData.put("star",ratingBar.getNumStars() );
+                    Log.d("start", String.valueOf(ratingBar.getNumStars()));
+                    postData.put("id_user",singletonUser.getIdUser() );
+                    postData.put("id_product",idProduct );
+                    postData.put("id_order_item",idOrderItem );
+
+                    UserAPI.ApiPostandBody(getContext(), Utils.BASE_URL + "evaluate-management/evaluates", postData, new APICallBack() {
+                        @Override
+                        public void onSuccess(JSONObject response) throws JSONException {
+                            if (response.getInt("status")== 200){
+                                CustomToast.makeText(getContext(), "Đánh giá thành công, Cảm ơn bạn đã đánh giá!", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
+                                orderEvalAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+                            CustomToast.makeText(getContext(), "Xem lại kết nối Internet !", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+                            dialog.dismiss();
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 
 
 }

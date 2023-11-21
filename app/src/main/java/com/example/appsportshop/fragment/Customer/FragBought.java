@@ -173,6 +173,7 @@ public class FragBought extends Fragment {
                     cartTemp.setId_order_status(cartTmpObj.getLong("id_order_status"));
 
 
+
                     if (cartTemp.getId_order_status()==4) // đã mua thành công
                         orderBought.add(cartTemp);
 
