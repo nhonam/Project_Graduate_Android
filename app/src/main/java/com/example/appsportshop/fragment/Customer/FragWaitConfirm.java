@@ -182,7 +182,7 @@ public class FragWaitConfirm extends Fragment {
                 }
 
 
-                if (orderWating.size()==0){
+                if (orderWating.size()==0 || orderWating == null){
                     exsitOrder.setVisibility(View.VISIBLE);
                     Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
                     searchView.setVisibility(View.GONE);

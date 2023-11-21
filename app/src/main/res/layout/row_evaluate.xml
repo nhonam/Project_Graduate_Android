@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+
+            android:id="@+id/evalua_cmt_main"
+            app:layout_constraintTop_toBottomOf="@+id/evaluate_Title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/avt_user_eval"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:src="@drawable/trong" />
+
+            <LinearLayout
+                android:paddingTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/name_user_eval"
+                    android:textStyle="bold"
+                    android:text="Đinh Nho Nam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></TextView>
+
+                <RatingBar
+                    android:numStars="5"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:max="5"
+                    android:isIndicator="true"
+                    android:stepSize="1"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                    android:id="@+id/rating_eval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rating="3.5" /> <!-- default rating-->
+
+
+                <TextView
+                    android:id="@+id/cmt_eval"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sản phẩm rất tốt rất nên mua" />
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+

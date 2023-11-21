@@ -16,12 +16,16 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.adapter.CartAdapter;
+import com.example.appsportshop.adapter.EvaluateAdapter;
+import com.example.appsportshop.adapter.OrderEvalAdapter;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.CartAPI;
 import com.example.appsportshop.api.ProductAPI;
 import com.example.appsportshop.fragment.Customer.FragCart;
 import com.example.appsportshop.fragment.Customer.FragHome;
 import com.example.appsportshop.model.Cart;
+import com.example.appsportshop.model.Evaluate;
 import com.example.appsportshop.model.Product;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.ObjectWrapperForBinder;
@@ -43,6 +47,11 @@ public class ProductDetail extends AppCompatActivity {
     ImageView Img_ProductDetail, btnBackHome, btnCart;
     TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail,tvsupplier, tvactivity,tvenvironment,tvbrand,tvunit ;
     TextView addCart,btnBuyProduct;
+    ListView lvEval;
+
+    EvaluateAdapter evaluateAdapter;
+
+    ArrayList<Evaluate> listEval;
 
     private Product product;
     SingletonUser singletonUser = SingletonUser.getInstance();
@@ -97,6 +106,8 @@ public class ProductDetail extends AppCompatActivity {
 //                    dialogSelectQuanti.dismiss();
 
 
+                    getEvaluates();
+
                     setEvent();
 
                 }
@@ -116,8 +127,49 @@ public class ProductDetail extends AppCompatActivity {
 
     }
 
+    private void getEvaluates() throws JSONException {
+        APICommon.APIGetWithOutJWT(getApplicationContext(), "evaluate-management/evaluates/" + product.getId(), new APICallBack() {
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
 
-    private void loadData() {
+                JSONArray data = response.getJSONArray("data");
+                JSONObject itemObj = new JSONObject();
+                Evaluate evaluateTmp;
+                listEval = new ArrayList<>();
+                for (int i = 0; i < data.length(); i++) {
+
+                    itemObj = data.getJSONObject(i);
+                    evaluateTmp = new Evaluate();
+                    evaluateTmp.setComment(itemObj.getString("comment"));
+                    evaluateTmp.setId(itemObj.getLong("id"));
+                    evaluateTmp.setStar(itemObj.getInt("start"));
+                    evaluateTmp.setFullname(itemObj.getString("fullname"));
+                    evaluateTmp.setImage_url(itemObj.getString("image_url"));
+                    evaluateTmp.setProductName(itemObj.getString("product_name"));
+                    listEval.add(evaluateTmp);
+
+                }
+                evaluateAdapter = new EvaluateAdapter(getApplicationContext(), R.layout.row_evaluate, listEval);
+                lvEval.setAdapter(evaluateAdapter);
+
+
+
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+
+    }
+
+
+    private void loadData() throws JSONException {
+
+
+
 
         Glide.with(this).load(product.getUrlImage()).into(Img_ProductDetail);
         nameProductDetail.setText(product.getNameProduct());
@@ -354,6 +406,7 @@ public class ProductDetail extends AppCompatActivity {
         tvunit = findViewById(R.id.unit);
         tvsupplier = findViewById(R.id.supplier);
         btnBuyProduct = findViewById(R.id.buy_product);
+        lvEval = findViewById(R.id.lv_eval);
 
 
     }
