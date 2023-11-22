@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "988486783684",
+    "project_id": "sportapp-20cad",
+    "storage_bucket": "sportapp-20cad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988486783684:android:15170086454495dff6ef91",
+        "android_client_info": {
+          "package_name": "com.example.appsportshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASP4CXXHyTcznp2htecQS2N6ItZeKjDwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988486783684:android:61785172243d6825f6ef91",
+        "android_client_info": {
+          "package_name": "com.example.appsportshop.activity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASP4CXXHyTcznp2htecQS2N6ItZeKjDwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

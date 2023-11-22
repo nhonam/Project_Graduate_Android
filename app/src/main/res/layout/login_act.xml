@@ -199,6 +199,8 @@
             android:text="Đăng Ký Ngay"
             android:textColor="#F85F53"
             android:textStyle="bold"></TextView>
+
+
     </LinearLayout>
 
 </LinearLayout>

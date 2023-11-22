@@ -275,50 +275,7 @@
                 android:layout_height="wrap_content"/>
 
 <!--            nhận xét đánh giá sản phẩm -->
-            <LinearLayout
-                android:layout_marginLeft="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:gravity="center">
-
-
-                <ImageView
-                    android:id="@+id/avt1"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="5dp"
-                    android:src="@drawable/trong" />
-
-                <LinearLayout
-                    android:paddingTop="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RatingBar
-                        android:max="5"
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:id="@+id/rating1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:rating="3.5" /> <!-- default rating-->
-
-
-                    <TextView
-                        android:id="@+id/cmt1"
-                        android:textSize="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="sản phẩm rất tốt rất nên mua" />
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
             <ListView
                 android:id="@+id/lv_eval"
                 android:layout_width="match_parent"

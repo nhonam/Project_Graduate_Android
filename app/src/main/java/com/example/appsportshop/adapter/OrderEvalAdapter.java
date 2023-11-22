@@ -85,7 +85,7 @@ public class OrderEvalAdapter extends ArrayAdapter<Cart>   {
 
     private class ViewHolder {
 
-        TextView txtShopName, txtProductName, txtPrice, txtQuanti, Madon;
+        TextView  txtProductName, txtPrice, txtQuanti, Madon;
 
         ImageView ImgCart;
 
@@ -93,9 +93,8 @@ public class OrderEvalAdapter extends ArrayAdapter<Cart>   {
 
 
         public ViewHolder(View view) {
-            txtShopName = view.findViewById(R.id.nameShopOrderEval);
             Madon = view.findViewById(R.id.MadonEval);
-            txtProductName = view.findViewById(R.id.nameProductOrderEval);
+            txtProductName = view.findViewById(R.id.name_product_eval);
             txtPrice = view.findViewById(R.id.priceOrderEval);
             txtQuanti = view.findViewById(R.id.quantiOrderEval);
             ImgCart = view.findViewById(R.id.imgOrderEval);

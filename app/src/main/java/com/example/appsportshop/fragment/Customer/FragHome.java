@@ -24,6 +24,7 @@ import com.example.appsportshop.adapter.SliderAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.ProductAPI;
+import com.example.appsportshop.model.Banner;
 import com.example.appsportshop.model.Category;
 import com.example.appsportshop.service.InternetConnect;
 import com.example.appsportshop.utils.SingletonUser;
@@ -54,14 +55,16 @@ public class FragHome extends Fragment {
     ProductLatestAdapter latestProduct_test;
     SliderAdapter sliderAdapter;
 
-    int[] imgSliders = {
-            R.drawable.giamgia1,
-            R.drawable.giamgia2,
-            R.drawable.giamgia3,
-            R.drawable.giamgia4,
-            R.drawable.giamgia5,
+//    int[] imgSliders = {
+//            R.drawable.giamgia1,
+//            R.drawable.giamgia2,
+//            R.drawable.giamgia3,
+//            R.drawable.giamgia4,
+//            R.drawable.giamgia5,
+//
+//    };
 
-    };
+    List<Banner> listBanner ;
 
     SliderView sliderView;
 
@@ -93,6 +96,43 @@ public class FragHome extends Fragment {
 
         // Bỏ điều kiện ghi đè khi Fragment bị hủy
         callback.remove();
+    }
+
+    public void loadSlider() throws JSONException {
+
+        APICommon.APIGetWithOutJWT(getContext(), "banner/five", new APICallBack() {
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
+
+                Log.d("test", response.toString());
+
+                JSONArray data = response.getJSONArray("data");
+                JSONObject itemObj = new JSONObject();
+                listBanner = new ArrayList<>();
+                Banner banner ;
+                for (int i = 0; i < data.length(); i++) {
+                   itemObj =  data.getJSONObject(i);
+                   banner = new Banner();
+                    banner.setId(itemObj.getLong("id"));
+                    banner.setIdProduct(itemObj.getJSONObject("product").getLong("id"));
+                    banner.setUrl_image(itemObj.getString("url_banner"));
+
+                    listBanner.add(banner);
+
+                }
+                sliderAdapter = new SliderAdapter(listBanner, getContext());
+                sliderView.setSliderAdapter(sliderAdapter);
+                sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
+                sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
+                sliderView.startAutoCycle();
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     @Override
@@ -252,11 +292,7 @@ public class FragHome extends Fragment {
                 gr_productList.setAdapter(latestProduct_test);
 
                 //setAdapterSlider
-                sliderAdapter = new SliderAdapter(imgSliders);
-                sliderView.setSliderAdapter(sliderAdapter);
-                sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-                sliderView.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);
-                sliderView.startAutoCycle();
+                loadSlider();
             }
 
             @Override

@@ -30,7 +30,8 @@
         android:id="@+id/content_main_order"
         app:layout_constraintTop_toBottomOf="@+id/frame_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp">
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

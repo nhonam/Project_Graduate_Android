@@ -10,12 +10,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.AuthAPI;
 import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.fragment.Admin.FragManagerProduct;
@@ -24,6 +26,9 @@ import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.example.appsportshop.utils.dialog;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +39,11 @@ public class Login extends AppCompatActivity {
     AppCompatButton btnLogin;
     private String username = "";
     private String password = "";
-    TextView txtregisterNow,forgetpass;
+    TextView txtregisterNow,forgetpass,pushNoti;
     ImageView btnBack;
     EditText edtUserName, edtpassWord;
     SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,8 @@ public class Login extends AppCompatActivity {
         ReadPassWord();
 
         mapping();
+
+
 
         try {
             if (ReadPassWord())
@@ -97,6 +105,9 @@ public class Login extends AppCompatActivity {
             });
         }
 
+
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -134,6 +145,9 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
+
+
 
 
     private void GetUserByUserName() throws JSONException {
@@ -236,6 +250,8 @@ public class Login extends AppCompatActivity {
                 //nếu là Custommer
 
                 if (role.getLong("id")== 3) {
+
+                    getFCMtoken(singletonUser.getIdUser());
 
 
                     if (singletonUser.getFullName().equalsIgnoreCase("null") || singletonUser.getEmail().equalsIgnoreCase("null") || singletonUser.getPhone().equalsIgnoreCase("null") || singletonUser.getAdress().equalsIgnoreCase("null")) {
@@ -349,6 +365,8 @@ public class Login extends AppCompatActivity {
 
                 if (roleObj.getString("name").equalsIgnoreCase("CUSTOMER")) {
 
+                    getFCMtoken(singletonUser.getIdUser());
+
 
                     if (singletonUser.getFullName().equalsIgnoreCase("") || singletonUser.getEmail().equalsIgnoreCase("") || singletonUser.getPhone().equalsIgnoreCase("") || singletonUser.getAdress().equalsIgnoreCase("")) {
                         Intent intent = new Intent(Login.this, Update_Profile.class);
@@ -390,6 +408,40 @@ public class Login extends AppCompatActivity {
                 dialog.dismissdialog();
                 CustomToast.makeText(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 
+            }
+        });
+    }
+
+
+    void getFCMtoken(long idUser){
+        FirebaseApp.initializeApp(this);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()){
+                String token = task.getResult();
+                Log.i("token",token);
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("fcm_token", token);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    APICommon.APIPostWithJWT(getApplicationContext(), "user/find-device/" + idUser, body, new APICallBack() {
+                        @Override
+                        public void onSuccess(JSONObject response) throws JSONException {
+                            Log.d( "1111",response.toString());
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

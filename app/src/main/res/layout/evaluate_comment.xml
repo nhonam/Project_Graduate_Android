@@ -70,7 +70,7 @@
                     android:id="@+id/rating_evaluate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:rating="3.5" /> <!-- default rating-->
+                    android:rating="1" /> <!-- default rating-->
 
 
                 <EditText

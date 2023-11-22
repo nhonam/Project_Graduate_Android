@@ -111,8 +111,8 @@ public class FragWaitEvaluate extends Fragment {
         listViewOrderEval.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("id", String.valueOf(orderEvaluateList.get(i).getId()));
-//                showDialog(orderEvaluateList.get(i).getId_order_item(), orderEvaluateList.get(i).getUrlImage(), orderEvaluateList.get(i).getIdProduct());
+//                Log.d("id", String.valueOf(orderEvaluateList.get(i).getId()));
+                showDialog(orderEvaluateList.get(i).getId_order_item(), orderEvaluateList.get(i).getUrlImage(), orderEvaluateList.get(i).getIdProduct());
             }
         });
 
@@ -144,7 +144,7 @@ public class FragWaitEvaluate extends Fragment {
                         list.add(product);
                     }
                 }
-                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.evaluate_comment, list);
+                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, list);
                 listViewOrderEval.setAdapter(orderEvalAdapter);
 
 
@@ -162,11 +162,11 @@ public class FragWaitEvaluate extends Fragment {
                 orderEvaluateList = new ArrayList<>();
                 for (int i = 0; i < listcartJSON.length(); i++) {
                     JSONObject cartTmpObj = (JSONObject) listcartJSON.get(i);
-//
+
 
                     Cart cartTemp = new Cart();
 
-//                    cartTemp.setId_order_item(cartTmpObj.getLong("id_order_item"));
+                    cartTemp.setId_order_item(cartTmpObj.getLong("id_order_item"));
                     cartTemp.setId(cartTmpObj.getLong("id_order"));
                     cartTemp.setQuantity(cartTmpObj.getInt("quantity"));
                     cartTemp.setPrice_total(cartTmpObj.getLong("price"));
@@ -178,25 +178,23 @@ public class FragWaitEvaluate extends Fragment {
                     orderEvaluateList.add(cartTemp);
 
                 }
+                try {
+                    if (orderEvaluateList.size()==0 || orderEvaluateList == null || orderEvaluateList.isEmpty()){
+                        showViewNotList();
 
-                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, orderEvaluateList);
-                    listViewOrderEval.setAdapter(orderEvalAdapter);
+                    }else
+                    { listViewOrderEval.setVisibility(View.VISIBLE);
+                        exsitOrder.setVisibility(View.GONE);
+                        searchView.setVisibility(View.VISIBLE);
+                        notItemOrder.setVisibility(View.GONE);
+                        orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, orderEvaluateList);
+                        listViewOrderEval.setAdapter(orderEvalAdapter);
+                    }
+                }catch (Exception e) {
+                    showViewNotList();
+                }
 
-//                if (orderEvaluateList.size()==0 ){
-//                    exsitOrder.setVisibility(View.VISIBLE);
-//                    Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
-//                    searchView.setVisibility(View.GONE);
-//                    notItemOrder.setVisibility(View.VISIBLE);
-//                    listViewOrderEval.setVisibility(View.GONE);
-//
-//                }else
-//                { listViewOrderEval.setVisibility(View.VISIBLE);
-//                    exsitOrder.setVisibility(View.GONE);
-//                    searchView.setVisibility(View.VISIBLE);
-//                    notItemOrder.setVisibility(View.GONE);
-//                    orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, orderEvaluateList);
-//                    listViewOrderEval.setAdapter(orderEvalAdapter);
-//                }
+
 
             }
 
@@ -205,6 +203,15 @@ public class FragWaitEvaluate extends Fragment {
 
             }
         });
+    }
+
+    //show view khi ko có sản phẩm nào đã mua mà chưa được đánh giá
+    private void showViewNotList(){
+        exsitOrder.setVisibility(View.VISIBLE);
+        Glide.with(getContext()).load("https://res.cloudinary.com/dzljztsyy/image/upload/v1700463449/shop_sport/avatart%20default/vyipv8h4fjgwheq2f37i.jpg").into(notItemOrder);
+        searchView.setVisibility(View.GONE);
+        notItemOrder.setVisibility(View.VISIBLE);
+        listViewOrderEval.setVisibility(View.GONE);
     }
 
     private void showDialog(long idOrderItem, String imageProduct, String idProduct) {
@@ -217,6 +224,14 @@ public class FragWaitEvaluate extends Fragment {
 
         ImageView avtProduct = dialog.findViewById(R.id.avt_evaluate);
         RatingBar ratingBar = dialog.findViewById(R.id.rating_evaluate);
+        final int[] rate = {1};
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                rate[0] = (int) v;
+            }
+        });
 
 
         Glide.with(getContext()).load(imageProduct).into(avtProduct);
@@ -228,7 +243,7 @@ public class FragWaitEvaluate extends Fragment {
                 JSONObject postData = new JSONObject();
                 try {
                     postData.put("comment",comment.getText().toString().trim() );
-                    postData.put("star",ratingBar.getNumStars() );
+                    postData.put("star", rate[0]  );
                     Log.d("start", String.valueOf(ratingBar.getNumStars()));
                     postData.put("id_user",singletonUser.getIdUser() );
                     postData.put("id_product",idProduct );

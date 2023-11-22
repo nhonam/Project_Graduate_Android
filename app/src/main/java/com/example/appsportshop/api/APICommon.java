@@ -91,7 +91,7 @@ public class APICommon {
 
     public static void APIPostWithJWT(Context context, String url, JSONObject jsonObject, APICallBack callBack) throws JSONException {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,jsonObject,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Utils.BASE_URL+ url,jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

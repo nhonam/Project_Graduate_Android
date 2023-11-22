@@ -27,6 +27,8 @@
             android:layout_width="250dp">
 
         </EditText>
+
+
     </FrameLayout>
 
     <LinearLayout

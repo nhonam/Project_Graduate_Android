@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.AuthAPI;
 import com.example.appsportshop.fragment.Customer.FragCart;
 import com.example.appsportshop.fragment.Customer.FragHome;
@@ -20,6 +21,9 @@ import com.example.appsportshop.fragment.Customer.FragSearch;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +31,8 @@ import org.json.JSONObject;
 import java.security.PublicKey;
 
 public class Main_Customer extends AppCompatActivity {
+
+    SingletonUser singletonUser = SingletonUser.getInstance();
 
     FragHome fragHome = null;
     FragCart fragCart = null;
@@ -46,6 +52,8 @@ public class Main_Customer extends AppCompatActivity {
 //        LoadDataInLocal();
 
         // mở lên sẽ vào fragHome();
+
+        //lấy fcm token kiểm tra nếu có rồi thì bỏ qua, nếu chưa có thì lwuu vô databas
 
         if (ReadPassWord()){
             try {
@@ -284,4 +292,6 @@ public class Main_Customer extends AppCompatActivity {
             }
         });
     }
+
+
 }
