@@ -199,6 +199,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -206,15 +207,17 @@
 
 <!--                btn thêm vào giỏ hàng-->
                 <LinearLayout
+                    android:layout_weight="0.5"
                     android:gravity="right"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@id/infoSP"
                     >
                     <TextView
+
                         android:id="@+id/addCart"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="#ee4d2d"
@@ -225,11 +228,13 @@
                         android:layout_marginRight="5dp"
                         android:textSize="15dp"
                         android:textStyle="bold|normal" />
+
                 </LinearLayout>
 <!--                btn mua sản phẩm-->
                 <LinearLayout
+                    android:layout_weight="0.5"
                     android:layout_gravity="left"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@id/infoSP"
@@ -275,6 +280,11 @@
                 android:layout_height="wrap_content"/>
 
 <!--            nhận xét đánh giá sản phẩm -->
+
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"></View>
 
             <ListView
                 android:id="@+id/lv_eval"

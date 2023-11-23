@@ -32,7 +32,6 @@ import java.security.PublicKey;
 
 public class Main_Customer extends AppCompatActivity {
 
-    SingletonUser singletonUser = SingletonUser.getInstance();
 
     FragHome fragHome = null;
     FragCart fragCart = null;
@@ -54,12 +53,12 @@ public class Main_Customer extends AppCompatActivity {
         // mở lên sẽ vào fragHome();
 
         //lấy fcm token kiểm tra nếu có rồi thì bỏ qua, nếu chưa có thì lwuu vô databas
+        Log.d("123","123");
 
         if (ReadPassWord()){
             try {
                 //getIntent PutExtra từ Update Profile nếu isLogin = true thì phải đăng nhập, không thì thôi
 //                Update_Profile
-                System.out.println(isLogin +"+--------------");
                 if(isLogin)
                     APILoginDefault();
                 FragHome.isDispHomeCustommer = false;
@@ -220,6 +219,7 @@ public class Main_Customer extends AppCompatActivity {
 //            btnBack.setVisibility(View.GONE);
                 return false;
             }
+            APILoginDefault();
             return true;
         }catch (Exception R) {
             return false;
@@ -283,12 +283,46 @@ public class Main_Customer extends AppCompatActivity {
                 singletonUser.setAvatarUrl(res.getString("avatarUrl"));
                 singletonUser.setPublicId(res.getString("publicId"));
                 singletonUser.setToken(response.getString("token"));
-
+                getFCMtoken(singletonUser.getIdUser());
 
             }
 
             @Override
             public void onError(VolleyError error){
+            }
+        });
+    }
+
+
+    void getFCMtoken(long idUser){
+        FirebaseApp.initializeApp(this);
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()){
+                String token = task.getResult();
+                Log.i("token",token);
+                JSONObject body = new JSONObject();
+                try {
+                    body.put("fcm_token", token);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    APICommon.APIPostWithJWT(getApplicationContext(), "user/find-device/" + idUser, body, new APICallBack() {
+                        @Override
+                        public void onSuccess(JSONObject response) throws JSONException {
+                            Log.d( "1111",response.toString());
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+
+                        }
+                    });
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

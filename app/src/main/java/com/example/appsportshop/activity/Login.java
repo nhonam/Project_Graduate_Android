@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -29,7 +28,6 @@ import com.example.appsportshop.utils.dialog;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,11 +37,10 @@ public class Login extends AppCompatActivity {
     AppCompatButton btnLogin;
     private String username = "";
     private String password = "";
-    TextView txtregisterNow,forgetpass,pushNoti;
+    TextView txtregisterNow,forgetpass;
     ImageView btnBack;
     EditText edtUserName, edtpassWord;
     SharedPreferences sharedPreferences;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +51,7 @@ public class Login extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("matkhau", MODE_PRIVATE);
         ReadPassWord();
-
         mapping();
-
-
 
         try {
             if (ReadPassWord())

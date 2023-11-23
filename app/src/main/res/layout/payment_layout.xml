@@ -133,7 +133,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="@dimen/_150sdp"
                     android:background="#f5f4f2">
 
                     <ListView
@@ -361,30 +361,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
 
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape"
-                    android:paddingTop="10dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/note_policy" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="5dp"
-                        android:paddingBottom="20dp"
-                        android:text="Nhấn Đặt hàng đồng nghĩa với việc bạn đồng ý tuân thủ theo Điều khoản của ChibaShop. Nhấn đặt hàng cũng đồng nghĩa với đồng ý với điều khoản của MoMo "
-                        android:textColor="@color/black" />
-                </LinearLayout>
             </LinearLayout>
 
 
