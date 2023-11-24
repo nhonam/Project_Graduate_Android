@@ -223,7 +223,7 @@ public class FragHome extends Fragment {
     }
     private void setAdapter() throws JSONException {
 
-        APICommon.APIGetWithOutJWT(getContext(), "category/getAllCategory", new APICallBack() {
+        APICommon.APIGetWithOutJWT(requireContext(), "category/getAllCategory", new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 

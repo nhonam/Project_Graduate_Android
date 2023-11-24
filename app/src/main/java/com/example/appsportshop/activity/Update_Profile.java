@@ -40,6 +40,7 @@ import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.RealPathUtil;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
+import com.example.appsportshop.utils.Validate;
 import com.example.appsportshop.utils.dialog;
 
 import org.json.JSONException;
@@ -157,35 +158,45 @@ public class Update_Profile extends AppCompatActivity {
 //                    name.setError("Vui lòng không để trống");
 //                }
 
+
                 if(tvFullName.getText().toString().isEmpty()||
                 tvEmail.getText().toString().isEmpty()||
                 tvAdress.getText().toString().isEmpty()||
                 tvBirthdat.getText().toString().isEmpty()||
                 tvPhone.getText().toString().isEmpty()){
+
                     CustomToast.makeText(Update_Profile.this, "Vui lòng nhập đầy đủ thông tin cá nhân !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 
-                }else {
+                }else if (Validate.isValidPhoneNumber(tvPhone.getText().toString().trim())== false){
+                    CustomToast.makeText(Update_Profile.this, "Vui lòng nhập số điện thoại phù hợp!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                }
+                else
+                {
                     try {
-                        APIUpdateInfo();
+                            APIUpdateInfo();
+                        if (userCur.getRole().equalsIgnoreCase("ADMIN")) {
+//                            CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin cá nhân thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
+                            FragProfile.isDisplay = true;
+                            startActivity(new Intent(Update_Profile.this, MainAdmin.class));
+
+                        }
+                        else
+                        if (userCur.getRole().equalsIgnoreCase("CUSTOMER")) {
+//                            CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin cá nhân thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+                            FragProfile.isDisplay = true;
+                            // gửi flag qua MainCustomer để bỏ qua bước login
+                            Main_Customer.isLogin = false;
+                            Intent intent = new Intent(Update_Profile.this, Main_Customer.class);
+                            startActivity(intent);
+
+                        }
+
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
 
                   }
-                    if (userCur.getRole().equalsIgnoreCase("ADMIN")) {
-                        FragProfile.isDisplay = true;
-                        startActivity(new Intent(Update_Profile.this, MainAdmin.class));
-
-                    }
-                    else
-                    if (userCur.getRole().equalsIgnoreCase("CUSTOMER")) {
-                        FragProfile.isDisplay = true;
-                        // gửi flag qua MainCustomer để bỏ qua bước login
-                        Main_Customer.isLogin = false;
-                        Intent intent = new Intent(Update_Profile.this, Main_Customer.class);
-                        startActivity(intent);
-
-                    }
 
                 }
         });
@@ -245,7 +256,6 @@ public class Update_Profile extends AppCompatActivity {
         user.setEmail(singletonUser.getEmail());
         user.setAdress(singletonUser.getAdress());
 
-        Log.d("nhonam",singletonUser.getRole()+"test");
         if(singletonUser.getBirthday().isEmpty()){
 
             user.setBirthday(null);
@@ -298,7 +308,6 @@ public class Update_Profile extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<JSONObject> call, Throwable t) {
-                    System.err.println("failed"+t.toString());
                     CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 
                 }
@@ -318,7 +327,6 @@ public class Update_Profile extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<JSONObject> call, Throwable t) {
-                    System.err.println("failed"+t.toString());
                     CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 
                 }
@@ -439,8 +447,7 @@ public class Update_Profile extends AppCompatActivity {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(this);
         pictureDialog.setTitle("Vui lòng chọn !!!");
         String[] pictureDialogItems = {
-                "Chọn ảnh từ Thư Viện",
-                "Chụp ảnh bằng Camera"};
+                "Chọn ảnh từ Thư Viện"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -449,9 +456,9 @@ public class Update_Profile extends AppCompatActivity {
                             case 0:
                                 choosePhotoFromGallary();
                                 break;
-                            case 1:
-                                takePhotoFromCamera();
-                                break;
+//                            case 1:
+//                                takePhotoFromCamera();
+//                                break;
                         }
                     }
                 });

@@ -2,20 +2,18 @@ package com.example.appsportshop.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.model.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,15 +61,32 @@ public class MessageAdapter extends BaseAdapter {
             holder.messageBody.setText(message.getText());
         } else {
             convertView = messageInflater.inflate(R.layout.their_message, null);
-            holder.avatar =  convertView.findViewById(R.id.avatar);
-            Glide.with(holder.avatar ).load(message.getAvatar_url()).into(holder.avatar);
 
-            holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.messageBody = (TextView) convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
 
-            holder.name.setText(message.getFullname());
+
+            holder.product_tar = (LinearLayout) convertView.findViewById(R.id.product_tar);
+            holder.product_tar.setVisibility(View.GONE);
+
+
+
+
             holder.messageBody.setText(message.getText());
+            if (message.getImage_product()!=null || message.getImage_product()!="")
+            {
+                holder.product_tar.setVisibility(View.VISIBLE);
+                holder.productName = (TextView) convertView.findViewById(R.id.product_tar_name);
+                holder.imageProduct = (ImageView) convertView.findViewById(R.id.img_product_tar);
+
+                holder.productName.setVisibility(View.VISIBLE);
+                holder.productName.setText(message.getProduct_name());
+
+
+                holder.imageProduct.setVisibility(View.VISIBLE);
+                Glide.with(holder.imageProduct ).load(message.getImage_product()).into(holder.imageProduct);
+
+            }
 //            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
 //            drawable.setColor(Color.parseColor();
         }
@@ -82,7 +97,9 @@ public class MessageAdapter extends BaseAdapter {
 }
 
 class MessageViewHolder {
-    public ImageView avatar;
-    public TextView name;
+    public ImageView imageProduct;
+    public TextView productName;
+
+    LinearLayout product_tar;
     public TextView messageBody;
 }

@@ -88,12 +88,12 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:textStyle="bold"
+                        style="@style/textBold_Title"
                         android:text="Tạ tập tay cao cấp"
                         android:id="@+id/nameProductDetail"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="25dp" />
+                        />
 
                 </LinearLayout>
 
@@ -132,51 +132,10 @@
                     android:rating="3.5"
                     android:max="5"/> <!-- default rating-->
 
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/tagProductDeltail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/supplier"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/activity"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/environment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/brand"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-                <TextView
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:id="@+id/unit"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
 
                 <View
                     android:layout_gravity="center"
-                    android:layout_width="300dp"
+                    android:layout_width="@dimen/_250sdp"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
                     android:background="#838383"
@@ -187,10 +146,77 @@
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Chi tiết sản phẩm : "/>
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/tagProductDeltail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/supplier"
+                    style="@style/textNormal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/environment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/brand"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_marginLeft="@dimen/_40sdp"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <View
+                    android:layout_gravity="center"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#838383"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Mô tả sản phẩm: "/>
                 <TextView
-                    android:layout_marginLeft="13dp"
-                    android:textSize="25dp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    style="@style/textNormal"
                     android:id="@+id/descriptionProductDetail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>

@@ -125,4 +125,31 @@ public class APICommon {
         requestQueue.add(request);
 
     }
+
+    public static void APIPostWithOutJWT(Context context, String url, JSONObject jsonObject, APICallBack callBack) throws JSONException {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,  url,jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle response
+                        try {
+                            callBack.onSuccess(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        callBack.onError(error);
+                    }
+                });
+        requestQueue.add(request);
+
+    }
 }

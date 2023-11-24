@@ -165,7 +165,6 @@ public class FragProfile extends Fragment {
         user.setEmail(singletonUser.getEmail());
         user.setAdress(singletonUser.getAdress());
 
-        Log.d("nhonam",singletonUser.getRole()+"test");
         if(singletonUser.getBirthday()==null){
 
             user.setBirthday(null);

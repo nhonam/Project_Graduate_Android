@@ -2,28 +2,61 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingVertical="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="60dp"
     android:clipToPadding="false">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/avt"
         android:layout_alignParentLeft="true"
         android:scaleType="centerInside"
         android:background="@drawable/background_primary"
+        android:src="@drawable/logoshop"
         android:layout_width="34dp"
         android:layout_height="34dp" />
 
     <TextView
         android:id="@+id/name"
         android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/avatar"
-        android:layout_alignTop="@+id/avatar"
+        android:layout_toRightOf="@+id/avt"
+        android:layout_alignTop="@+id/avt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="4dp"
-        android:text="Rose"/>
+        android:text="Nho Nam Shop"/>
+
+    <LinearLayout
+
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@+id/message_body"
+        android:id="@+id/product_tar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_product_tar"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
+        <TextView
+            android:text="Nam"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:textAlignment="center"
+            android:id="@+id/product_tar_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

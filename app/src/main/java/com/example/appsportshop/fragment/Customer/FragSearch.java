@@ -1,11 +1,9 @@
 package com.example.appsportshop.fragment.Customer;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,26 +15,19 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ProductDetail;
 import com.example.appsportshop.adapter.MessageAdapter;
 import com.example.appsportshop.adapter.ProductLatestAdapter;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.ProductAPI;
-import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.model.Message;
-import com.example.appsportshop.utils.CustomToast;
-import com.example.appsportshop.utils.ObjectWrapperForBinder;
 import com.example.appsportshop.utils.Utils;
 
 import org.json.JSONArray;
@@ -330,8 +321,7 @@ public class FragSearch extends Fragment {
         for (int i = 0; i < 15; i++) {
             Message message = new Message();
             message.setText("bạn cos muon mua ao khong"+i);
-            message.setFullname("Shop Nho Nam"+i);
-            message.setAvatar_url("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
+            message.setFullname("Shop Nho Nam");
             if (i%2==0){
                 message.setSenter(true);
             }else
@@ -343,6 +333,9 @@ public class FragSearch extends Fragment {
         messageAdapter = new MessageAdapter(getContext(), messageList);
         messagesListView.setAdapter(messageAdapter);
         messagesListView.setSelection(messageAdapter.getCount() - 1);
+
+
+        clickItemProduct(messagesListView);
 
         btnSent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -360,17 +353,77 @@ public class FragSearch extends Fragment {
                 // Scroll to the last item
                 messagesListView.setSelection(messageAdapter.getCount() - 1);
 
-                edtChat.getText().clear();
+                try {
+                    CallAPIChat();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+
             }
+
+
+
+            private void CallAPIChat() throws JSONException {
+                JSONObject body = new JSONObject();
+                body.put("question", edtChat.getText().toString().trim());
+                APICommon.APIPostWithOutJWT(getContext(), Utils.URL_CHAT, body, new APICallBack() {
+                    @Override
+                    public void onSuccess(JSONObject response) throws JSONException {
+
+//                        Log.d("1234",response.toString());
+
+                        Message message = new Message();
+                        message.setSenter(false);
+                        message.setText(edtChat.getText().toString());
+                        message.setImage_product("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
+                        message.setProduct_name("Giày đá bóng");
+
+                        messageList.add(message);
+                        messageAdapter = new MessageAdapter(getContext(), messageList);
+                        messagesListView.setAdapter(messageAdapter);
+                        messageAdapter.notifyDataSetChanged();
+
+                        // Scroll to the last item
+                        messagesListView.setSelection(messageAdapter.getCount() - 1);
+                        edtChat.getText().clear();
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+
+                    }
+                });
+            }
+
+
         });
 
         dialog.show();
 
 
-
     }
 
-    private void startAutoScroll() {
+    private void clickItemProduct(ListView listView){
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+//                Log.d("nam",  messageList.get(i).getProduct_name());
+                if (messageList.get(i).getProduct_name()!="" && messageList.get(i).getProduct_name()!=null ){
+                    Intent intent = new Intent(getActivity(), ProductDetail.class);
+                    intent.putExtra("idProduct","1");
+//                OrderItem.isChose = true;
+//                intent.putExtra("tongTien",tongTien.getText().toString());
+                    getActivity().startActivity(intent);
+                }
+
+
+
+
+            }
+        });
 
     }
 

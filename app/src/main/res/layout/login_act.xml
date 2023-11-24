@@ -65,36 +65,21 @@
         android:background="@drawable/background_bule">
 
 
-        <!--        <TextView-->
-        <!--            android:gravity="left|center"-->
-        <!--            android:background="@android:color/transparent"-->
-        <!--            android:layout_marginEnd="20dp"-->
-        <!--            android:layout_marginStart="20dp"-->
-        <!--            android:hint="Mật khẩu"-->
-        <!--            android:maxLines="1"-->
-        <!--            android:inputType="textPassword"-->
-        <!--            android:textSize="16sp"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
-
-        <!--        </TextView>-->
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_height="match_parent"
             app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/login_password"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:drawablePadding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:hint="Mật khẩu"
                 android:inputType="textPassword"
-                android:padding="@dimen/_7sdp"
+
                 android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp" />

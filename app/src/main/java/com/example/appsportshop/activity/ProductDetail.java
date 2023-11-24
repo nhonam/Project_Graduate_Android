@@ -75,7 +75,7 @@ public class ProductDetail extends AppCompatActivity {
 
         String id = getIntent().getStringExtra("idProduct");
 
-        Log.d("data123", id);
+//        Log.d("data123", id);
 //        System.out.println(id+"dã lấy đc ở product detail");
         try {
             ProductAPI.getProductByid(ProductDetail.this, Utils.BASE_URL + "product/one/" + id, new APICallBack() {

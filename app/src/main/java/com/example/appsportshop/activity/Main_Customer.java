@@ -53,7 +53,7 @@ public class Main_Customer extends AppCompatActivity {
         // mở lên sẽ vào fragHome();
 
         //lấy fcm token kiểm tra nếu có rồi thì bỏ qua, nếu chưa có thì lwuu vô databas
-        Log.d("123","123");
+//        Log.d("123","123");
 
         if (ReadPassWord()){
             try {
@@ -61,17 +61,33 @@ public class Main_Customer extends AppCompatActivity {
 //                Update_Profile
                 if(isLogin)
                     APILoginDefault();
-                FragHome.isDispHomeCustommer = false;
-                fragHome = new FragHome();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(
-                                R.anim.fade_out,  // enter
-                                R.anim.slide_out_left  // exit
-                        )
-                        .replace(R.id.content_main, fragHome)
-                        .commit();
-                loadingFragment();
+                if (FragProfile.isDisplay==true){
+                    loadingFragment();
+//                    FragProfile.isDisplay=true;
+//                    fragProfile= new FragProfile();
+//
+//                    getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .setCustomAnimations(
+//                                    R.anim.fade_out,  // enter
+//                                    R.anim.slide_in  // exit
+//                            )
+//                            .replace(R.id.content_main, fragProfile)
+//                            .commit();
+                }else {
+                    FragHome.isDispHomeCustommer = false;
+                    fragHome = new FragHome();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setCustomAnimations(
+                                    R.anim.fade_out,  // enter
+                                    R.anim.slide_out_left  // exit
+                            )
+                            .replace(R.id.content_main, fragHome)
+                            .commit();
+                    loadingFragment();
+                }
+
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
