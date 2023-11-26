@@ -35,7 +35,6 @@ import com.example.appsportshop.zalo.Api.CreateOrder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import java.util.ArrayList;
 
 import vn.zalopay.sdk.ZaloPayError;
@@ -50,6 +49,8 @@ public class  ZaloPay extends AppCompatActivity {
     EditText txtAmount;
     ArrayList<Cart> listProductPayment;
     String tongtien;
+
+
 
     private void BindView() {
 //        txtToken = findViewById(R.id.txtToken);
@@ -117,7 +118,8 @@ public class  ZaloPay extends AppCompatActivity {
 
                 System.out.println(" -------------------o zalopay"+ tongtien);
                 try {
-                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim().replace(".",""));
+                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim().replace(".",""),
+                          singletonUser.getUserName(),singletonUser.getPhone(),singletonUser.getAdress() );
                     Log.d("Amount", txtAmount.getText().toString().trim().replace(".",""));
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");

@@ -23,14 +23,18 @@ public class CreateOrder {
         String BankCode;
         String Description;
         String Mac;
+        String Phone;
+        String Address;
 
-        private CreateOrderData(String amount) throws Exception {
+        private CreateOrderData(String amount, String appUser, String phone, String address) throws Exception {
             long appTime = new Date().getTime();
             AppId = String.valueOf(AppInfo.APP_ID);
-            AppUser = "Android_Demo";
+            AppUser = appUser;
             AppTime = String.valueOf(appTime);
             Amount = amount;
             AppTransId = Helpers.getAppTransId();
+            Phone = phone;
+            Address = address;
             EmbedData = "{}";
             Items = "[]";
             BankCode = "zalopayapp";
@@ -48,8 +52,8 @@ public class CreateOrder {
         }
     }
 
-     public JSONObject createOrder(String amount) throws Exception {
-        CreateOrderData input = new CreateOrderData(amount);
+     public JSONObject createOrder(String amount, String userName, String phone, String adress ) throws Exception {
+        CreateOrderData input = new CreateOrderData(amount,userName,phone,adress);
 
         RequestBody formBody = new FormBody.Builder()
                 .add("app_id", input.AppId)
@@ -62,6 +66,8 @@ public class CreateOrder {
                 .add("bank_code", input.BankCode)
                 .add("description", input.Description)
                 .add("mac", input.Mac)
+                .add("phone", input.Phone)
+                .add("address", input.Address)
                 .build();
 
         JSONObject data = HttpProvider.sendPost(AppInfo.URL_CREATE_ORDER, formBody);
