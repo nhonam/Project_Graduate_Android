@@ -58,6 +58,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/img_ProductDetail"
                 android:layout_marginLeft="60dp"
@@ -83,6 +84,7 @@
 
 
                 <LinearLayout
+                    android:orientation="vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -95,15 +97,24 @@
                         android:layout_height="match_parent"
                         />
 
+                    <TextView
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:text="Số lượng sản phẩm đã bán : 40"
+                        android:id="@+id/quanti_sold"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="10dp" />
+
+
+
+
                 </LinearLayout>
 
                 <TextView
-                    android:layout_marginLeft="10dp"
                     android:text="Hãng có sẵn giá cả hợp lí chất lượng tốt"
-
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="10dp" />
+                    android:textSize="@dimen/_10sdp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -300,10 +311,13 @@
 
             <TextView
                 android:layout_marginTop="10dp"
+                android:id="@+id/evaluate_detail"
                 style="@style/TextAppearance.AppCompat.Large"
                 android:text="Đánh giá về sản phẩm :"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+
 
 <!--            nhận xét đánh giá sản phẩm -->
 
@@ -311,6 +325,8 @@
                 android:background="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"></View>
+
+
 
             <ListView
                 android:id="@+id/lv_eval"

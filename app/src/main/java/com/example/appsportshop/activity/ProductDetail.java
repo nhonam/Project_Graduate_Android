@@ -45,7 +45,8 @@ public class ProductDetail extends AppCompatActivity {
     //sản phẩm người dùng mua kjhi bấm nút mua
     public static Cart Product_bought = null;
     ImageView Img_ProductDetail, btnBackHome, btnCart;
-    TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail,tvsupplier, tvactivity,tvenvironment,tvbrand,tvunit ;
+    TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail,tvsupplier, tvactivity,tvenvironment,tvbrand,tvunit,
+    tvQuantiSold, evaluate_detail;
     TextView addCart,btnBuyProduct;
     ListView lvEval;
 
@@ -59,7 +60,7 @@ public class ProductDetail extends AppCompatActivity {
     int quantiCart = 0;
 
 
-    String category,supplier,activity,environment,brand,unit;
+    String category,supplier,activity,environment,brand,unit, quantiSold;
 
 
     @Override
@@ -101,6 +102,7 @@ public class ProductDetail extends AppCompatActivity {
                      environment ="Môi trường : " +productObj.getJSONObject("environment").getString("environment_name");
                      brand = "Thương hiệu : " +productObj.getJSONObject("brand").getString("brandName");
                      unit ="Đơn vị : " + productObj.getJSONObject("unit").getString("unitName");
+                     quantiSold ="Số lượng sản phẩm đã bán : " + data.getLong("quanti_sold");
 
 
 
@@ -149,10 +151,14 @@ public class ProductDetail extends AppCompatActivity {
                     evaluateTmp.setImage_url(itemObj.getString("avatar_url"));
                     evaluateTmp.setProductName(itemObj.getString("product_name"));
                     listEval.add(evaluateTmp);
-
                 }
-                evaluateAdapter = new EvaluateAdapter(getApplicationContext(), R.layout.row_evaluate, listEval);
-                lvEval.setAdapter(evaluateAdapter);
+                if (listEval.isEmpty()){
+                    evaluate_detail.setText("Chưa có đánh giá nào");
+                }else {
+                    evaluateAdapter = new EvaluateAdapter(getApplicationContext(), R.layout.row_evaluate, listEval);
+                    lvEval.setAdapter(evaluateAdapter);
+                }
+
 
 
 
@@ -185,6 +191,7 @@ public class ProductDetail extends AppCompatActivity {
         tvenvironment.setText(environment);
         tvbrand.setText(brand);
         tvactivity.setText(activity);
+        tvQuantiSold.setText(quantiSold);
 
 //        priceProductDeltail.setText(String.format("%.0f", product.getPrice()) +" VND");
 
@@ -401,6 +408,7 @@ public class ProductDetail extends AppCompatActivity {
         addCart = findViewById(R.id.addCart);
         btnBackHome = findViewById(R.id.back_Productdetail);
         btnCart = findViewById(R.id.cart_Productdetail);
+        tvQuantiSold = findViewById(R.id.quanti_sold);
 
         tvbrand = findViewById(R.id.brand);
         tvactivity = findViewById(R.id.activity);
@@ -409,7 +417,6 @@ public class ProductDetail extends AppCompatActivity {
         tvsupplier = findViewById(R.id.supplier);
         btnBuyProduct = findViewById(R.id.buy_product);
         lvEval = findViewById(R.id.lv_eval);
-
-
+        evaluate_detail = findViewById(R.id.evaluate_detail);
     }
 }
