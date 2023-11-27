@@ -327,11 +327,17 @@
                 android:layout_height="@dimen/_1sdp"></View>
 
 
-
-            <ListView
-                android:id="@+id/lv_eval"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="@dimen/_300sdp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/lv_eval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
 
 
 

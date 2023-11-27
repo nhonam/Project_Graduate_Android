@@ -10,42 +10,36 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.model.Evaluate;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EvaluateAdapter extends ArrayAdapter<Evaluate> {
+public class EvaluateAdapter extends RecyclerView.Adapter<EvaluateAdapter.ViewHolder> {
     Context myContext;
     int myLayout;
 
 
-    ArrayList<Evaluate> listCart;
-
-
-    public EvaluateAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Evaluate> listCart) {
-        super(context, resource, listCart);
-        this.myContext = context;
-        this.myLayout = resource;
-        this.listCart = listCart;
+    List<Evaluate> dataList;
+    public EvaluateAdapter(List<Evaluate> dataList) {
+        this.dataList =  dataList;
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_evaluate, parent, false);
+        return new ViewHolder(view);
+    }
 
     @Override
-    public View getView(int i, @Nullable View view, @NonNull ViewGroup viewGroup) {
-
-
-        ViewHolder viewHolder = null;
-        if (view == null) {
-            view = LayoutInflater.from(myContext).inflate(myLayout, null);
-            viewHolder = new ViewHolder(view);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-
-        Evaluate cart = listCart.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        Evaluate cart = dataList.get(position);
 //        System.out.println(cart.getQuantity()+"nânnanana");
 
 
@@ -59,12 +53,15 @@ public class EvaluateAdapter extends ArrayAdapter<Evaluate> {
                 .load(cart.getImage_url())
                 .error(R.drawable.avatar_use_default)
                 .into(viewHolder.ImageUser);
+    }
 
-        return view;
+    @Override
+    public int getItemCount() {
+        return dataList.size();
     }
 
 
-    private class ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtUser, cmt;
 
@@ -74,6 +71,7 @@ public class EvaluateAdapter extends ArrayAdapter<Evaluate> {
 
 
         public ViewHolder(View view) {
+            super(view);
             txtUser = view.findViewById(R.id.name_user_eval);
             cmt = view.findViewById(R.id.cmt_eval);
             ratingBar = view.findViewById(R.id.rating_eval);

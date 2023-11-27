@@ -119,7 +119,7 @@ public class Register extends AppCompatActivity {
     }
 
     private Boolean CheckRepassWord() {
-        if (password.equals(repassword))
+        if (password.equals(repassword) && password!="")
             return true;
         return false;
     }
