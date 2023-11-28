@@ -1,10 +1,12 @@
 package com.example.appsportshop.fragment.Employee;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -14,9 +16,12 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ManagerProductDetail;
+import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.ProductManagerAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.ProductAPI;
+import com.example.appsportshop.api.UserAPI;
+import com.example.appsportshop.model.OrderItem;
 import com.example.appsportshop.model.Product;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
@@ -26,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FragCheckProduct extends Fragment {
     JSONArray listProduct = new JSONArray();
@@ -34,14 +40,7 @@ public class FragCheckProduct extends Fragment {
 
     private ProductManagerAdapter productManagerAdapter;
 
-    Button btnAddProduct;
-
     SearchView searchView;
-
-    SingletonUser singletonUser = SingletonUser.getInstance();
-
-    public static Boolean isDisplayManagerProd = false;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,15 +101,6 @@ public class FragCheckProduct extends Fragment {
         listViewProduct.setAdapter(productManagerAdapter);
 
 
-//        listViewProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                positionCurrent = i;
-//                product = ProductList.get(i);
-//            }
-//        });
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -144,8 +134,9 @@ public class FragCheckProduct extends Fragment {
         listViewProduct = view.findViewById(R.id.listviewManagerProduct);
         searchView = view.findViewById(R.id.seacrch_SV);
         searchView.setQueryHint("Nhập vào tên sản phẩm để tìm kiếm");
-
-
     }
+
+
+
 
 }

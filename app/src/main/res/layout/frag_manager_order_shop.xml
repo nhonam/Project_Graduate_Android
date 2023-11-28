@@ -6,7 +6,6 @@
 
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:id="@+id/manager"
         android:layout_width="match_parent"
@@ -23,6 +22,50 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:inputType="none"
+            android:focusable="false"
+            android:drawableLeft="@drawable/ic_date"
+            android:id="@+id/start_date"
+            android:hint="Từ ngày"
+            android:maxLines="1"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/bg_edt"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"/>
+        <EditText
+            android:inputType="none"
+            android:focusable="false"
+            android:drawableLeft="@drawable/ic_date"
+            android:id="@+id/end_date"
+            android:hint="Đến ngày"
+            android:maxLines="1"
+            android:drawablePadding="10dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/bg_edt"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"/>
+
+        <ImageView
+            android:id="@+id/ic_find"
+            android:src="@drawable/ic_find"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"/>
+    </LinearLayout>
+
 
 
     <SearchView
@@ -32,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/manager"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:background="#CAC4C4" />
 
 <!--    <RelativeLayout-->
@@ -41,7 +84,7 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent">-->
         <ListView
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="@dimen/_90sdp"
             android:id="@+id/listviewManagerOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

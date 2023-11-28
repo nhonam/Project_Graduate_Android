@@ -19,6 +19,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/image_product"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"/>
+
 
 
             <LinearLayout

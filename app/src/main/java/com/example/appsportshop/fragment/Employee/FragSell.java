@@ -123,103 +123,103 @@ public class FragSell extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Order
-                try {
-                    popup(listOrder.get(i).getId());
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+//                try {
+//                    popup(listOrder.get(i).getId());
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
             }
         });
 
 
     }
 
-    private void popup(String idOrder) throws JSONException {
-        Dialog dialog = new Dialog(getContext());
-        //
-        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/export-bill/"+idOrder, new APICallBack() {
-            @Override
-            public void onSuccess(JSONObject response) throws JSONException {
-                JSONArray jsonArray = response.getJSONArray("data");
-                HoaDon hoaDon;
-                hoaDonList = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject tmp = (JSONObject) jsonArray.get(i);
-                    hoaDon = new HoaDon();
-                    hoaDon.setId_Order(tmp.getString("id_Order"));
-                    hoaDon.setPrice(Float.parseFloat(tmp.getString("price")));
-                    hoaDon.setShippingAdress(tmp.getString("shipping_adress"));
-                    hoaDon.setSdt(tmp.getString("sdt"));
-                    hoaDon.setNameReciver(tmp.getString("name_reciver"));
-                    hoaDon.setProductName(tmp.getString("product_name"));
-                    hoaDon.setQuantity(Long.parseLong(tmp.getString("quantity")));
-                    hoaDonList.add(hoaDon);
-                }
-                dialog.setContentView(R.layout.order_item_list);
-                ListView listView = dialog.findViewById(R.id.listview_itemorder);
-                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(getContext(), R.layout.row_item_order, (ArrayList<HoaDon>) hoaDonList);
-                listView.setAdapter(orderAdminAdapter);
-
-                Button confirm = dialog.findViewById(R.id.confirm);
-                Button cancelOrder = dialog.findViewById(R.id.cancelOrder);
-
-                cancelOrder.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/delete-order/" + idOrder, new APICallBack() {
-                                @Override
-                                public void onSuccess(JSONObject response) throws JSONException {
-                                    if (response.getLong("data") == 1) {
-                                        dialog.dismiss();
-
-
-                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-
-
-                                    }else {
-                                        dialog.dismiss();
-                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-
-                                    }
-
-                                }
-
-                                @Override
-                                public void onError(VolleyError error) {
-    //                            CustomToast.makeText(myContext, "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-                                    dialog.dismiss();
-
-                                }
-                            });
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                        dialog.dismiss();
-                    }
-                });
-
-                confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            ApiConfirmDonHang(idOrder);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-
-    }
+//    private void popup(String idOrder) throws JSONException {
+//        Dialog dialog = new Dialog(getContext());
+//        //
+//        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/export-bill/"+idOrder, new APICallBack() {
+//            @Override
+//            public void onSuccess(JSONObject response) throws JSONException {
+//                JSONArray jsonArray = response.getJSONArray("data");
+//                HoaDon hoaDon;
+//                hoaDonList = new ArrayList<>();
+//                for (int i = 0; i < jsonArray.length(); i++) {
+//                    JSONObject tmp = (JSONObject) jsonArray.get(i);
+//                    hoaDon = new HoaDon();
+//                    hoaDon.setId_Order(tmp.getString("id_Order"));
+//                    hoaDon.setPrice(Float.parseFloat(tmp.getString("price")));
+//                    hoaDon.setShippingAdress(tmp.getString("shipping_adress"));
+//                    hoaDon.setSdt(tmp.getString("sdt"));
+//                    hoaDon.setNameReciver(tmp.getString("name_reciver"));
+//                    hoaDon.setProductName(tmp.getString("product_name"));
+//                    hoaDon.setQuantity(Long.parseLong(tmp.getString("quantity")));
+//                    hoaDonList.add(hoaDon);
+//                }
+//                dialog.setContentView(R.layout.order_item_list);
+//                ListView listView = dialog.findViewById(R.id.listview_itemorder);
+//                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(getContext(), R.layout.row_item_order, (ArrayList<HoaDon>) hoaDonList);
+//                listView.setAdapter(orderAdminAdapter);
+//
+//                Button confirm = dialog.findViewById(R.id.confirm);
+//                Button cancelOrder = dialog.findViewById(R.id.cancelOrder);
+//
+//                cancelOrder.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/delete-order/" + idOrder, new APICallBack() {
+//                                @Override
+//                                public void onSuccess(JSONObject response) throws JSONException {
+//                                    if (response.getLong("data") == 1) {
+//                                        dialog.dismiss();
+//
+//
+//                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+//
+//
+//                                    }else {
+//                                        dialog.dismiss();
+//                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+//
+//                                    }
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(VolleyError error) {
+//    //                            CustomToast.makeText(myContext, "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+//                                    dialog.dismiss();
+//
+//                                }
+//                            });
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                confirm.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        try {
+//                            ApiConfirmDonHang(idOrder);
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
+//                        dialog.dismiss();
+//                    }
+//                });
+//                dialog.show();
+//            }
+//
+//            @Override
+//            public void onError(VolleyError error) {
+//
+//            }
+//        });
+//
+//    }
 
     private void ApiConfirmDonHang(String idOrder) throws JSONException {
         JSONObject postData = new JSONObject();

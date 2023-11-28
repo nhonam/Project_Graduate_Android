@@ -43,37 +43,37 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
         } else {
             viewHolder = (OrderAdminAdapter.ViewHolder) convertView.getTag();
         }
+
         Order order = data.get(position);
+
         viewHolder.tvIdOder.setText(order.getId());
         viewHolder.tvNameReciver.setText(order.getName_ceciver());
         viewHolder.tvdayOrder.setText(String.valueOf(order.getOrderDate()));
-        viewHolder.tvStatusOrder.setText(order.getIdOderStatus());
         viewHolder.tvphoneRiciver.setText(String.valueOf(order.getPhoneNumber()));
 
-        int idOderStatus = Integer.parseInt(order.getIdOderStatus());
+        int idOderStatus =  Integer.parseInt(order.getIdOderStatus());
 
         if (idOderStatus==1){
-            Log.d("namm", String.valueOf(idOderStatus));
             viewHolder.proccess_status.setVisibility(View.VISIBLE);
 
         }
-//        else   viewHolder.proccess_status.setVisibility(View.GONE);
-//
-//        if (idOderStatus==2){
-//            viewHolder.comfirm.setVisibility(View.VISIBLE);
-//        }else viewHolder.comfirm.setVisibility(View.GONE);
-//
-//        if (idOderStatus==3){
-//            viewHolder.shipping.setVisibility(View.VISIBLE);
-//        }else viewHolder.shipping.setVisibility(View.GONE);
-//
-//        if (idOderStatus==4){
-//            viewHolder.shipped.setVisibility(View.VISIBLE);
-//        }else  viewHolder.shipped.setVisibility(View.GONE);
-//
-//        if (idOderStatus==5){
-//            viewHolder.cancel.setVisibility(View.VISIBLE);
-//        }else  viewHolder.cancel.setVisibility(View.GONE);
+        else   viewHolder.proccess_status.setVisibility(View.GONE);
+
+        if (idOderStatus==2){
+            viewHolder.comfirm.setVisibility(View.VISIBLE);
+        }else viewHolder.comfirm.setVisibility(View.GONE);
+
+        if (idOderStatus==3){
+            viewHolder.shipping.setVisibility(View.VISIBLE);
+        }else viewHolder.shipping.setVisibility(View.GONE);
+
+        if (idOderStatus==4){
+            viewHolder.shipped.setVisibility(View.VISIBLE);
+        }else  viewHolder.shipped.setVisibility(View.GONE);
+
+        if (idOderStatus==5){
+            viewHolder.cancel.setVisibility(View.VISIBLE);
+        }else  viewHolder.cancel.setVisibility(View.GONE);
 
 
         return convertView;
@@ -118,7 +118,7 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
 
     private class ViewHolder {
 
-        TextView tvIdOder, tvNameReciver, tvshippingAdress, tvphoneRiciver, tvdayOrder, tvStatusOrder;
+        TextView tvIdOder, tvNameReciver, tvshippingAdress, tvphoneRiciver, tvdayOrder;
 
 
         View proccess_status, comfirm, shipping, shipped, cancel;
@@ -130,12 +130,6 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
             tvphoneRiciver = view.findViewById(R.id.phoneRiciver);
             tvdayOrder = view.findViewById(R.id.orderDate);
 
-
-            proccess_status = view.findViewById(R.id.proccess_status);
-            comfirm = view.findViewById(R.id.confirm_status);
-            shipping = view.findViewById(R.id.shipping_status);
-            shipped = view.findViewById(R.id.shipped_status);
-            cancel = view.findViewById(R.id.cancel_status);
 
 
             proccess_status = view.findViewById(R.id.proccess_status_empl);
