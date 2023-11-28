@@ -409,6 +409,9 @@ public class Login extends AppCompatActivity {
 
     void getFCMtoken(long idUser){
         FirebaseApp.initializeApp(this);
+//        FirebaseApp.getInstance().delete();
+
+
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
 
             if (task.isSuccessful()){

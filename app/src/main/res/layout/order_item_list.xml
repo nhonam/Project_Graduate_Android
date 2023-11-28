@@ -31,7 +31,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="24dp">
+            android:layout_marginTop="@dimen/_20sdp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_20sdp">
+                <TextView
+                    style="@style/textNormal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chuyển trạng thái sản phẩm: "/>
+                <Spinner
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/order_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+
+            </LinearLayout>
+
+
 
 
             <Button
@@ -49,6 +69,8 @@
                 android:text="Hủy Đơn Hàng"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="0.5"/>
+
+
 
         </LinearLayout>
 

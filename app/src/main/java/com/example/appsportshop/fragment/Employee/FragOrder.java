@@ -56,7 +56,7 @@ public class FragOrder extends Fragment {
     }
 
     private void getListOrderConfimed() throws JSONException {
-        UserAPI.ApiGet(getContext(), Utils.BASE_URL+"order/done-confirm", new APICallBack() {
+        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/all", new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONArray dataArr = (JSONArray) response.get("data");
@@ -66,23 +66,16 @@ public class FragOrder extends Fragment {
                 for (int i = 0; i < dataArr.length(); i++) {
                     Order orderTmp = new Order();
                     data = (JSONObject) dataArr.get(i);
-                        orderTmp.setId(data.getString("id"));
-                        orderTmp.setOrderDate(data.getString("orderDate"));
-                    orderTmp.setTotalAmount(Float.parseFloat(data.getString("totalAmount")));
-                        orderTmp.setName_ceciver(data.getString("name_reciver"));
-                        orderTmp.setShippingAdress(data.getString("shippingAdress"));
-                        orderTmp.setPhoneNumber(data.getString("sdt"));
-                        JSONObject tmp= (JSONObject) data.get("orderStatus");
-                        orderTmp.setIdOderStatus(tmp.getString("orderStatusName"));
-
-
+                    orderTmp.setId(data.getString("id"));
+                    orderTmp.setOrderDate(data.getString("orderDate"));
+                    orderTmp.setName_ceciver(data.getString("name_reciver"));
+                    orderTmp.setShippingAdress(data.getString("shippingAdress"));
+                    orderTmp.setPhoneNumber(data.getString("sdt"));
+                    JSONObject tmp = (JSONObject) data.get("orderStatus");
+                    orderTmp.setIdOderStatus(tmp.getString("id"));
                     listOrder.add(orderTmp);
 
                 }
-//                System.out.println("================");
-//                System.out.println(listOrder.get(0).getId());
-//                System.out.println(listOrder.get(1).getId());
-//                System.out.println("================");
                 setEvent();
             }
 
@@ -100,7 +93,7 @@ public class FragOrder extends Fragment {
     }
 
     private void setEvent() {
-        FragSell.isSell= false;
+        FragSell.isSell = false;
         orderAdminAdapter = new OrderAdminAdapter(getContext(), R.layout.row_manager_order, listOrder);
 //        System.out.println(orderAdapter);
         listViewOrder.setAdapter(orderAdminAdapter);
@@ -123,7 +116,7 @@ public class FragOrder extends Fragment {
 
         Dialog dialog = new Dialog(getContext());
         //
-        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/export-bill/"+idOrder, new APICallBack() {
+        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/export-bill/" + idOrder, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONArray jsonArray = response.getJSONArray("data");
@@ -134,7 +127,7 @@ public class FragOrder extends Fragment {
                     hoaDon = new HoaDon();
                     hoaDon.setId_Order(tmp.getString("id_Order"));
                     hoaDon.setPrice(Float.parseFloat(tmp.getString("price")));
-                    hoaDon.setShippingAdress(tmp.getString("shipping_adress"));
+                    hoaDon.setShippingAdress(tmp.getString("shippingAdress"));
                     hoaDon.setSdt(tmp.getString("sdt"));
                     hoaDon.setNameReciver(tmp.getString("name_reciver"));
                     hoaDon.setProductName(tmp.getString("product_name"));
@@ -148,6 +141,10 @@ public class FragOrder extends Fragment {
 
                 Button confirm = dialog.findViewById(R.id.confirm);
                 confirm.setText("THOÁT");
+
+
+
+
 
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override

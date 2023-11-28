@@ -1,6 +1,7 @@
 package com.example.appsportshop.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,32 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
         viewHolder.tvStatusOrder.setText(order.getIdOderStatus());
         viewHolder.tvphoneRiciver.setText(String.valueOf(order.getPhoneNumber()));
 
+        int idOderStatus = Integer.parseInt(order.getIdOderStatus());
+
+        if (idOderStatus==1){
+            Log.d("namm", String.valueOf(idOderStatus));
+            viewHolder.proccess_status.setVisibility(View.VISIBLE);
+
+        }
+//        else   viewHolder.proccess_status.setVisibility(View.GONE);
+//
+//        if (idOderStatus==2){
+//            viewHolder.comfirm.setVisibility(View.VISIBLE);
+//        }else viewHolder.comfirm.setVisibility(View.GONE);
+//
+//        if (idOderStatus==3){
+//            viewHolder.shipping.setVisibility(View.VISIBLE);
+//        }else viewHolder.shipping.setVisibility(View.GONE);
+//
+//        if (idOderStatus==4){
+//            viewHolder.shipped.setVisibility(View.VISIBLE);
+//        }else  viewHolder.shipped.setVisibility(View.GONE);
+//
+//        if (idOderStatus==5){
+//            viewHolder.cancel.setVisibility(View.VISIBLE);
+//        }else  viewHolder.cancel.setVisibility(View.GONE);
+
+
         return convertView;
 
     }
@@ -92,6 +119,8 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
     private class ViewHolder {
 
         TextView tvIdOder, tvNameReciver, tvshippingAdress, tvphoneRiciver, tvdayOrder, tvStatusOrder;
+
+        View proccess_status, comfirm, shipping, shipped, cancel;
         public ViewHolder(View view) {
             tvIdOder = view.findViewById(R.id.idOrder);
             tvNameReciver = view.findViewById(R.id.name_reciver);
@@ -99,6 +128,13 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
             tvphoneRiciver = view.findViewById(R.id.phoneRiciver);
             tvdayOrder = view.findViewById(R.id.orderDate);
             tvStatusOrder = view.findViewById(R.id.status);
+
+
+            proccess_status = view.findViewById(R.id.proccess_status_empl);
+            comfirm = view.findViewById(R.id.confirm_status_empl);
+            shipping = view.findViewById(R.id.shipping_status_empl);
+            shipped = view.findViewById(R.id.shipped_status_empl);
+            cancel = view.findViewById(R.id.cancel_status_empl);
 
 
 

@@ -48,6 +48,7 @@ public class Main_Customer extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.main_layout);
+
 //        LoadDataInLocal();
 
         // mở lên sẽ vào fragHome();

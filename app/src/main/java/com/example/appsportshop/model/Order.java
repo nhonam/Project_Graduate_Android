@@ -3,17 +3,24 @@ package com.example.appsportshop.model;
 public class Order {
     String id;
     String orderDate;
+    String paymentDate;
     String shippingAdress;
     String shippingDate;
-    float totalAmount;
     String idCustomer;
     String idOderStatus;
-    String idShippingMethod;
     String name_ceciver;
     String phoneNumber;
 
     public Order() {
 
+    }
+
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
     public String getId() {
@@ -48,13 +55,6 @@ public class Order {
         this.shippingDate = shippingDate;
     }
 
-    public float getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(float totalAmount) {
-        this.totalAmount = totalAmount;
-    }
 
     public String getIdCustomer() {
         return idCustomer;
@@ -72,13 +72,6 @@ public class Order {
         this.idOderStatus = idOderStatus;
     }
 
-    public String getIdShippingMethod() {
-        return idShippingMethod;
-    }
-
-    public void setIdShippingMethod(String idShippingMethod) {
-        this.idShippingMethod = idShippingMethod;
-    }
 
     public String getName_ceciver() {
         return name_ceciver;

@@ -82,10 +82,10 @@ public class FragSell extends Fragment {
                     data = (JSONObject) dataArr.get(i);
                     orderTmp.setId(data.getString("id"));
                     orderTmp.setOrderDate(data.getString("orderDate"));
-                    if (data.getString("totalAmount").equalsIgnoreCase("null"))
-                        orderTmp.setTotalAmount(0);
-                    else
-                        orderTmp.setTotalAmount(Float.parseFloat(data.getString("totalAmount")));
+//                    if (data.getString("totalAmount").equalsIgnoreCase("null"))
+//                        orderTmp.setTotalAmount(0);
+//                    else
+//                        orderTmp.setTotalAmount(Float.parseFloat(data.getString("totalAmount")));
                     orderTmp.setName_ceciver(data.getString("name_reciver"));
                     orderTmp.setShippingAdress(data.getString("shippingAdress"));
                     orderTmp.setPhoneNumber(data.getString("sdt"));

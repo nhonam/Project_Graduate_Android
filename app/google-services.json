@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "988486783684",
-    "project_id": "sportapp-20cad",
-    "storage_bucket": "sportapp-20cad.appspot.com"
+    "project_number": "771335044483",
+    "project_id": "appshop-94c3a",
+    "storage_bucket": "appshop-94c3a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:988486783684:android:15170086454495dff6ef91",
+        "mobilesdk_app_id": "1:771335044483:android:c057135823772b9a6dcab6",
         "android_client_info": {
           "package_name": "com.example.appsportshop"
         }
@@ -15,26 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyASP4CXXHyTcznp2htecQS2N6ItZeKjDwk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:988486783684:android:61785172243d6825f6ef91",
-        "android_client_info": {
-          "package_name": "com.example.appsportshop.activity"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyASP4CXXHyTcznp2htecQS2N6ItZeKjDwk"
+          "current_key": "AIzaSyAox69a5QojweAA0wXj9vKegnnsz8kxYyE"
         }
       ],
       "services": {
