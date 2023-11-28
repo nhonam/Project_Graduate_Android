@@ -91,12 +91,8 @@ public class Update_Profile extends AppCompatActivity {
         tvPhone = findViewById(R.id.phoneUpdate);
         btnBack = findViewById(R.id.btnBack);
         tvPhone.setInputType(InputType.TYPE_CLASS_NUMBER);
-
         imgProfile = findViewById(R.id.img_profile_avatar);
         tvChangAvt = findViewById(R.id.txt_profile_btn_change_avatar);
-
-        Log.d("sing", singletonUser.getRole());
-
         btnSave = findViewById(R.id.btnSaveProfile);
 
     }

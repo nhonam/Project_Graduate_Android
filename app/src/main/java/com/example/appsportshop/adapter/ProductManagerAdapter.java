@@ -34,6 +34,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ProductManagerAdapter extends ArrayAdapter<Product> implements Filterable {
@@ -41,6 +42,8 @@ public class ProductManagerAdapter extends ArrayAdapter<Product> implements Filt
     int myLayout;
     ArrayList<Product> data;
     ArrayList<Product> data_tmp;
+
+    DecimalFormat formatter = new DecimalFormat("#,###");
 
     public ProductManagerAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Product> listProduct) {
         super(context, resource, listProduct);
@@ -67,7 +70,9 @@ public class ProductManagerAdapter extends ArrayAdapter<Product> implements Filt
 
         viewHorder.txtquantity.setText(String.valueOf(pd.getStockQuantity()));
 //        viewHorder.txtPrice.setText(String.valueOf(pd.getPrice()));
-        viewHorder.txtPrice.setText(String.format("%.0f", pd.getPrice()));
+
+        String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", pd.getPrice())));
+        viewHorder.txtPrice.setText(formattedValue +" VNĐ");
 
         viewHorder.txtDescription.setText(pd.getDescription());
         Glide.with(getContext()).load(pd.getUrlImage()).into(viewHorder.imageView);

@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.fragment.Customer.FragProfile;
+import com.example.appsportshop.fragment.Employee.FragCheckProduct;
 import com.example.appsportshop.fragment.Employee.FragOrder;
 import com.example.appsportshop.fragment.Employee.FragSell;
 import com.example.appsportshop.utils.SingletonUser;
@@ -112,10 +113,19 @@ public class MainEmployee extends AppCompatActivity {
                                 .commit();
 
                         break;
+
+
+                    case R.id.mn_product:
+                        FragCheckProduct fragCheckProduct = new FragCheckProduct();
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.NoiDung,fragCheckProduct)
+                                .commit();
+
+                        break;
 //
 //
                     case R.id.mn_Exit:
-                        item.setChecked(true);
                         SharedPreferences settings = getApplicationContext().getSharedPreferences("matkhau", Context.MODE_PRIVATE);
                         settings.edit().clear().commit();
 //                        Toast.makeText(ManagerShop.this, "Cài đặt", Toast.LENGTH_SHORT).show();

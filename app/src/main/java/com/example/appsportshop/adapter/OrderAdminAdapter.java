@@ -120,14 +120,22 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
 
         TextView tvIdOder, tvNameReciver, tvshippingAdress, tvphoneRiciver, tvdayOrder, tvStatusOrder;
 
+
         View proccess_status, comfirm, shipping, shipped, cancel;
+
         public ViewHolder(View view) {
             tvIdOder = view.findViewById(R.id.idOrder);
             tvNameReciver = view.findViewById(R.id.name_reciver);
             tvshippingAdress = view.findViewById(R.id.shipAdrees);
             tvphoneRiciver = view.findViewById(R.id.phoneRiciver);
             tvdayOrder = view.findViewById(R.id.orderDate);
-            tvStatusOrder = view.findViewById(R.id.status);
+
+
+            proccess_status = view.findViewById(R.id.proccess_status);
+            comfirm = view.findViewById(R.id.confirm_status);
+            shipping = view.findViewById(R.id.shipping_status);
+            shipped = view.findViewById(R.id.shipped_status);
+            cancel = view.findViewById(R.id.cancel_status);
 
 
             proccess_status = view.findViewById(R.id.proccess_status_empl);

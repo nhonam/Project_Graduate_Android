@@ -1,14 +1,11 @@
-package com.example.appsportshop.fragment.Admin;
-// cuối kỳ
+package com.example.appsportshop.fragment.Employee;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -20,12 +17,9 @@ import com.example.appsportshop.activity.ManagerProductDetail;
 import com.example.appsportshop.adapter.ProductManagerAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.ProductAPI;
-import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.model.Product;
-import com.example.appsportshop.model.User;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,26 +27,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FragManagerProduct extends Fragment {
-
+public class FragCheckProduct extends Fragment {
     JSONArray listProduct = new JSONArray();
     ListView listViewProduct;
     ArrayList<Product> ProductList ;
 
     private ProductManagerAdapter productManagerAdapter;
 
-//    Button btnAddProduct;
+    Button btnAddProduct;
 
     SearchView searchView;
 
     SingletonUser singletonUser = SingletonUser.getInstance();
 
     public static Boolean isDisplayManagerProd = false;
-
-
-
-
-
 
 
     @Override
@@ -108,6 +96,7 @@ public class FragManagerProduct extends Fragment {
         return view;
     }
 
+
     private void setEvent() {
         productManagerAdapter = new ProductManagerAdapter(getContext(), R.layout.row_manager_product1, ProductList);
         listViewProduct.setAdapter(productManagerAdapter);
@@ -121,15 +110,7 @@ public class FragManagerProduct extends Fragment {
 //            }
 //        });
 
-//        btnAddProduct.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), ManagerProductDetail.class);
-//                startActivity(intent);
-//
-//
-//            }
-//        });
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -158,11 +139,12 @@ public class FragManagerProduct extends Fragment {
         });
     }
 
+
     private void mapping(View view) {
         listViewProduct = view.findViewById(R.id.listviewManagerProduct);
         searchView = view.findViewById(R.id.seacrch_SV);
         searchView.setQueryHint("Nhập vào tên sản phẩm để tìm kiếm");
-//        btnAddProduct = view.findViewById(R.id.addProduct);
+
 
     }
 

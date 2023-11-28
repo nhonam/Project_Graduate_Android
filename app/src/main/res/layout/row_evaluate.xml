@@ -30,7 +30,7 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:src="@drawable/trong" />
+                android:src="@drawable/avatar_use_default" />
 
             <LinearLayout
                 android:paddingTop="@dimen/_10sdp"

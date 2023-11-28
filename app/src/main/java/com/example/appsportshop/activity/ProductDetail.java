@@ -8,9 +8,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
@@ -40,14 +43,16 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDetail extends AppCompatActivity {
     //sản phẩm người dùng mua kjhi bấm nút mua
     public static Cart Product_bought = null;
     ImageView Img_ProductDetail, btnBackHome, btnCart;
-    TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail,tvsupplier, tvactivity,tvenvironment,tvbrand,tvunit ;
-    TextView addCart,btnBuyProduct;
-    ListView lvEval;
+    TextView nameProductDetail, priceProductDeltail, tagProductDeltail, descriptionProductDetail, tvsupplier, tvactivity, tvenvironment, tvbrand, tvunit,
+            tvQuantiSold, evaluate_detail;
+    TextView addCart, btnBuyProduct;
+    RecyclerView lvEval;
 
     EvaluateAdapter evaluateAdapter;
 
@@ -57,9 +62,10 @@ public class ProductDetail extends AppCompatActivity {
     SingletonUser singletonUser = SingletonUser.getInstance();
     BottomSheetDialog dialogSelectQuanti;
     int quantiCart = 0;
+    RatingBar ratingBar;
 
-
-    String category,supplier,activity,environment,brand,unit;
+    DecimalFormat formatter = new DecimalFormat("#,###");
+    String category, supplier, activity, environment, brand, unit, quantiSold;
 
 
     @Override
@@ -84,7 +90,6 @@ public class ProductDetail extends AppCompatActivity {
 
                     JSONObject data = response.getJSONObject("data");
                     JSONObject productObj = data.getJSONObject("product");
-                    JSONArray special = data.getJSONArray("special");
 
                     product = new Product();
 
@@ -94,26 +99,25 @@ public class ProductDetail extends AppCompatActivity {
                     product.setDescription(productObj.getString("description"));
                     product.setStockQuantity(productObj.getInt("stockQuantity"));
                     product.setUrlImage(productObj.getString("imageUrl"));
+                    product.setStar(data.getInt("star"));
 
-                     category = productObj.getJSONObject("category").getString("categoryName");
-                     supplier = "Nhà Cung Cấp : "+ productObj.getJSONObject("supplier").getString("supplierName");
-                     activity = "Hoạt động : "+productObj.getJSONObject("activity").getString("activityName");
-                     environment ="Môi trường : " +productObj.getJSONObject("environment").getString("environment_name");
-                     brand = "Thương hiệu : " +productObj.getJSONObject("brand").getString("brandName");
-                     unit ="Đơn vị : " + productObj.getJSONObject("unit").getString("unitName");
 
+                    category = productObj.getJSONObject("category").getString("categoryName");
+                    supplier = "Nhà Cung Cấp : " + productObj.getJSONObject("supplier").getString("supplierName");
+                    activity = "Hoạt động : " + productObj.getJSONObject("activity").getString("activityName");
+                    environment = "Môi trường : " + productObj.getJSONObject("environment").getString("environment_name");
+                    brand = "Thương hiệu : " + productObj.getJSONObject("brand").getString("brandName");
+                    unit = "Đơn vị : " + productObj.getJSONObject("unit").getString("unitName");
+                    quantiSold = "Số lượng sản phẩm đã bán : " + data.getLong("quanti_sold");
 
 
                     dialogSelectQuanti = new BottomSheetDialog(ProductDetail.this);
 //                    dialogSelectQuanti.dismiss();
 
 
-                    getEvaluates();
-
                     setEvent();
 
                 }
-
 
 
                 @Override
@@ -149,12 +153,21 @@ public class ProductDetail extends AppCompatActivity {
                     evaluateTmp.setImage_url(itemObj.getString("avatar_url"));
                     evaluateTmp.setProductName(itemObj.getString("product_name"));
                     listEval.add(evaluateTmp);
-
                 }
-                evaluateAdapter = new EvaluateAdapter(getApplicationContext(), R.layout.row_evaluate, listEval);
-                lvEval.setAdapter(evaluateAdapter);
+                if (listEval.isEmpty()) {
+                    evaluate_detail.setText("Chưa có đánh giá nào");
+                } else {
+//                    evaluateAdapter = new EvaluateAdapter(listEval);
+//                    lvEval.setAdapter(evaluateAdapter);
 
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    lvEval.setLayoutManager(layoutManager);
 
+// Populate dataList with your data
+
+                    evaluateAdapter = new EvaluateAdapter(listEval);
+                    lvEval.setAdapter(evaluateAdapter);
+                }
 
 
             }
@@ -171,20 +184,21 @@ public class ProductDetail extends AppCompatActivity {
     private void loadData() throws JSONException {
 
 
-
-
         Glide.with(this).load(product.getUrlImage()).into(Img_ProductDetail);
         nameProductDetail.setText(product.getNameProduct());
 
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", product.getPrice())));
 
-        priceProductDeltail.setText(formattedValue +" VND");
+        String formattedValue = formatter.format(Double.valueOf(String.format("%.0f", product.getPrice())));
+
+        priceProductDeltail.setText(formattedValue + " VND");
         tvsupplier.setText(supplier);
         tvunit.setText(unit);
         tvenvironment.setText(environment);
         tvbrand.setText(brand);
         tvactivity.setText(activity);
+        tvQuantiSold.setText(quantiSold);
+        ratingBar.setRating(product.getStar());
+
 
 //        priceProductDeltail.setText(String.format("%.0f", product.getPrice()) +" VND");
 
@@ -194,8 +208,7 @@ public class ProductDetail extends AppCompatActivity {
 
     private void setEvent() throws JSONException {
         loadData();
-
-
+        getEvaluates();
 
 
         addCart.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +231,6 @@ public class ProductDetail extends AppCompatActivity {
 
             }
         });
-
 
 
         btnBackHome.setOnClickListener(new View.OnClickListener() {
@@ -286,8 +298,8 @@ public class ProductDetail extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), Login.class);
                         startActivity(intent);
-                    }else
-                            addToCart();
+                    } else
+                        addToCart();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -306,8 +318,8 @@ public class ProductDetail extends AppCompatActivity {
         TextView quanti = view.findViewById(R.id.quantityCart);
 
 
-            Button  submit_quanti = view.findViewById(R.id.submit_quanti);
-            submit_quanti.setText("MUA SẢN PHẨM");
+        Button submit_quanti = view.findViewById(R.id.submit_quanti);
+        submit_quanti.setText("MUA SẢN PHẨM");
 
 
         quantiCart = Integer.parseInt(quanti.getText().toString());
@@ -347,7 +359,7 @@ public class ProductDetail extends AppCompatActivity {
 
                         Intent intent = new Intent(getApplicationContext(), Login.class);
                         startActivity(intent);
-                    }else
+                    } else
 
                         BuyProduct();
 
@@ -362,7 +374,7 @@ public class ProductDetail extends AppCompatActivity {
     }
 
     private void addToCart() throws JSONException {
-        System.out.println(singletonUser.getIdUser()+"|"+product.getId()+"|"+ quantiCart);
+        System.out.println(singletonUser.getIdUser() + "|" + product.getId() + "|" + quantiCart);
         ProductAPI.AddToCart(ProductDetail.this, Utils.BASE_URL + "cart-management/carts", singletonUser.getIdUser(), product.getId(), quantiCart, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
@@ -388,7 +400,7 @@ public class ProductDetail extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         Address.isDisplay = false;
 
-        intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice()*quantiCart)));
+        intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice() * quantiCart)));
         startActivity(intent);
     }
 
@@ -401,6 +413,8 @@ public class ProductDetail extends AppCompatActivity {
         addCart = findViewById(R.id.addCart);
         btnBackHome = findViewById(R.id.back_Productdetail);
         btnCart = findViewById(R.id.cart_Productdetail);
+        tvQuantiSold = findViewById(R.id.quanti_sold);
+        ratingBar = findViewById(R.id.simpleRatingBar);
 
         tvbrand = findViewById(R.id.brand);
         tvactivity = findViewById(R.id.activity);
@@ -409,7 +423,6 @@ public class ProductDetail extends AppCompatActivity {
         tvsupplier = findViewById(R.id.supplier);
         btnBuyProduct = findViewById(R.id.buy_product);
         lvEval = findViewById(R.id.lv_eval);
-
-
+        evaluate_detail = findViewById(R.id.evaluate_detail);
     }
 }
