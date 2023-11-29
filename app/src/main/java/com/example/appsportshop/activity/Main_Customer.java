@@ -54,7 +54,6 @@ public class Main_Customer extends AppCompatActivity {
         // mở lên sẽ vào fragHome();
 
         //lấy fcm token kiểm tra nếu có rồi thì bỏ qua, nếu chưa có thì lwuu vô databas
-//        Log.d("123","123");
 
         if (ReadPassWord()){
             try {

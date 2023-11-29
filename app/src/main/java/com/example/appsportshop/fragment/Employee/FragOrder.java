@@ -3,18 +3,20 @@ package com.example.appsportshop.fragment.Employee;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
@@ -23,8 +25,9 @@ import com.example.appsportshop.R;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
 import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.UserAPI;
-import com.example.appsportshop.model.HoaDon;
+import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Order;
 import com.example.appsportshop.model.OrderItem;
 import com.example.appsportshop.utils.CustomToast;
@@ -44,9 +47,11 @@ import java.util.List;
 public class FragOrder extends Fragment {
     private Order orderUser;
     private ArrayList<Order> listOrder;
-    List<HoaDon> hoaDonList;
+    List<Bill> hoaDonList;
     ListView listViewOrder;
     OrderAdminAdapter orderAdminAdapter;
+
+    int idStautsOrder;
 
     ImageView ic_find;
 
@@ -217,16 +222,16 @@ public class FragOrder extends Fragment {
     private void showOrderItems(String idOrder) throws JSONException {
         Dialog dialog = new Dialog(getContext());
         //
-        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/detail/"+idOrder, new APICallBack() {
+        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/detail/" + idOrder, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 
-                Log.d("123",response.toString());
 
                 JSONArray jsonArray = response.getJSONArray("data");
                 OrderItem orderItem;
                 List<OrderItem> list = new ArrayList<>();
                 list = new ArrayList<>();
+                Log.d("111", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject tmp = (JSONObject) jsonArray.get(i);
                     orderItem = new OrderItem();
@@ -237,47 +242,42 @@ public class FragOrder extends Fragment {
                     orderItem.setImage_url(tmp.getString("image_url"));
 
                     list.add(orderItem);
+
                 }
+
                 dialog.setContentView(R.layout.order_item_list);
                 ListView listView_orderItem = dialog.findViewById(R.id.listview_itemorder);
-                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(getContext(), R.layout.row_item_order, (ArrayList<OrderItem>) list);
+                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(dialog.getContext(), R.layout.row_item_order, (ArrayList<OrderItem>) list);
                 listView_orderItem.setAdapter(orderAdminAdapter);
 
                 Button confirm = dialog.findViewById(R.id.confirm);
                 Button cancelOrder = dialog.findViewById(R.id.cancelOrder);
+                Spinner spinner = dialog.findViewById(R.id.order_status);
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dialog.getContext(), R.array.spinner_values, android.R.layout.simple_spinner_item);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(adapter);
+
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedItem = parent.getItemAtPosition(position).toString();
+
+                          idStautsOrder =  ProcessStatusOrder(selectedItem, idOrder, dialog.getContext());
+
+                        Log.d("123", selectedItem);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // Handle the case where no item is selected
+                    }
+                });
 
                 cancelOrder.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order/delete-order/" + idOrder, new APICallBack() {
-                                @Override
-                                public void onSuccess(JSONObject response) throws JSONException {
-                                    if (response.getLong("data") == 1) {
-                                        dialog.dismiss();
 
-
-                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-
-
-                                    }else {
-                                        dialog.dismiss();
-                                        CustomToast.makeText(getContext(), "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-
-                                    }
-
-                                }
-
-                                @Override
-                                public void onError(VolleyError error) {
-                                    //                            CustomToast.makeText(myContext, "Hủy đơn đặt hàng không thành công !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-                                    dialog.dismiss();
-
-                                }
-                            });
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
-                        }
                         dialog.dismiss();
                     }
                 });
@@ -285,16 +285,17 @@ public class FragOrder extends Fragment {
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        try {
-//                            ApiConfirmDonHang(idOrder);
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
+                        try {
+                            ApiCHangeStatusOrder(idOrder, idStautsOrder, dialog.getContext());
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                         dialog.dismiss();
                     }
                 });
                 dialog.show();
             }
+
 
             @Override
             public void onError(VolleyError error) {
@@ -303,6 +304,47 @@ public class FragOrder extends Fragment {
         });
 
     }
+
+    private  void ApiCHangeStatusOrder( String idOrder, int idStatus, Context context) throws JSONException {
+        JSONObject body = new JSONObject();
+        body.put("id_order_status", idStatus);
+        APICommon.APIPostWithJWT(context, "order-employee/update-status-order/" + idOrder, body, new APICallBack() {
+            @Override
+            public void onSuccess(JSONObject response) throws JSONException {
+
+                Log.d("status", response.getString("message"));
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.d("status", error.getMessage());
+
+            }
+        });
+    }
+
+    private int ProcessStatusOrder(String selectedItem, String idOrder, Context context)  {
+        int idStatus = 1;
+        if (selectedItem.equalsIgnoreCase("Đang chờ xác nhận")) {
+            idStatus = 1;
+        }
+        if (selectedItem.equalsIgnoreCase("Đã xác nhận")) {
+            idStatus = 2;
+        }
+        if (selectedItem.equalsIgnoreCase("Đang giao")) {
+            idStatus = 3;
+        }
+        if (selectedItem.equalsIgnoreCase("Đã giao")) {
+            idStatus = 4;
+        }
+        if (selectedItem.equalsIgnoreCase("Đã hủy")) {
+            idStatus = 5;
+        }
+        return  idStatus;
+
+    }
+
     private void getListOrderByDate(String start, String end) throws JSONException {
         JSONObject postData = new JSONObject();
 
@@ -330,7 +372,7 @@ public class FragOrder extends Fragment {
                     }
                 }
 
-              setEvent();
+                setEvent();
             }
 
             @Override

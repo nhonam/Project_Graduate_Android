@@ -1,6 +1,6 @@
 package com.example.appsportshop.model;
 
-public class HoaDon {
+public class Bill {
 
     String id_Order;
     String productName;
@@ -10,7 +10,7 @@ public class HoaDon {
     String nameReciver;
     String sdt;
 
-    public HoaDon() {
+    public Bill() {
 
     }
 

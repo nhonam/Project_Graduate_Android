@@ -9,7 +9,7 @@ import android.os.Environment;
 import androidx.core.content.ContextCompat;
 
 import com.example.appsportshop.R;
-import com.example.appsportshop.model.HoaDon;
+import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Product;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.source.ByteArrayOutputStream;
@@ -118,7 +118,7 @@ public class PdfExporter {
         return false;
     }
 
-    public static boolean exportBillOrder(Context context, List<HoaDon> productList, String fileName) {
+    public static boolean exportBillOrder(Context context, List<Bill> productList, String fileName) {
         File pdfFile = new File(Environment.getExternalStorageDirectory(), fileName);
         try {
 //            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN, PdfEncodings.UTF8);
@@ -163,7 +163,7 @@ public class PdfExporter {
 
             float sum=0;
             for (int i = 0; i < productList.size(); i++) {
-                HoaDon product = productList.get(i);
+                Bill product = productList.get(i);
 
 
                 table.addCell(String.valueOf(i + 1));

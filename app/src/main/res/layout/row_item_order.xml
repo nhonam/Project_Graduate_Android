@@ -8,9 +8,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="@dimen/_4sdp"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
@@ -21,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/image_product"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"/>
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"/>
 
 
 
@@ -51,8 +49,8 @@
 
                         android:text="Food"
                         android:textColor="#009688"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/_13sdp"
+                        />
 
                 </LinearLayout>
 
@@ -77,8 +75,8 @@
 
                         android:text="Food"
                         android:textColor="#009688"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/_13sdp"
+                      />
 
                 </LinearLayout>
 
@@ -102,8 +100,8 @@
 
                         android:text="Food"
                         android:textColor="#009688"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/_13sdp"
+                        />
 
                 </LinearLayout>
 

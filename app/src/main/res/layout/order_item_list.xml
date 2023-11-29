@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/txt_popup_title"
@@ -40,7 +40,7 @@
                     style="@style/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chuyển trạng thái sản phẩm: "/>
+                    android:text="Trạng thái đơn hàng: "/>
                 <Spinner
                     android:spinnerMode="dropdown"
                     android:id="@+id/order_status"
@@ -58,7 +58,7 @@
                 android:id="@+id/confirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Xác nhận đơn hàng | xuất hóa đơn"
+                android:text="Hoàn thành"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="0.5"/>
 
@@ -66,7 +66,7 @@
                 android:id="@+id/cancelOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hủy Đơn Hàng"
+                android:text="Thoát"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="0.5"/>
 

@@ -2,11 +2,11 @@ package com.example.appsportshop.adapter;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,20 +15,20 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
-import com.example.appsportshop.model.HoaDon;
-import com.example.appsportshop.model.Order;
 import com.example.appsportshop.model.OrderItem;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class ItemOrderAdapter extends ArrayAdapter<HoaDon> {
+public class ItemOrderAdapter extends ArrayAdapter<OrderItem> {
     Context myContext;
     int myLayout;
     ArrayList<OrderItem> data;
+    DecimalFormat formatter = new DecimalFormat("#,###");
 
 
     public ItemOrderAdapter(@NonNull Context context, int resource, @NonNull ArrayList<OrderItem> listOrder) {
-        super(context, resource);
+        super(context, resource, listOrder);
         this.myContext = context;
         this.myLayout = resource;
         this.data = listOrder;
@@ -46,9 +46,11 @@ public class ItemOrderAdapter extends ArrayAdapter<HoaDon> {
             viewHolder = (ItemOrderAdapter.ViewHolder) convertView.getTag();
         }
         OrderItem orderItem = data.get(position);
+        Log.d("item",orderItem.getImage_url());
+        String formattedValue = formatter.format( Double.valueOf(String.format("%.0f", orderItem.getPrice())));
 
 //        viewHolder.tvGiaSP.setText(order.getPrice());
-        viewHolder.tvGiaSP.setText(String.format("%.0f", orderItem.getPrice()));
+        viewHolder.tvGiaSP.setText(formattedValue+" VNĐ");
         viewHolder.tvSoluong.setText(String.valueOf(orderItem.getQuantity()));
         viewHolder.tvTenSp.setText(orderItem.getProductName());
         Glide

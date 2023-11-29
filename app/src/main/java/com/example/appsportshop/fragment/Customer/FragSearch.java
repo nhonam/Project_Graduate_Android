@@ -371,7 +371,6 @@ public class FragSearch extends Fragment {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
 
-//                        Log.d("1234",response.toString());
 
                         Message message = new Message();
                         message.setSenter(false);

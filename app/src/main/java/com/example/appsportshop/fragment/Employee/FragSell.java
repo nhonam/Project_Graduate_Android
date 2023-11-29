@@ -2,30 +2,22 @@ package com.example.appsportshop.fragment.Employee;
 
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
-import com.example.appsportshop.activity.Login;
-import com.example.appsportshop.activity.MainAdmin;
 
-import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.UserAPI;
-import com.example.appsportshop.model.HoaDon;
+import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Order;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.PdfExporter;
@@ -46,7 +38,7 @@ public class FragSell extends Fragment {
     ListView listViewOrder;
     OrderAdminAdapter orderAdminAdapter;
 
-    List<HoaDon> hoaDonList;
+    List<Bill> hoaDonList;
     public static Boolean isSell = false;
 
     @Override
