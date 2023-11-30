@@ -32,6 +32,7 @@ import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Order;
 import com.example.appsportshop.model.OrderItem;
 import com.example.appsportshop.utils.CustomToast;
+import com.example.appsportshop.utils.PdfExporter;
 import com.example.appsportshop.utils.Utils;
 
 import org.json.JSONArray;
@@ -46,7 +47,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class FragOrder extends Fragment {
-    private Order orderUser;
+    List<OrderItem> listOrderItemClick = new ArrayList<>();
+
     private ArrayList<Order> listOrder;
     List<Bill> hoaDonList;
     ListView listViewOrder;
@@ -164,7 +166,8 @@ public class FragOrder extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Order
                 try {
-                    showOrderItems(listOrder.get(i).getId());
+                    showOrderItems(listOrder.get(i).getId(), listOrder.get(i).getPhoneNumber(), listOrder.get(i).getShippingAdress(),
+                            listOrder.get(i).getName_ceciver());
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -220,7 +223,7 @@ public class FragOrder extends Fragment {
 
     }
 
-    private void showOrderItems(String idOrder) throws JSONException {
+    private void showOrderItems(String idOrder, String phone, String adressShip, String nameReciver) throws JSONException {
         Dialog dialog = new Dialog(getContext());
         //
         UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/detail/" + idOrder, new APICallBack() {
@@ -230,8 +233,7 @@ public class FragOrder extends Fragment {
 
                 JSONArray jsonArray = response.getJSONArray("data");
                 OrderItem orderItem;
-                List<OrderItem> list = new ArrayList<>();
-                list = new ArrayList<>();
+                listOrderItemClick = new ArrayList<>();
                 Log.d("111", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject tmp = (JSONObject) jsonArray.get(i);
@@ -242,13 +244,13 @@ public class FragOrder extends Fragment {
                     orderItem.setQuantity(Integer.parseInt(tmp.getString("quantity")));
                     orderItem.setImage_url(tmp.getString("image_url"));
 
-                    list.add(orderItem);
+                    listOrderItemClick.add(orderItem);
 
                 }
 
                 dialog.setContentView(R.layout.order_item_list);
                 ListView listView_orderItem = dialog.findViewById(R.id.listview_itemorder);
-                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(dialog.getContext(), R.layout.row_item_order, (ArrayList<OrderItem>) list);
+                ItemOrderAdapter orderAdminAdapter = new ItemOrderAdapter(dialog.getContext(), R.layout.row_item_order, (ArrayList<OrderItem>) listOrderItemClick);
                 listView_orderItem.setAdapter(orderAdminAdapter);
 
                 Button confirm = dialog.findViewById(R.id.confirm);
@@ -287,7 +289,7 @@ public class FragOrder extends Fragment {
                     @Override
                     public void onClick(View v) {
                         try {
-                            ApiCHangeStatusOrder(idOrder, idStautsOrder, dialog.getContext());
+                            ApiCHangeStatusOrder(idOrder, idStautsOrder, dialog.getContext(), adressShip, phone, nameReciver);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
@@ -306,27 +308,35 @@ public class FragOrder extends Fragment {
 
     }
 
-    private  void ApiCHangeStatusOrder( String idOrder, int idStatus, Context context) throws JSONException {
+    private  void ApiCHangeStatusOrder( String idOrder, int idStatus, Context context, String adressShip, String phone, String nameReciver) throws JSONException {
         JSONObject body = new JSONObject();
         body.put("id_order_status", idStatus);
         APICommon.APIPostWithJWT(context, "order-employee/update-status-order/" + idOrder, body, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 
-                orderAdminAdapter = new OrderAdminAdapter(getContext(), R.layout.row_manager_order, listOrder);
+
+//                    Log.d("123213", (response.getString("message")));
+//                    Log.d("123213", String.valueOf(response.getString("message").equalsIgnoreCase("1")));
+//                    Log.d("123213", (response.getString("message")));
+
+
+
+
+                    if (response.get("data").toString().equalsIgnoreCase("0")){
+                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng sai!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
+                    }else {
+                        if (response.getString("message").equalsIgnoreCase("1"))
+                            PdfExporter.exportBillOrder(getContext(),listOrderItemClick ,"HoaDon"+idOrder+".pdf", adressShip, phone, nameReciver);
+                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
+                    }
+                getListOrderByDate(startDate.getText().toString(), endDate.getText().toString());
+                orderAdminAdapter = new OrderAdminAdapter(requireContext(), R.layout.row_manager_order, listOrder);
 //        System.out.println(orderAdapter);
                 listViewOrder.setAdapter(orderAdminAdapter);
 
-                    Log.d("123213", String.valueOf(response.get("data").toString() =="0"));
-                    Log.d("123213", String.valueOf(response.get("data").toString()));
-
-
-//                    if (response.get("data").toString()== 0){
-//                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng sai!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
-//                    }else {
-//                        CustomToast.makeText(context, response.getString("message"), CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-//
-//                    }
 
 
 

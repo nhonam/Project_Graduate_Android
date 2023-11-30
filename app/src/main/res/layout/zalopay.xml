@@ -64,9 +64,6 @@
         android:layout_height="55dp"/>
 
 
-
-
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPay"
         android:layout_width="match_parent"

@@ -213,34 +213,6 @@ public class FragSell extends Fragment {
 //
 //    }
 
-    private void ApiConfirmDonHang(String idOrder) throws JSONException {
-        JSONObject postData = new JSONObject();
-        PdfExporter.exportBillOrder(getContext(),hoaDonList ,"HoaDon"+idOrder+".pdf");
-        CustomToast.makeText(getContext(), "Xác nhận đơn hàng thành công, vui lòng mở file để xem hóa đơn !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-        // gọi hàm in hóa đơn ở đây
-
-        postData.put("id_seller",singletonUser.getIdUser() );
-        postData.put("id_order", idOrder);
-        postData.put("idPaymentMethod", 2);
-        UserAPI.ApiPostandBody(getContext(), Utils.BASE_URL + "order/confirm", postData, new APICallBack() {
-            @Override
-            public void onSuccess(JSONObject response) throws JSONException {
-//                System.out.println("--------------------------");
-//                PdfExporter.exportBillOrder(getContext(),hoaDonList ,"HoaDon"+idOrder+".pdf");
-                CustomToast.makeText(getContext(), "Xác nhận đơn hàng thành công, vui lòng mở file để xem hóa đơn2 !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-                // gọi hàm in hóa đơn ở đây
-
-
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                CustomToast.makeText(getContext(), error.getMessage(), CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
-
-            }
-        });
-    }
 
 
 }

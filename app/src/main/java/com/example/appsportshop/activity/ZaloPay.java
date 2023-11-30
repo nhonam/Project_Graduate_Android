@@ -3,6 +3,7 @@ package com.example.appsportshop.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -30,6 +31,7 @@ import com.example.appsportshop.model.Cart;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
+import com.example.appsportshop.utils.dialog;
 import com.example.appsportshop.zalo.Api.CreateOrder;
 
 import org.json.JSONException;
@@ -83,9 +85,17 @@ public class  ZaloPay extends AppCompatActivity {
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         listProductPayment = new ArrayList<>();
-        for (int i = 0; i < FragCart.listCart.size(); i++) {
-            if (FragCart.listCart.get(i).getSelected()) {
-                listProductPayment.add(FragCart.listCart.get(i));
+        if (FragCart.listCart==null) {
+
+            listProductPayment.add(ProductDetail.Product_bought);
+
+        }else {
+            //        getList những sản phẩm được mua form FragCart
+
+            for (int i = 0; i < FragCart.listCart.size(); i++) {
+                if (FragCart.listCart.get(i).getSelected()) {
+                    listProductPayment.add(FragCart.listCart.get(i));
+                }
             }
         }
         Intent intent = getIntent();
@@ -97,12 +107,17 @@ public class  ZaloPay extends AppCompatActivity {
         ZaloPaySDK.init(2553, Environment.SANDBOX);
         // bind components with ids
         BindView();
+        dialog dialog = new dialog(ZaloPay.this);
+
         // handle CreateOrder
         btnCreateOrder.setOnClickListener(new View.OnClickListener() {
+
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                dialog.startLoadingdialog();
                 CreateOrder orderApi = new CreateOrder();
 
                 System.out.println(" -------------------o zalopay"+ tongtien);
@@ -117,7 +132,7 @@ public class  ZaloPay extends AppCompatActivity {
 //                        lblZpTransToken.setText("zptranstoken");
                         String token = data.getString("zp_trans_token");
 //                        txtToken.setText(token);
-
+                        dialog.dismissdialog();
                         ZaloPaySDK.getInstance().payOrder(ZaloPay.this, token, "demozpdk://app", new PayOrderListener() {
                             @Override
                             public void onPaymentSucceeded(String s, String s1, String s2) {
@@ -127,10 +142,7 @@ public class  ZaloPay extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
-
-
                             }
-
                             @Override
                             public void onPaymentCanceled(String s, String s1) {
                                 CustomToast.makeText(ZaloPay.this,  "     Thanh toán thất bại ! ", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
@@ -142,11 +154,12 @@ public class  ZaloPay extends AppCompatActivity {
                                 CustomToast.makeText(ZaloPay.this,  "     Thanh toán thất bại ! ", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
                             }
                         });
-
+                        dialog.dismissdialog();
 //                        IsDone();
                     }
 
                 } catch (Exception e) {
+                    dialog.dismissdialog();
                     e.printStackTrace();
                 }
             }

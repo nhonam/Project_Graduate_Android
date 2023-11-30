@@ -9,7 +9,9 @@ import android.os.Environment;
 import androidx.core.content.ContextCompat;
 
 import com.example.appsportshop.R;
+import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.model.Bill;
+import com.example.appsportshop.model.OrderItem;
 import com.example.appsportshop.model.Product;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.io.source.ByteArrayOutputStream;
@@ -118,7 +120,7 @@ public class PdfExporter {
         return false;
     }
 
-    public static boolean exportBillOrder(Context context, List<Bill> productList, String fileName) {
+    public static boolean exportBillOrder(Context context, List<OrderItem> productList, String fileName,String adressShip,String phone,String nameReciver) {
         File pdfFile = new File(Environment.getExternalStorageDirectory(), fileName);
         try {
 //            PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN, PdfEncodings.UTF8);
@@ -163,7 +165,7 @@ public class PdfExporter {
 
             float sum=0;
             for (int i = 0; i < productList.size(); i++) {
-                Bill product = productList.get(i);
+                OrderItem product = productList.get(i);
 
 
                 table.addCell(String.valueOf(i + 1));
@@ -186,6 +188,8 @@ public class PdfExporter {
 
             document.add(new Paragraph("NGƯỜI VIẾT HÓA ĐƠN            Ngày ... Tháng ... Nam .... \n (Ký, họ tên)" ).setFontSize(20));
 //            document.add(new Paragraph("").setFontSize(12));
+
+            CustomToast.makeText(context.getApplicationContext(), "Mở tệp để xem hóa đơn!", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
 
             document.close();
 
