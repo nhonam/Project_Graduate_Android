@@ -35,6 +35,7 @@ import com.example.appsportshop.zalo.Api.CreateOrder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import java.util.ArrayList;
 
 import vn.zalopay.sdk.ZaloPayError;
@@ -49,8 +50,6 @@ public class  ZaloPay extends AppCompatActivity {
     EditText txtAmount;
     ArrayList<Cart> listProductPayment;
     String tongtien;
-
-
 
     private void BindView() {
 //        txtToken = findViewById(R.id.txtToken);
@@ -84,24 +83,14 @@ public class  ZaloPay extends AppCompatActivity {
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         listProductPayment = new ArrayList<>();
-        //nếu == null tức là mua trực tiếp chứ không phải mua từ giỏ hàng
-        if (FragCart.listCart==null) {
-
-            listProductPayment.add(ProductDetail.Product_bought);
-
-
-        }else {
-            //        getList những sản phẩm được mua form FragCart
-
-            for (int i = 0; i < FragCart.listCart.size(); i++) {
-                if (FragCart.listCart.get(i).getSelected()) {
-                    listProductPayment.add(FragCart.listCart.get(i));
-                }
+        for (int i = 0; i < FragCart.listCart.size(); i++) {
+            if (FragCart.listCart.get(i).getSelected()) {
+                listProductPayment.add(FragCart.listCart.get(i));
             }
         }
         Intent intent = getIntent();
        tongtien  = intent.getStringExtra("tongtien");
-
+//        tongtien="10000";
 
 
         // ZaloPay SDK Init
@@ -118,9 +107,8 @@ public class  ZaloPay extends AppCompatActivity {
 
                 System.out.println(" -------------------o zalopay"+ tongtien);
                 try {
-                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim().replace(".",""),
-                          singletonUser.getUserName(),singletonUser.getPhone(),singletonUser.getAdress() );
-                    Log.d("Amount", txtAmount.getText().toString().trim().replace(".",""));
+                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim());
+                    Log.d("Amount", txtAmount.getText().toString());
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");
                     Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
@@ -172,6 +160,7 @@ public class  ZaloPay extends AppCompatActivity {
         super.onNewIntent(intent);
         ZaloPaySDK.getInstance().onResult(intent);
     }
+
 
 
 
@@ -242,6 +231,5 @@ public class  ZaloPay extends AppCompatActivity {
 
 
     }
-
 
 }

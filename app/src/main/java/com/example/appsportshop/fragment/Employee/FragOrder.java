@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
+import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
 import com.example.appsportshop.api.APICallBack;
@@ -312,7 +313,23 @@ public class FragOrder extends Fragment {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 
-                Log.d("status", response.getString("message"));
+                orderAdminAdapter = new OrderAdminAdapter(getContext(), R.layout.row_manager_order, listOrder);
+//        System.out.println(orderAdapter);
+                listViewOrder.setAdapter(orderAdminAdapter);
+
+                    Log.d("123213", String.valueOf(response.get("data").toString() =="0"));
+                    Log.d("123213", String.valueOf(response.get("data").toString()));
+
+
+//                    if (response.get("data").toString()== 0){
+//                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng sai!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+//                    }else {
+//                        CustomToast.makeText(context, response.getString("message"), CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+//
+//                    }
+
+
+
 
             }
 

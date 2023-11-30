@@ -106,6 +106,7 @@ public class Payment extends AppCompatActivity {
            listProductPayment.add(ProductDetail.Product_bought);
 
         }else {
+
             //        getList những sản phẩm được mua form FragCart
             for (int i = 0; i < FragCart.listCart.size(); i++) {
                 if (FragCart.listCart.get(i).getSelected()) {
