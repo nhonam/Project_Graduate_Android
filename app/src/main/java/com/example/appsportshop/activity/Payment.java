@@ -76,6 +76,7 @@ public class Payment extends AppCompatActivity {
         dialogPayment = new BottomSheetDialog(this);
         createDialog();
 
+
 //        System.out.println(Address.isDisplay+"huhuuh");
         if (Address.isDisplay == true) {
 
@@ -101,19 +102,17 @@ public class Payment extends AppCompatActivity {
 
         listProductPayment = new ArrayList<>();
         //tức là mua trực tiếp chứ không phải mua từ giỏ hàng
-        if (ProductDetail.Product_bought!=null) {
-
-           listProductPayment.add(ProductDetail.Product_bought);
-
-        }else {
-
+        if (ProductDetail.isBuyInCart==true){
             //        getList những sản phẩm được mua form FragCart
             for (int i = 0; i < FragCart.listCart.size(); i++) {
                 if (FragCart.listCart.get(i).getSelected()) {
                     listProductPayment.add(FragCart.listCart.get(i));
                 }
             }
+        }else {
+            listProductPayment.add(ProductDetail.Product_bought);
         }
+
 
 
 //        listProductPayment= FragCart.listCart;
@@ -234,7 +233,15 @@ public class Payment extends AppCompatActivity {
                  String.valueOf(ship_adree.getText()), idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        RemoveProductInCart();
+                        if (ProductDetail.isBuyInCart)
+                            RemoveProductInCart();
+                        else
+                        {
+                            CustomToast.makeText(Payment.this,  "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+
+                            Intent intent = new Intent(getApplicationContext(), MainOrder.class);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override

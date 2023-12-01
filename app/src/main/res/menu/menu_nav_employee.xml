@@ -13,19 +13,10 @@
         android:checked="false"
         android:id="@+id/mn_ManagerOrder"
         android:icon="@drawable/ic_store"
-        android:title="Theo Dõi Đơn Hàng" />
+        android:title="Quản Lý Đơn Hàng" />
 
-    <item
-        android:checked="false"
-        android:id="@+id/mn_Sell"
-        android:icon="@drawable/ic_order"
-        android:title="Đơn Hàng Chờ Xác Nhận" />
 
-    <item
-        android:checked="false"
-        android:id="@+id/mn_product"
-        android:icon="@drawable/ic_category"
-        android:title="Kiểm tra sản phẩm trong cửa hàng" />
+
 
     <item
         android:checked="false"

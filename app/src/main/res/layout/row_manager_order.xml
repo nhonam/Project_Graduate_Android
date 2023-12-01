@@ -10,9 +10,9 @@
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="2dp"
+            android:padding="@dimen/_5sdp"
+            app:cardCornerRadius="@dimen/_2sdp"
+            app:cardElevation="@dimen/_2sdp"
             app:cardUseCompatPadding="true">
 
             <LinearLayout
@@ -78,9 +78,9 @@
                                 android:layout_centerInParent="true"
 
                                 android:text="Food"
-                                android:textColor="#009688"
+                                android:textColor="@color/black"
                                 android:textSize="18dp"
-                                android:textStyle="bold" />
+                                />
 
                         </LinearLayout>
 
@@ -103,9 +103,9 @@
                                 android:layout_centerInParent="true"
 
                                 android:text="Food"
-                                android:textColor="#009688"
+                                android:textColor="@color/black"
                                 android:textSize="18dp"
-                                android:textStyle="bold" />
+                                />
 
                         </LinearLayout>
                         <LinearLayout
@@ -127,9 +127,9 @@
                                 android:layout_centerInParent="true"
 
                                 android:text="Food"
-                                android:textColor="#009688"
+                                android:textColor="@color/black"
                                 android:textSize="18dp"
-                                android:textStyle="bold" />
+                               />
 
                         </LinearLayout>
 
@@ -152,35 +152,12 @@
                                 android:layout_centerInParent="true"
 
                                 android:text="Food"
-                                android:textColor="#009688"
+                                android:textColor="@color/black"
                                 android:textSize="18dp"
-                                android:textStyle="bold" />
+                               />
 
                         </LinearLayout>
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:text="Trạng thái đơn hàng : "
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
 
-                            </TextView>
-                            <TextView
-                                android:id="@+id/status"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerInParent="true"
-
-                                android:text="Food"
-                                android:textColor="#009688"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -192,6 +169,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <LinearLayout
+                    android:padding="@dimen/_1sdp"
+                    android:background="@drawable/border"
 
                     android:weightSum="1"
                     android:layout_width="match_parent"
@@ -235,7 +214,7 @@
                             android:layout_weight="0.2"
                             android:id="@+id/confirm_status_empl"
                             android:layout_height="@dimen/_10sdp"
-                            android:background="@color/orange"  android:layout_width="match_parent"/>
+                            android:background="@color/primary"  android:layout_width="match_parent"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -256,7 +235,7 @@
                             android:visibility="gone"
                             android:id="@+id/shipping_status_empl"
                             android:layout_height="@dimen/_10sdp"
-                            android:background="@color/orange"  android:layout_width="match_parent"/>
+                            android:background="@color/teal_200"  android:layout_width="match_parent"/>
 
                     </LinearLayout>
                     <LinearLayout
@@ -277,7 +256,7 @@
                             android:id="@+id/shipped_status_empl"
                             android:visibility="gone"
                             android:layout_height="@dimen/_10sdp"
-                            android:background="@color/orange"  android:layout_width="match_parent"/>
+                            android:background="@color/green"  android:layout_width="match_parent"/>
 
                     </LinearLayout>
                     <LinearLayout

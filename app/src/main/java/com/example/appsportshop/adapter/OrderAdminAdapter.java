@@ -29,7 +29,6 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
         this.myContext = context;
         this.myLayout = resource;
         this.data = listOrder;
-        data_tmp = data;
     }
 
     @Override
@@ -50,6 +49,7 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
         viewHolder.tvNameReciver.setText(order.getName_ceciver());
         viewHolder.tvdayOrder.setText(String.valueOf(order.getOrderDate()));
         viewHolder.tvphoneRiciver.setText(String.valueOf(order.getPhoneNumber()));
+        viewHolder.tvshippingAdress.setText(String.valueOf(order.getShippingAdress()));
 
         int idOderStatus =  Integer.parseInt(order.getIdOderStatus());
 
@@ -77,42 +77,6 @@ public class OrderAdminAdapter extends ArrayAdapter<Order> {
 
 
         return convertView;
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return new Filter() {
-
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String searchStr = charSequence.toString();
-                if (searchStr.isEmpty()) {
-                    data_tmp = data;
-                } else {
-                    ArrayList<Order> list = new ArrayList<>();
-                    for (Order order : data
-                    ) {
-
-                        if (order.getId().toLowerCase().contains(searchStr.toLowerCase()) ||order.getName_ceciver().toLowerCase().contains(searchStr.toLowerCase()) || order.getPhoneNumber().toLowerCase().contains(searchStr.toLowerCase())) {
-                            list.add(order);
-                        }
-                    }
-                    data_tmp = list;
-                }
-
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = data_tmp;
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                data = (ArrayList<Order>) filterResults.values;
-                notifyDataSetChanged();
-            }
-        };
-
 
     }
 

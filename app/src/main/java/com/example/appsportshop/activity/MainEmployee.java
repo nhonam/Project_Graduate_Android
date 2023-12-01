@@ -115,14 +115,7 @@ public class MainEmployee extends AppCompatActivity {
                         break;
 
 
-                    case R.id.mn_product:
-                        FragCheckProduct fragCheckProduct = new FragCheckProduct();
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.NoiDung,fragCheckProduct)
-                                .commit();
 
-                        break;
 //
 //
                     case R.id.mn_Exit:

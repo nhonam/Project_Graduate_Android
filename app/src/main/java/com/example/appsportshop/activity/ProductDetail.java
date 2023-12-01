@@ -67,6 +67,8 @@ public class ProductDetail extends AppCompatActivity {
     DecimalFormat formatter = new DecimalFormat("#,###");
     String category, supplier, activity, environment, brand, unit, quantiSold;
 
+    public static boolean isBuyInCart = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -398,6 +400,7 @@ public class ProductDetail extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         Address.isDisplay = false;
+        isBuyInCart = false;
 
         intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice() * quantiCart)));
         startActivity(intent);

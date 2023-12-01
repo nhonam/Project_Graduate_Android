@@ -40,7 +40,7 @@
                     style="@style/textNormal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Trạng thái đơn hàng: "/>
+                    android:text="Trạng thái : "/>
                 <Spinner
                     android:spinnerMode="dropdown"
                     android:id="@+id/order_status"
@@ -51,6 +51,21 @@
 
             </LinearLayout>
 
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+              <TextView
+                  style="@style/textNormal"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Đã thanh toán : "/>
+
+              <CheckBox
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"></CheckBox>
+
+
+          </LinearLayout>
 
 
 

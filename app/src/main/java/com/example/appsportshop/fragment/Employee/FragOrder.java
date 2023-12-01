@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
@@ -25,14 +26,17 @@ import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
+import com.example.appsportshop.adapter.ProductManagerAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Order;
 import com.example.appsportshop.model.OrderItem;
+import com.example.appsportshop.model.Product;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.PdfExporter;
+import com.example.appsportshop.utils.SingletonUser;
 import com.example.appsportshop.utils.Utils;
 
 import org.json.JSONArray;
@@ -60,6 +64,7 @@ public class FragOrder extends Fragment {
 
     EditText startDate, endDate;
     LocalDate currentDate = LocalDate.now();
+    SearchView seacrch_Order;
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
@@ -126,6 +131,8 @@ public class FragOrder extends Fragment {
         startDate = view.findViewById(R.id.start_date);
         endDate = view.findViewById(R.id.end_date);
         ic_find = view.findViewById(R.id.ic_find);
+        seacrch_Order = view.findViewById(R.id.seacrch_Order);
+
 
     }
 
@@ -167,10 +174,37 @@ public class FragOrder extends Fragment {
 //                Order
                 try {
                     showOrderItems(listOrder.get(i).getId(), listOrder.get(i).getPhoneNumber(), listOrder.get(i).getShippingAdress(),
-                            listOrder.get(i).getName_ceciver());
+                            listOrder.get(i).getName_ceciver(), listOrder.get(i).getIdOderStatus());
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+
+
+        seacrch_Order.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+//                productManagerAdapter.getFilter().filter(s);
+                ArrayList<Order> list = new ArrayList<>();
+                for (Order order : listOrder
+                ) {
+
+                    if (order.getPhoneNumber().toLowerCase().contains(s.toLowerCase()) || String.valueOf( order.getId()).toLowerCase().contains(s.toLowerCase())  )  {
+                        list.add(order);
+                    }
+                }
+                orderAdminAdapter = new OrderAdminAdapter(getContext(), R.layout.row_manager_order, list);
+//        System.out.println(orderAdapter);
+                listViewOrder.setAdapter(orderAdminAdapter);
+
+                return false;
             }
         });
     }
@@ -223,7 +257,7 @@ public class FragOrder extends Fragment {
 
     }
 
-    private void showOrderItems(String idOrder, String phone, String adressShip, String nameReciver) throws JSONException {
+    private void showOrderItems(String idOrder, String phone, String adressShip, String nameReciver, String idOrderStatus) throws JSONException {
         Dialog dialog = new Dialog(getContext());
         //
         UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/detail/" + idOrder, new APICallBack() {
@@ -259,6 +293,21 @@ public class FragOrder extends Fragment {
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dialog.getContext(), R.array.spinner_values, android.R.layout.simple_spinner_item);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(adapter);
+                if (idOrderStatus.equalsIgnoreCase("1")){
+                    spinner.setSelection(0);
+                }
+                if (idOrderStatus.equalsIgnoreCase("2")){
+                    spinner.setSelection(1);
+                }
+                if (idOrderStatus.equalsIgnoreCase("3")){
+                    spinner.setSelection(2);
+                }
+                if (idOrderStatus.equalsIgnoreCase("4")){
+                    spinner.setSelection(3);
+                }
+                if (idOrderStatus.equalsIgnoreCase("5")){
+                    spinner.setSelection(4);
+                }
 
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -300,6 +349,8 @@ public class FragOrder extends Fragment {
             }
 
 
+
+
             @Override
             public void onError(VolleyError error) {
 
@@ -311,6 +362,8 @@ public class FragOrder extends Fragment {
     private  void ApiCHangeStatusOrder( String idOrder, int idStatus, Context context, String adressShip, String phone, String nameReciver) throws JSONException {
         JSONObject body = new JSONObject();
         body.put("id_order_status", idStatus);
+        body.put("id_user", SingletonUser.getInstance().getIdUser());
+        body.put("email", SingletonUser.getInstance().getEmail());
         APICommon.APIPostWithJWT(context, "order-employee/update-status-order/" + idOrder, body, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {

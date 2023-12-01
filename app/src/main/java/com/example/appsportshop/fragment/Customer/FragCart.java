@@ -25,6 +25,7 @@ import com.example.appsportshop.activity.Login;
 import com.example.appsportshop.activity.Main_Customer;
 //import com.example.appsportshop.activity.Payment;
 import com.example.appsportshop.activity.Payment;
+import com.example.appsportshop.activity.ProductDetail;
 import com.example.appsportshop.adapter.CartAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.CartAPI;
@@ -170,6 +171,7 @@ public class FragCart extends Fragment implements Serializable {
             @Override
             public void onClick(View view) {
                 Address.isDisplay = false;
+                ProductDetail.isBuyInCart = true;
                 Intent intent = new Intent(getContext(), Payment.class);
                 intent.putExtra("listOrder", buyCarts());
 //                intent.putExtra("idUser",idUser);

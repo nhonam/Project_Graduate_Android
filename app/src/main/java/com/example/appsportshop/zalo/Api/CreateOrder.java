@@ -34,7 +34,7 @@ public class CreateOrder {
             EmbedData = "{}";
             Items = "[]";
             BankCode = "zalopayapp";
-            Description = "Thanh toán cho đơn hàng #" + Helpers.getAppTransId();
+            Description = "Merchant pay for order #" + Helpers.getAppTransId();
             String inputHMac = String.format("%s|%s|%s|%s|%s|%s|%s",
                     this.AppId,
                     this.AppTransId,
@@ -67,7 +67,4 @@ public class CreateOrder {
         JSONObject data = HttpProvider.sendPost(AppInfo.URL_CREATE_ORDER, formBody);
         return data;
     }
-
-
 }
-

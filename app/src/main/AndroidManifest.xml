@@ -50,9 +50,7 @@
             android:name=".activity.Login"
             android:exported="false"
             android:windowSoftInputMode="adjustNothing" />
-        <activity
-            android:name=".activity.OrderItem"
-            android:exported="false" />
+
         <activity
             android:name=".activity.ChangePassW"
             android:exported="false" />
