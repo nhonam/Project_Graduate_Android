@@ -38,6 +38,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/img_product_tar"
             android:layout_gravity="center"
             android:src="@mipmap/ic_launcher"
@@ -45,6 +46,7 @@
             android:layout_height="100dp"/>
 
         <TextView
+            android:visibility="gone"
             android:text="Nam"
             android:layout_marginTop="@dimen/_1sdp"
             android:textColor="@color/black"

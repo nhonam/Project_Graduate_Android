@@ -88,9 +88,9 @@ public class ProductDetail extends AppCompatActivity {
             ProductAPI.getProductByid(ProductDetail.this, Utils.BASE_URL + "product/one/" + id, new APICallBack() {
                 @Override
                 public void onSuccess(JSONObject response) throws JSONException {
-
-                    JSONObject data = response.getJSONObject("data");
                     Log.d("respone_1", String.valueOf(response));
+                    JSONObject data = response.getJSONObject("data");
+
                     JSONObject productObj = data.getJSONObject("product");
 
                     product = new Product();

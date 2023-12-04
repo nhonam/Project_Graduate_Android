@@ -66,6 +66,8 @@ public class MessageAdapter extends BaseAdapter {
             convertView.setTag(holder);
 
 
+
+
             holder.product_tar = (LinearLayout) convertView.findViewById(R.id.product_tar);
             holder.product_tar.setVisibility(View.GONE);
 
@@ -87,6 +89,15 @@ public class MessageAdapter extends BaseAdapter {
                 Glide.with(holder.imageProduct ).load(message.getImage_product()).into(holder.imageProduct);
 
             }
+            try {
+                if(message.getProduct_name().equalsIgnoreCase("")){
+                    holder.imageProduct.setVisibility(View.VISIBLE);
+                    holder.imageProduct.setImageResource(R.drawable.not_result);
+                }
+            }catch (Exception e){
+
+            }
+
 //            GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
 //            drawable.setColor(Color.parseColor();
         }

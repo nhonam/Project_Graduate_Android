@@ -42,7 +42,7 @@ public class FragSearch extends Fragment {
 
 
     List<Message> messageList;
-
+    long id_product_search = 0;
     GridView gr_productList;
     JSONArray listProduct = new JSONArray();
     List<String> nameProductList = new ArrayList<String>();
@@ -307,6 +307,7 @@ public class FragSearch extends Fragment {
 
 
     private void showDialog() {
+
         Dialog dialog = new Dialog(getContext());
 
         dialog.setContentView(R.layout.chat_bot);
@@ -318,16 +319,12 @@ public class FragSearch extends Fragment {
 
         messageList = new ArrayList<>();
 
-        for (int i = 0; i < 15; i++) {
-            Message message = new Message();
-            message.setText("bạn cos muon mua ao khong"+i);
-            message.setFullname("Shop Nho Nam");
-            if (i%2==0){
-                message.setSenter(true);
-            }else
-                message.setSenter(false);
-            messageList.add(message);
-        }
+        Message message = new Message();
+        message.setText("Nhập thông tin sản phẩm bạn muốn mua chúng tôi sẽ gợi ý sản phẩm phù hợp với nhu cầu của bạn");
+        message.setFullname("Shop NHO NAM");
+        message.setSenter(false);
+        messageList.add(message);
+
 
 
         messageAdapter = new MessageAdapter(getContext(), messageList);
@@ -340,21 +337,21 @@ public class FragSearch extends Fragment {
         btnSent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Message message = new Message();
-                message.setText(edtChat.getText().toString().trim());
-                message.setFullname("đinh nho nam");
-                message.setSenter(true);
-//                message.setAvatar_url("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
-                messageList.add(message);
-                messageAdapter = new MessageAdapter(getContext(), messageList);
-                messagesListView.setAdapter(messageAdapter);
-                messageAdapter.notifyDataSetChanged();
-
-                // Scroll to the last item
-                messagesListView.setSelection(messageAdapter.getCount() - 1);
+//                Message message = new Message();
+//                message.setText(edtChat.getText().toString().trim());
+//                message.setFullname("đinh nho nam");
+//                message.setSenter(true);
+////                message.setAvatar_url("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
+//                messageList.add(message);
+//                messageAdapter = new MessageAdapter(getContext(), messageList);
+//                messagesListView.setAdapter(messageAdapter);
+//                messageAdapter.notifyDataSetChanged();
+//
+//                // Scroll to the last item
+//                messagesListView.setSelection(messageAdapter.getCount() - 1);
 
                 try {
-                    CallAPIChat();
+                    CallAPIChat( );
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -367,25 +364,75 @@ public class FragSearch extends Fragment {
             private void CallAPIChat() throws JSONException {
                 JSONObject body = new JSONObject();
                 body.put("question", edtChat.getText().toString().trim());
-                APICommon.APIPostWithOutJWT(getContext(), Utils.URL_CHAT, body, new APICallBack() {
+                APICommon.APIPostWithOutJWT(requireContext(), Utils.URL_CHAT, body, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-
-
                         Message message = new Message();
-                        message.setSenter(false);
-                        message.setText(edtChat.getText().toString());
-                        message.setImage_product("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
-                        message.setProduct_name("Giày đá bóng");
 
+                        Log.d("nam", response.toString());
+                        String sanpham = response.getString("result");
+
+                        if (sanpham.equalsIgnoreCase("Giày đá bóng")) {
+                            ApiGetInfoProduct(sanpham);
+
+                        }else if (sanpham.equalsIgnoreCase("Vợt cầu lông")){
+
+                            ApiGetInfoProduct(sanpham);
+                        }else if (sanpham.equalsIgnoreCase("Kính bơi")){
+                            ApiGetInfoProduct(sanpham);
+                        }else {
+                            if (sanpham.equalsIgnoreCase("Bạn vui lòng mô tả chi tiết hơn ?")) {
+                                message.setSenter(false);
+                                message.setText("Bạn vui lòng mô tả chi tiết hơn ?");
+//                                message.setImage_product("https://res.cloudinary.com/dzljztsyy/image/upload/v1700707731/shop_sport/avatart%20default/3531a97a-613d-47f5-8e6a-5fa6f780a2fa_q1jgan.png");
+                                message.setProduct_name("");
+
+                                messageList.add(message);
+                                messageAdapter = new MessageAdapter(getContext(), messageList);
+                                messagesListView.setAdapter(messageAdapter);
+                                messageAdapter.notifyDataSetChanged();
+
+                                // Scroll to the last item
+                                messagesListView.setSelection(messageAdapter.getCount() - 1);
+                                edtChat.getText().clear();
+
+                            }
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+
+                    }
+                });
+            }
+
+            private void ApiGetInfoProduct(String productName) throws JSONException {
+
+                APICommon.APIGetWithOutJWT(requireContext(), "product/find-by-name/" + productName, new APICallBack() {
+                    @Override
+                    public void onSuccess(JSONObject response) throws JSONException {
+                        Log.d("nam111",response.toString());
+
+                        JSONObject data = response.getJSONObject("data");
+
+                        id_product_search =data.getLong("id");
+                        Log.d("nhonam", String.valueOf(id_product_search));
+                        message.setSenter(false);
+                        message.setText("Sản phẩm này có thể phù hợp với nhu cầu của bạn ");
+                        message.setImage_product(data.getString("imageUrl"));
+                        message.setProduct_name(data.getString("productName"));
                         messageList.add(message);
-                        messageAdapter = new MessageAdapter(getContext(), messageList);
-                        messagesListView.setAdapter(messageAdapter);
+//                        messageAdapter = new MessageAdapter(getContext(), messageList);
+//                        messagesListView.setAdapter(messageAdapter);
                         messageAdapter.notifyDataSetChanged();
 
                         // Scroll to the last item
                         messagesListView.setSelection(messageAdapter.getCount() - 1);
                         edtChat.getText().clear();
+
                     }
 
                     @Override
@@ -403,6 +450,11 @@ public class FragSearch extends Fragment {
 
     }
 
+    private void SearchSanPham(String sanPham) {
+
+
+    }
+
     private void clickItemProduct(ListView listView){
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -410,9 +462,11 @@ public class FragSearch extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 //                Log.d("nam",  messageList.get(i).getProduct_name());
+                Log.d("nhonam", String.valueOf(id_product_search));
+
                 if (messageList.get(i).getProduct_name()!="" && messageList.get(i).getProduct_name()!=null ){
                     Intent intent = new Intent(getActivity(), ProductDetail.class);
-                    intent.putExtra("idProduct","1");
+                    intent.putExtra("idProduct", String.valueOf(id_product_search));
 //                OrderItem.isChose = true;
 //                intent.putExtra("tongTien",tongTien.getText().toString());
                     getActivity().startActivity(intent);
