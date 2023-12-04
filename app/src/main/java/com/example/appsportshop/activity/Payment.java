@@ -230,13 +230,12 @@ public class Payment extends AppCompatActivity {
 
         OrderAPI.BuyProduct(getApplicationContext(),
                 Utils.BASE_URL + "order/buy", singletonUser.getIdUser(),
-                 String.valueOf(ship_adree.getText()), idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
+                Payment.diaChiShip, idProducts, idQuantities, Payment.sdtNgNhan, Payment.tenNgNhan, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
                         if (ProductDetail.isBuyInCart)
                             RemoveProductInCart();
-                        else
-                        {
+                        else {
                             CustomToast.makeText(Payment.this,  "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
                             Intent intent = new Intent(getApplicationContext(), MainOrder.class);
@@ -318,6 +317,22 @@ public class Payment extends AppCompatActivity {
         CheckBox shipcode = view.findViewById(R.id.shipcode);
 
         CheckBox zalo = view.findViewById(R.id.zalo);
+
+        shipcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (shipcode.isChecked()==true)
+                    zalo.setChecked(false);
+            }
+        });
+
+        zalo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (zalo.isChecked()==true)
+                    shipcode.setChecked(false);
+            }
+        });
 
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {

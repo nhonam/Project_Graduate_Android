@@ -100,7 +100,7 @@ public class FragHome extends Fragment {
 
     public void loadSlider() throws JSONException {
 
-        APICommon.APIGetWithOutJWT(getContext(), "banner/five", new APICallBack() {
+        APICommon.APIGetWithOutJWT(requireContext(), "banner/five", new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 

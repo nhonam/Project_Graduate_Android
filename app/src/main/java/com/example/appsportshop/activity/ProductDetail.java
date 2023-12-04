@@ -90,6 +90,7 @@ public class ProductDetail extends AppCompatActivity {
                 public void onSuccess(JSONObject response) throws JSONException {
 
                     JSONObject data = response.getJSONObject("data");
+                    Log.d("respone_1", String.valueOf(response));
                     JSONObject productObj = data.getJSONObject("product");
 
                     product = new Product();
