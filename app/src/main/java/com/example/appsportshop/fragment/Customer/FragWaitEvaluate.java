@@ -137,18 +137,23 @@ public class FragWaitEvaluate extends Fragment {
             public boolean onQueryTextChange(String s) {
 //                productManagerAdapter.getFilter().filter(s);
                 ArrayList<Cart> list = new ArrayList<>();
-                for (Cart product : orderEvaluateList
-                ) {
+                try {
+                    for (Cart product : orderEvaluateList
+                    ) {
 
-                    if (product.getNameProduct().toLowerCase().contains(s.toLowerCase()))  {
-                        list.add(product);
+                        if (product.getNameProduct().toLowerCase().contains(s.toLowerCase()))  {
+                            list.add(product);
+                        }
                     }
+                    orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, list);
+                    listViewOrderEval.setAdapter(orderEvalAdapter);
+
+
+                    return false;
+                }catch (Exception e){
+                    return false;
                 }
-                orderEvalAdapter = new OrderEvalAdapter(getContext(), R.layout.row_order_eval, list);
-                listViewOrderEval.setAdapter(orderEvalAdapter);
 
-
-                return false;
             }
         });
     }

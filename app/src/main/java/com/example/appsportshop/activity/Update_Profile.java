@@ -96,7 +96,12 @@ public class Update_Profile extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSaveProfile);
 
     }
-
+    @Override
+    public void onBackPressed() {
+        // Your cancel or custom back button behavior here
+        // For example, you can finish the current activity or show a confirmation dialog
+        // super.onBackPressed(); // Uncomment this line if you want to keep the default behavior
+    }
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

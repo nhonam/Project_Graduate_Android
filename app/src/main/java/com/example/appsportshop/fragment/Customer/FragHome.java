@@ -189,11 +189,12 @@ public class FragHome extends Fragment {
                     }
                 });
             } catch (JSONException e) {
+                Toast.makeText(getContext(), "KHÔNG CÓ KẾT NỐI INTERNET", Toast.LENGTH_LONG).show();
                 throw new RuntimeException(e);
             }
 
         } else {
-            Toast.makeText(getContext(), "khong có internet", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "KHÔNG CÓ KẾT NỐI INTERNET", Toast.LENGTH_LONG).show();
         }
         return view;
     }
@@ -223,7 +224,7 @@ public class FragHome extends Fragment {
     }
     private void setAdapter() throws JSONException {
 
-        APICommon.APIGetWithOutJWT(requireContext(), "category/getAllCategory", new APICallBack() {
+        APICommon.APIGetWithOutJWT(getContext(), "category/getAllCategory", new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
 

@@ -41,13 +41,20 @@ public class Login extends AppCompatActivity {
     ImageView btnBack;
     EditText edtUserName, edtpassWord;
     SharedPreferences sharedPreferences;
-
+    @Override
+    public void onBackPressed() {
+        // Your cancel or custom back button behavior here
+        // For example, you can finish the current activity or show a confirmation dialog
+        // super.onBackPressed(); // Uncomment this line if you want to keep the default behavior
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         setContentView(R.layout.login_act);
+
+
 
         sharedPreferences = getSharedPreferences("matkhau", MODE_PRIVATE);
         ReadPassWord();
@@ -271,10 +278,10 @@ public class Login extends AppCompatActivity {
                     }
 
                     //nếu user là admin
-                } else {
-                    Intent intent = new Intent(Login.this, MainAdmin.class);
-                    FragManagerProduct.isDisplayManagerProd=true;
-                    startActivity(intent);
+                }
+                else {
+                    CustomToast.makeText(Login.this, "Tên đăng nhập hoặc mật khẩu không đúng !", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+
                 }
                 dialog.dismissdialog();
             }

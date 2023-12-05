@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
@@ -57,9 +58,7 @@ public class FragOrder extends Fragment {
     List<Bill> hoaDonList;
     ListView listViewOrder;
     OrderAdminAdapter orderAdminAdapter;
-
     int idStautsOrder;
-
     ImageView ic_find;
 
     EditText startDate, endDate;
@@ -94,36 +93,6 @@ public class FragOrder extends Fragment {
         return view;
     }
 
-    private void getListOrderConfimed() throws JSONException {
-        UserAPI.ApiGet(getContext(), Utils.BASE_URL + "order-employee/all", new APICallBack() {
-            @Override
-            public void onSuccess(JSONObject response) throws JSONException {
-                JSONArray dataArr = (JSONArray) response.get("data");
-                JSONObject data; //item data in dataArr
-
-                listOrder = new ArrayList<>();
-                for (int i = 0; i < dataArr.length(); i++) {
-                    Order orderTmp = new Order();
-                    data = (JSONObject) dataArr.get(i);
-                    orderTmp.setId(data.getString("id"));
-                    orderTmp.setOrderDate(data.getString("orderDate"));
-                    orderTmp.setName_ceciver(data.getString("name_reciver"));
-                    orderTmp.setShippingAdress(data.getString("shippingAdress"));
-                    orderTmp.setPhoneNumber(data.getString("sdt"));
-                    JSONObject tmp = (JSONObject) data.get("orderStatus");
-                    orderTmp.setIdOderStatus(tmp.getString("id"));
-                    listOrder.add(orderTmp);
-
-                }
-                setEvent();
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-    }
 
 
     private void mapping(View view) {
@@ -461,6 +430,7 @@ public class FragOrder extends Fragment {
             }
         });
     }
+
 
 
 }
