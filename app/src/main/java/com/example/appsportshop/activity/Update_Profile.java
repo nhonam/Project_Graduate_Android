@@ -309,7 +309,8 @@ public class Update_Profile extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<JSONObject> call, Throwable t) {
-                    CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                    Log.d("nhonam", t.toString()+"|||||"+ call.toString());
+                    CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin thất bại vui long mở quyền truy cập hình ảnh !!!", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
 
                 }
             });
