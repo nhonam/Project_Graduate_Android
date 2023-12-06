@@ -18,15 +18,15 @@
         android:id="@+id/imgProductLatest"
         android:layout_gravity="center"
         android:src="@mipmap/ic_launcher"
-        android:layout_width="100dp"
-        android:layout_height="100dp"/>
+        android:layout_width="90dp"
+        android:layout_height="90dp"/>
 
     <TextView
         android:text="Nam"
         android:layout_marginTop="2dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="@dimen/_11sdp"
         android:textAlignment="center"
         android:id="@+id/txtProductName"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="@dimen/_12sdp"
         android:text="Price = 100đ"
         android:layout_gravity="center"
         android:id="@+id/txtPrice"

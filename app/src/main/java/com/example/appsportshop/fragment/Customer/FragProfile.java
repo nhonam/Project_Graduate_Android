@@ -2,6 +2,7 @@ package com.example.appsportshop.fragment.Customer;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,16 +18,21 @@ import android.widget.TextView;
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.activity.Login;
 import com.example.appsportshop.activity.Update_Profile;
+import com.example.appsportshop.api.APICallBack;
+import com.example.appsportshop.api.UserAPI;
 import com.example.appsportshop.model.User;
 import com.example.appsportshop.utils.CustomToast;
 import com.example.appsportshop.utils.SingletonUser;
+import com.example.appsportshop.utils.Utils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FragProfile extends Fragment {
 
@@ -202,17 +209,52 @@ public class FragProfile extends Fragment {
 //        btnSetting = view.findViewById(R.id.setting);
 
     }
+    private void PopUpLogout() {
+        Dialog dialog = new Dialog(requireContext());
 
+        dialog.setContentView(R.layout.alert_yes_no);
+
+        Button btnYes = dialog.findViewById(R.id.YES);
+        TextView txt_popup_title= dialog.findViewById(R.id.txt_popup_title);
+        txt_popup_title.setText("Đăng Xuất");
+        TextView txt_popup_content = dialog.findViewById(R.id.txt_popup_content);
+        txt_popup_content.setText("Bạn có chắc muốn đăng xuất không ?");
+        Button btnNo = dialog.findViewById(R.id.NO);
+
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Call api xóa
+
+                    SharedPreferences sharedPreferences = getContext().getSharedPreferences("matkhau", MODE_PRIVATE);
+                    sharedPreferences.edit().clear().commit();
+                    SingletonUser singletonUser = SingletonUser.getInstance();
+                    singletonUser.clearValues();
+                    Intent intent = new Intent(getContext(), Login.class);
+                    startActivity(intent);
+
+
+
+                dialog.dismiss();
+            }
+        });
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+    }
     private void setEvent() {
+
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getContext().getSharedPreferences("matkhau", MODE_PRIVATE);
-                sharedPreferences.edit().clear().commit();
-                SingletonUser singletonUser = SingletonUser.getInstance();
-                singletonUser.clearValues();
-                Intent intent = new Intent(getContext(), Login.class);
-                startActivity(intent);
+                PopUpLogout();
             }
         });
 

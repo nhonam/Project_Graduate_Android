@@ -237,7 +237,6 @@ public class FragOrder extends Fragment {
                 JSONArray jsonArray = response.getJSONArray("data");
                 OrderItem orderItem;
                 listOrderItemClick = new ArrayList<>();
-                Log.d("111", jsonArray.toString());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject tmp = (JSONObject) jsonArray.get(i);
                     orderItem = new OrderItem();

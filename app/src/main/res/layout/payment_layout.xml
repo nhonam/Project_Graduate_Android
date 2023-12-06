@@ -96,7 +96,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/shopee6"
-                                android:text="Trần Nhật Duy | (+84) 366 830 710 "
+                                android:text="Đinh Nho Nam | (+84) 366 830 710 "
                                 android:textSize="18dp" />
 
                             <TextView

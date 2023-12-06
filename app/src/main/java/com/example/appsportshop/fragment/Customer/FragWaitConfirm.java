@@ -215,7 +215,7 @@ public class FragWaitConfirm extends Fragment {
             public void onSuccess(JSONObject response) throws JSONException {
                 JSONArray listcartJSON = response.getJSONArray("data");
                 orderWating = new ArrayList<>();
-                Log.d("nhonam", response.toString());
+
                 for (int i = 0; i < listcartJSON.length(); i++) {
                     JSONObject cartTmpObj = (JSONObject) listcartJSON.get(i);
 //

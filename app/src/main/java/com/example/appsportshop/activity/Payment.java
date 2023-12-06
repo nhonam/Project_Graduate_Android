@@ -37,23 +37,23 @@ import java.util.ArrayList;
 public class Payment extends AppCompatActivity {
 
     BottomSheetDialog dialogPayment;
-    TextView btnMethodPayment ,sdtName, btnMuaHang, ship_adree, tongThanhtoan, tongthanhtoan1, tongthanhtoan2; //soNha+thanhPho = address
+    TextView btnMethodPayment, sdtName, btnMuaHang, ship_adree, tongThanhtoan, tongthanhtoan1, tongthanhtoan2; //soNha+thanhPho = address
     LinearLayout btnAddress;
     ImageView btnbackPayment;
 
-    Boolean isShipcode =null;
+    Boolean isShipcode = null;
 
     DecimalFormat formatter = new DecimalFormat("#,###");
 
-    public static Boolean  isActive = false;
+    public static Boolean isActive = false;
     ArrayList<Cart> listProductPayment;
     ListView lvPayment;
-    String idUser="";
-    String nameShip="";
-    String phoneNumber="";
-    String homeNumber="";
-    String districtName="";
-    String tongTien="";
+    String idUser = "";
+    String nameShip = new String();
+    String phoneNumber = "";
+    String homeNumber = "";
+    String districtName = "";
+    String tongTien = "";
 
     public static String diaChiShip;
     public static String sdtNgNhan;
@@ -63,7 +63,6 @@ public class Payment extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -85,34 +84,44 @@ public class Payment extends AppCompatActivity {
             nameShip = getIntent().getStringExtra("name_reciver");
             phoneNumber = getIntent().getStringExtra("phoneNumber");
             districtName = getIntent().getStringExtra("ship_adress");
-            sdtName.setText(nameShip+"| (+84) "+phoneNumber);
+            sdtName.setText(nameShip + "| (+84) " + phoneNumber);
             tongTien = getIntent().getStringExtra("tongTien");
             ship_adree.setText(districtName);
+
+//            diaChiShip = districtName;
+//            sdtNgNhan = singletonUser.getPhone();
+//            nameShip = singletonUser.getFullName();
+
         } else {
+            singletonUser = SingletonUser.getInstance();
+            Log.i("nhonam", singletonUser.getFullName());
             idUser = String.valueOf(singletonUser.getIdUser());
             nameShip = singletonUser.getFullName();
+
             phoneNumber = singletonUser.getPhone();
             districtName = singletonUser.getAdress();
-            sdtName.setText(nameShip+"| (+84) "+phoneNumber);
+            sdtName.setText(nameShip + "| (+84) " + phoneNumber);
             ship_adree.setText(districtName);
             tongTien = getIntent().getStringExtra("tongTien");
+//            diaChiShip = singletonUser.getAdress();
+//            sdtNgNhan = singletonUser.getPhone();
+//            nameShip = singletonUser.getFullName();
 
         }
 
 
         listProductPayment = new ArrayList<>();
         //tức là mua trực tiếp chứ không phải mua từ giỏ hàng
-        if (ProductDetail.isBuyInCart==true){
+        if (ProductDetail.isBuyInCart == true) {
             //        getList những sản phẩm được mua form FragCart
             for (int i = 0; i < FragCart.listCart.size(); i++) {
                 if (FragCart.listCart.get(i).getSelected()) {
                     listProductPayment.add(FragCart.listCart.get(i));
                 }
             }
-        }else {
+        } else {
             listProductPayment.add(ProductDetail.Product_bought);
         }
-
 
 
 //        listProductPayment= FragCart.listCart;
@@ -125,9 +134,9 @@ public class Payment extends AppCompatActivity {
 //        String amount  = UtilCommon.FormatPrice(Double.parseDouble(tongTien));
 //        Log.d("tongtien",tongTien);
 
-        tongThanhtoan.setText(  tongTien);
-        tongthanhtoan1.setText( tongTien);
-        tongthanhtoan2.setText(  tongTien);
+        tongThanhtoan.setText(tongTien);
+        tongthanhtoan1.setText(tongTien);
+        tongthanhtoan2.setText(tongTien);
 
 //        if(!TextUtils.isEmpty(nameShip)&&!TextUtils.isEmpty(phoneNumber)&&!TextUtils.isEmpty(homeNumber)&&!TextUtils.isEmpty(districtName)) {
 //            sdtName.setText(nameShip+"| (+84) "+phoneNumber);
@@ -140,26 +149,23 @@ public class Payment extends AppCompatActivity {
         setEvent();
 
 
-
-
-
-
     }
 
 
-    private void newAddress(){
-        btnAddress.setOnClickListener(new View.OnClickListener(){
+    private void newAddress() {
+        btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(Payment.this, Address.class);
 //                intent.putExtra("listOrder",listProductPayment);
 //                intent.putExtra("idUser",idUser);
-                intent.putExtra("tongTien",tongTien);
+                intent.putExtra("tongTien", tongTien);
                 startActivity(intent);
             }
         });
     }
+
     private void setEvent() {
 
 
@@ -170,13 +176,17 @@ public class Payment extends AppCompatActivity {
                 if (isShipcode == null) {
                     CustomToast.makeText(Payment.this, "Vui lòng chọn phương thức thanh toán !", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
 
-                }else if (isShipcode){
+                } else if (isShipcode) {
                     try {
                         APIMuaHang();
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
-                }else {
+                } else {
+
+                    diaChiShip = districtName;
+                    sdtNgNhan = phoneNumber;
+                    tenNgNhan= nameShip ;
 
                     Intent intent = new Intent(Payment.this, ZaloPay.class);
 
@@ -204,7 +214,7 @@ public class Payment extends AppCompatActivity {
             }
         });
 
-        PayMentAdapter payMentAdapter = new PayMentAdapter(getApplicationContext(),R.layout.item_payment, listProductPayment);
+        PayMentAdapter payMentAdapter = new PayMentAdapter(getApplicationContext(), R.layout.item_payment, listProductPayment);
         lvPayment.setAdapter(payMentAdapter);
 
         btnbackPayment.setOnClickListener(new View.OnClickListener() {
@@ -216,27 +226,27 @@ public class Payment extends AppCompatActivity {
         });
     }
 
-    public  void APIMuaHang() throws JSONException {
+    public void APIMuaHang() throws JSONException {
 
-        String idQuantities ="";
-        String idProducts ="";
+        String idQuantities = "";
+        String idProducts = "";
 
         for (int i = 0; i < listProductPayment.size(); i++) {
-            idQuantities += listProductPayment.get(i).getQuantity()+",";
-            idProducts+=listProductPayment.get(i).getIdProduct()+",";
+            idQuantities += listProductPayment.get(i).getQuantity() + ",";
+            idProducts += listProductPayment.get(i).getIdProduct() + ",";
         }
-        idQuantities =  idQuantities.replaceAll(",$", "");
-        idProducts =  idProducts.replaceAll(",$", "");
+        idQuantities = idQuantities.replaceAll(",$", "");
+        idProducts = idProducts.replaceAll(",$", "");
 
         OrderAPI.BuyProduct(getApplicationContext(),
                 Utils.BASE_URL + "order/buy", singletonUser.getIdUser(),
-                Payment.diaChiShip, idProducts, idQuantities, Payment.sdtNgNhan, Payment.tenNgNhan, new APICallBack() {
+                districtName, idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
                         if (ProductDetail.isBuyInCart)
                             RemoveProductInCart();
                         else {
-                            CustomToast.makeText(Payment.this,  "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+                            CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
                             Intent intent = new Intent(getApplicationContext(), MainOrder.class);
                             startActivity(intent);
@@ -257,17 +267,17 @@ public class Payment extends AppCompatActivity {
 
                 for (int j = 0; j < listProductPayment.size(); j++) {
 
-                    if (FragCart.listCart.get(i).getId() == listProductPayment.get(i).getId()){
+                    if (FragCart.listCart.get(i).getId() == listProductPayment.get(i).getId()) {
 //                        FragCart.listCart.remove(i);
 //                        if (FragCart.listCart.size()==0) return;
                         CartAPI.DeleteCart(getApplicationContext(), Utils.BASE_URL + "cart-management/" + FragCart.listCart.get(i).getId(), new APICallBack() {
                             @Override
                             public void onSuccess(JSONObject response) throws JSONException {
 
-                                    CustomToast.makeText(Payment.this,  "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+                                CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
-                                    Intent intent = new Intent(getApplicationContext(), MainOrder.class);
-                                    startActivity(intent);
+                                Intent intent = new Intent(getApplicationContext(), MainOrder.class);
+                                startActivity(intent);
 
 
                             }
@@ -280,28 +290,27 @@ public class Payment extends AppCompatActivity {
                     }
                 }
             }
-        }catch (Exception e) {
-            CustomToast.makeText(Payment.this,  "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+        } catch (Exception e) {
+            CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
             Intent intent = new Intent(getApplicationContext(), MainOrder.class);
             startActivity(intent);
         }
 
 
-
     }
 
-    private  void mapping(){
+    private void mapping() {
         btnMethodPayment = findViewById(R.id.shipMethod);
         btnbackPayment = findViewById(R.id.ic_backPayment);
-        btnAddress =findViewById(R.id.btnAddress);
+        btnAddress = findViewById(R.id.btnAddress);
         lvPayment = findViewById(R.id.lvPayment);
         btnMuaHang = findViewById(R.id.btnPayment);
         ship_adree = findViewById(R.id.soNha);
-        sdtName =findViewById(R.id.sdtName);
-        tongThanhtoan= findViewById(R.id.tongthanhtoan);
-        tongthanhtoan1= findViewById(R.id.tongthanhtoan1);
-        tongthanhtoan2= findViewById(R.id.tongthanhtoan2);
+        sdtName = findViewById(R.id.sdtName);
+        tongThanhtoan = findViewById(R.id.tongthanhtoan);
+        tongthanhtoan1 = findViewById(R.id.tongthanhtoan1);
+        tongthanhtoan2 = findViewById(R.id.tongthanhtoan2);
 
 //        tongTien = findViewById(R.id.tienhang);
 //        tongThanhToan = findViewById(R.id.tong);
@@ -321,7 +330,7 @@ public class Payment extends AppCompatActivity {
         shipcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (shipcode.isChecked()==true)
+                if (shipcode.isChecked() == true)
                     zalo.setChecked(false);
             }
         });
@@ -329,7 +338,7 @@ public class Payment extends AppCompatActivity {
         zalo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (zalo.isChecked()==true)
+                if (zalo.isChecked() == true)
                     shipcode.setChecked(false);
             }
         });
@@ -338,12 +347,12 @@ public class Payment extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (zalo.isChecked()){
-                    isShipcode=false;
+                if (zalo.isChecked()) {
+                    isShipcode = false;
                     shipcode.setChecked(false);
                 }
-                if (shipcode.isChecked()){
-                    isShipcode=true;
+                if (shipcode.isChecked()) {
+                    isShipcode = true;
                     zalo.setChecked(false);
                 }
                 dialogPayment.dismiss();
@@ -356,10 +365,6 @@ public class Payment extends AppCompatActivity {
         // Tạo ClickableSpan để xử lý việc click vào liên kết
 
         dialogPayment.setContentView(view);
-
-
-
-
 
 
     }

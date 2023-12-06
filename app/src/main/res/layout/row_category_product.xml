@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_width="@dimen/_80sdp"
-    android:layout_height="@dimen/_80sdp">
+    android:layout_width="@dimen/_70sdp"
+    android:layout_height="@dimen/_60sdp">
 
 <!--    <ImageView-->
 <!--        android:id="@+id/imgCategoryProduct"-->
@@ -19,8 +19,8 @@
         android:elevation="@dimen/_10sdp"
         android:padding="@dimen/_1sdp"
         android:layout_gravity="center"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_centerHorizontal="true"
 
       />
@@ -29,7 +29,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="@dimen/_10sdp"
         android:textAlignment="center"
         android:id="@+id/txtCategoryProduct"
         android:layout_width="match_parent"

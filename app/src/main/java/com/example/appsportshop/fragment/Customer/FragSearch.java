@@ -465,8 +465,6 @@ public class FragSearch extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-//                Log.d("nam",  messageList.get(i).getProduct_name());
-                Log.d("nhonam", String.valueOf(id_product_search));
 
                 if (messageList.get(i).getProduct_name()!="" && messageList.get(i).getProduct_name()!=null ){
                     Intent intent = new Intent(getActivity(), ProductDetail.class);

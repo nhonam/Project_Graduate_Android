@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.Address;
+import com.example.appsportshop.activity.ChangePassW;
 import com.example.appsportshop.activity.Login;
 import com.example.appsportshop.activity.Main_Customer;
 //import com.example.appsportshop.activity.Payment;
@@ -170,13 +171,19 @@ public class FragCart extends Fragment implements Serializable {
         btnBuyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Address.isDisplay = false;
-                ProductDetail.isBuyInCart = true;
-                Intent intent = new Intent(getContext(), Payment.class);
-                intent.putExtra("listOrder", buyCarts());
+                if (!cbCheckAll.isChecked() || buyCarts().isEmpty()) {
+                    CustomToast.makeText(requireContext(), "Vui lòng lựa chọn mặt hàng mà bạn muốn mua !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
+
+                }else {
+                    Address.isDisplay = false;
+                    ProductDetail.isBuyInCart = true;
+                    Intent intent = new Intent(getContext(), Payment.class);
+                    intent.putExtra("listOrder", buyCarts());
 //                intent.putExtra("idUser",idUser);
-                intent.putExtra("tongTien",tongTien.getText().toString());
-                startActivity(intent);
+                    intent.putExtra("tongTien",tongTien.getText().toString());
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -206,6 +213,8 @@ public class FragCart extends Fragment implements Serializable {
 
 
     }
+
+
 
     private ArrayList<Cart> buyCarts() {
         ArrayList<Cart> BuyCartList = new ArrayList<>();
