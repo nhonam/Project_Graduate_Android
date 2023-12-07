@@ -5,10 +5,18 @@ public class Message {
     private String fullname;
     private String text;
     private String image_product;
-
     private String product_name;
 
+    private long idProduct =0;
     private boolean isSenter;
+
+    public long getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(long idProduct) {
+        this.idProduct = idProduct;
+    }
 
     public String getProduct_name() {
         return product_name;

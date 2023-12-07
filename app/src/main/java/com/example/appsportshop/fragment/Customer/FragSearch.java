@@ -40,17 +40,16 @@ import java.util.List;
 public class FragSearch extends Fragment {
 
 
-
     List<Message> messageList = new ArrayList<>();
 
-    long id_product_search = 0;
+
     GridView gr_productList;
     JSONArray listProduct = new JSONArray();
     List<String> nameProductList = new ArrayList<String>();
 
     List<Double> priceProductList = new ArrayList<Double>();
 
-    Button bestsell,btnLatest;
+    Button bestsell, btnLatest;
 
     List<String> urlProductList = new ArrayList<String>();
     ProductLatestAdapter latestProduct_test;
@@ -58,6 +57,7 @@ public class FragSearch extends Fragment {
     MessageAdapter messageAdapter;
     EditText edtSearch;
     ImageView chatSpBtn;
+
     private void Mapping(View view) {
         gr_productList = view.findViewById(R.id.search_list);
         edtSearch = view.findViewById(R.id.edtsearch_product);
@@ -67,9 +67,6 @@ public class FragSearch extends Fragment {
 
 
     }
-
-
-
 
 
     private OnBackPressedCallback callback;
@@ -95,6 +92,7 @@ public class FragSearch extends Fragment {
         // Bỏ điều kiện ghi đè khi Fragment bị hủy
         callback.remove();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -115,7 +113,7 @@ public class FragSearch extends Fragment {
     }
 
     private void getAllProduct() throws JSONException {
-        ProductAPI.GetProductByCategory(getContext(), Utils.BASE_URL + "product/byText?text="+edtSearch.getText(), new APICallBack() {
+        ProductAPI.GetProductByCategory(getContext(), Utils.BASE_URL + "product/byText?text=" + edtSearch.getText(), new APICallBack() {
 
             @Override
             public void onSuccess(JSONObject response) {
@@ -129,8 +127,6 @@ public class FragSearch extends Fragment {
                     JSONObject productTmp;
                     String urlImgTmp = "";
                     for (int i = 0; i < listProduct.length(); i++) {
-
-
 
 
                         productTmp = (JSONObject) listProduct.get(i);
@@ -163,6 +159,7 @@ public class FragSearch extends Fragment {
         latestProduct_test = new ProductLatestAdapter(getContext(), nameProductList, priceProductList, urlProductList);
         gr_productList.setAdapter(latestProduct_test);
     }
+
     private void setEvent() {
         //click item product
         gr_productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -252,7 +249,7 @@ public class FragSearch extends Fragment {
                     nameProductList.clear();
                     priceProductList.clear();
                     urlProductList.clear();
-                    ProductAPI.GetProductByCategory(getContext(), Utils.BASE_URL + "product/byText?text="+edtSearch.getText(), new APICallBack() {
+                    ProductAPI.GetProductByCategory(getContext(), Utils.BASE_URL + "product/byText?text=" + edtSearch.getText(), new APICallBack() {
 
                         @Override
                         public void onSuccess(JSONObject response) {
@@ -266,8 +263,6 @@ public class FragSearch extends Fragment {
                                 JSONObject productTmp;
                                 String urlImgTmp = "";
                                 for (int i = 0; i < listProduct.length(); i++) {
-
-
 
 
                                     productTmp = (JSONObject) listProduct.get(i);
@@ -318,14 +313,11 @@ public class FragSearch extends Fragment {
         ImageButton btnSent = dialog.findViewById(R.id.btn_sent);
 
 
-
-
         Message message = new Message();
         message.setText("Nhập thông tin sản phẩm bạn muốn mua chúng tôi sẽ gợi ý sản phẩm phù hợp với nhu cầu của bạn");
         message.setFullname("Shop NHO NAM");
         message.setSenter(false);
         messageList.add(message);
-
 
 
         messageAdapter = new MessageAdapter(getContext(), messageList);
@@ -340,17 +332,13 @@ public class FragSearch extends Fragment {
             public void onClick(View view) {
 
                 try {
-
-
-
-                    CallAPIChat( );
+                    CallAPIChat();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
 
 
             }
-
 
 
             private void CallAPIChat() throws JSONException {
@@ -360,7 +348,7 @@ public class FragSearch extends Fragment {
                 // lưu tin nhắn hienej tại vào list
                 Message message1 = new Message();
                 message1.setSenter(true);
-                message1.setText( edtChat.getText().toString().trim());
+                message1.setText(edtChat.getText().toString().trim());
                 messageList.add(message1);
                 messageAdapter = new MessageAdapter(getContext(), messageList);
                 messagesListView.setAdapter(messageAdapter);
@@ -377,15 +365,11 @@ public class FragSearch extends Fragment {
 
                         String sanpham = response.getString("result");
 
-                        if (sanpham.equalsIgnoreCase("Giày đá bóng")) {
+                        if (sanpham.equalsIgnoreCase("Giày Đá bóng Puma") || sanpham.equalsIgnoreCase("Vợt cầu lông Yonex")
+                                || sanpham.equalsIgnoreCase("Kính bơi")
+                        ) {
                             ApiGetInfoProduct(sanpham);
-
-                        }else if (sanpham.equalsIgnoreCase("Vợt cầu lông")){
-
-                            ApiGetInfoProduct(sanpham);
-                        }else if (sanpham.equalsIgnoreCase("Kính bơi")){
-                            ApiGetInfoProduct(sanpham);
-                        }else {
+                        } else {
                             if (sanpham.equalsIgnoreCase("Bạn vui lòng mô tả chi tiết hơn ?")) {
                                 Message message = new Message();
                                 message.setSenter(false);
@@ -423,8 +407,9 @@ public class FragSearch extends Fragment {
 
                         JSONObject data = response.getJSONObject("data");
                         Message message = new Message();
-                        id_product_search =data.getLong("id");
+
                         message.setSenter(false);
+                        message.setIdProduct(data.getLong("id"));
                         message.setText("Sản phẩm này có thể phù hợp với nhu cầu của bạn ");
                         message.setImage_product(data.getString("imageUrl"));
                         message.setProduct_name(data.getString("productName"));
@@ -454,34 +439,29 @@ public class FragSearch extends Fragment {
 
     }
 
-    private void SearchSanPham(String sanPham) {
 
-
-    }
-
-    private void clickItemProduct(ListView listView){
+    private void clickItemProduct(ListView listView) {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if (messageList.get(i).getProduct_name()!="" && messageList.get(i).getProduct_name()!=null ){
+                if (messageList.get(i).getIdProduct() != 0) {
+                    String idProduct = String.valueOf(messageList.get(i).getIdProduct());
                     Intent intent = new Intent(getActivity(), ProductDetail.class);
-                    intent.putExtra("idProduct", String.valueOf(id_product_search));
+                    intent.putExtra("idProduct", idProduct);
+
+
 //                OrderItem.isChose = true;
 //                intent.putExtra("tongTien",tongTien.getText().toString());
                     getActivity().startActivity(intent);
                 }
 
-
-
-
             }
         });
 
     }
-
 
 
 }
