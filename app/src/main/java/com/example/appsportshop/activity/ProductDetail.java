@@ -403,7 +403,7 @@ public class ProductDetail extends AppCompatActivity {
         Address.isDisplay = false;
         isBuyInCart = false;
 
-        intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice() * quantiCart)));
+        intent.putExtra("tongTien", UtilCommon.FormatPrice((double) (product.getPrice() * quantiCart)) + "VND");
         startActivity(intent);
     }
 

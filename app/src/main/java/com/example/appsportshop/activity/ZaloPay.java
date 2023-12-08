@@ -100,6 +100,7 @@ public class  ZaloPay extends AppCompatActivity {
 
         Intent intent = getIntent();
        tongtien  = intent.getStringExtra("tongtien");
+
 //        tongtien="10000";
 
 
@@ -116,12 +117,14 @@ public class  ZaloPay extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                dialog.startLoadingdialog();
                 CreateOrder orderApi = new CreateOrder();
 
-                System.out.println(" -------------------o zalopay"+ tongtien);
+                String numericString = tongtien.replaceAll("[^0-9]", "");
+                Log.d("nhonam",numericString);
                 try {
-                    JSONObject data = orderApi.createOrder(txtAmount.getText().toString().trim().replace(".",""));
-                    Log.d("Amount", txtAmount.getText().toString());
+                    JSONObject data = orderApi.createOrder(numericString);
+
 //                    lblZpTransToken.setVisibility(View.VISIBLE);
                     String code = data.getString("return_code");
                     Toast.makeText(getApplicationContext(), "return_code: " + code, Toast.LENGTH_LONG).show();
@@ -136,7 +139,9 @@ public class  ZaloPay extends AppCompatActivity {
                             public void onPaymentSucceeded(String s, String s1, String s2) {
 
                                 try {
+                                    dialog.dismissdialog();
                                     APIMuaHang();
+
                                 } catch (JSONException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -147,12 +152,16 @@ public class  ZaloPay extends AppCompatActivity {
                             @Override
                             public void onPaymentCanceled(String s, String s1) {
                                 CustomToast.makeText(ZaloPay.this,  "     Thanh toán thất bại ! ", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
-
+                                dialog.dismissdialog();
                             }
 
                             @Override
                             public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+                                dialog.dismissdialog();
                                 CustomToast.makeText(ZaloPay.this,  "     Thanh toán thất bại ! ", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
+                                Intent intent = new Intent(ZaloPay.this, Main_Customer.class);
+                                startActivity(intent);
+
                             }
                         });
 

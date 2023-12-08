@@ -171,7 +171,7 @@ public class FragCart extends Fragment implements Serializable {
         btnBuyCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!cbCheckAll.isChecked() || buyCarts().isEmpty()) {
+                if ( buyCarts().isEmpty()) {
                     CustomToast.makeText(requireContext(), "Vui lòng lựa chọn mặt hàng mà bạn muốn mua !!!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
 
                 }else {
