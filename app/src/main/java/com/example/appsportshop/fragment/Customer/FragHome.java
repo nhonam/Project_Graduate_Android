@@ -245,7 +245,21 @@ public class FragHome extends Fragment {
 
                 //setCategoryProduct and click item category
                 categoryRCVAdapter = new CategoryRCVAdapter(getContext(), categoryList, (view, position) -> {
-                    category = categoryList.get(position).getCategoryName();
+                    Category category2 =  categoryList.get(position);
+                    category =category2.getCategoryName();
+                    for (int i = 0; i < categoryList.size(); i++) {
+
+
+                        if (   categoryList.get(i).getCategoryName() == category) {
+                            categoryList.get(i).setSelect(true);
+                        }else
+                            categoryList.get(i).setSelect(false);
+
+                    }
+
+
+
+
                     //call api all product của category
 
                     APICommon.APIGetWithOutJWT(getContext(), "product/byCategory?categoryName=" + category, new APICallBack() {
@@ -271,6 +285,7 @@ public class FragHome extends Fragment {
 
                             }
                             latestProduct_test.notifyDataSetChanged();
+                            rcvCategory.setAdapter(categoryRCVAdapter);
 
                         }
 

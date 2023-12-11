@@ -8,9 +8,7 @@
         android:enabled="true"
         
         android:title="Trạng thái đơn hàng"/>
-    <item
-        android:id="@+id/orderbought"
-        android:enabled="true"
+
 
         android:title="Đã mua"/>
     <item

@@ -16,6 +16,16 @@ public class Category {
     String imageURL;
     String publicID;
 
+    Boolean isSelect = false;
+
+    public Boolean getSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(Boolean select) {
+        isSelect = select;
+    }
+
     public long getId() {
         return id;
     }

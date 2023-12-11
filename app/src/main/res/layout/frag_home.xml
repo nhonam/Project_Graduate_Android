@@ -34,7 +34,7 @@
         <com.smarteist.autoimageslider.SliderView
             android:id="@+id/slider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_110sdp"
             app:sliderAnimationDuration="600"
             app:sliderAutoCycleDirection="back_and_forth"
             app:sliderAutoCycleEnabled="true"

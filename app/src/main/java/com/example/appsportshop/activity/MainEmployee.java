@@ -33,6 +33,12 @@ public class MainEmployee extends AppCompatActivity {
     TextView shopName;
     SingletonUser singletonUser = SingletonUser.getInstance();
     @Override
+    public void onBackPressed() {
+        // Your cancel or custom back button behavior here
+        // For example, you can finish the current activity or show a confirmation dialog
+        // super.onBackPressed(); // Uncomment this line if you want to keep the default behavior
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -82,6 +82,7 @@ public class Update_Profile extends AppCompatActivity {
     SingletonUser singletonUser = SingletonUser.getInstance();
 
 
+
     private void setMapping() {
         tvFullName = findViewById(R.id.fullnameUpdate);
         tvEmail = findViewById(R.id.EmailUpdate);
@@ -152,6 +153,7 @@ public class Update_Profile extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getInfoUser();
 
 //                String districtName =(district.getText().toString());
@@ -178,7 +180,9 @@ public class Update_Profile extends AppCompatActivity {
                         if (userCur.getRole().equalsIgnoreCase("ADMIN")) {
 //                            CustomToast.makeText(Update_Profile.this, "Cập nhật thông tin cá nhân thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
 
+
                             FragProfile.isDisplay = true;
+
                             startActivity(new Intent(Update_Profile.this, MainAdmin.class));
 
                         }
@@ -188,6 +192,7 @@ public class Update_Profile extends AppCompatActivity {
                             FragProfile.isDisplay = true;
                             // gửi flag qua MainCustomer để bỏ qua bước login
                             Main_Customer.isLogin = false;
+
                             Intent intent = new Intent(Update_Profile.this, Main_Customer.class);
                             startActivity(intent);
 

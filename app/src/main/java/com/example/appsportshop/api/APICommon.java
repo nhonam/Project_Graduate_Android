@@ -3,6 +3,7 @@ package com.example.appsportshop.api;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -126,7 +127,11 @@ public class APICommon {
 
     }
 
+
     public static void APIPostWithOutJWT(Context context, String url, JSONObject jsonObject, APICallBack callBack) throws JSONException {
+
+
+
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,  url,jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -149,6 +154,47 @@ public class APICommon {
                         callBack.onError(error);
                     }
                 });
+
+
+        requestQueue.add(request);
+
+    }
+    private static final int INITIAL_TIMEOUT_MS = 5000; // Initial timeout in milliseconds
+    private static final int MAX_RETRIES = 3; // Maxi
+
+    public static void ChatAPI(Context context, String url, JSONObject jsonObject, APICallBack callBack) throws JSONException {
+
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,  url,jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Handle response
+                        try {
+                            callBack.onSuccess(response);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+                        callBack.onError(error);
+                    }
+                });
+
+        // Set a custom RetryPolicy
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                INITIAL_TIMEOUT_MS,
+                MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
         requestQueue.add(request);
 
     }

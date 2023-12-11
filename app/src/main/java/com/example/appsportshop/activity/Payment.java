@@ -46,7 +46,7 @@ public class Payment extends AppCompatActivity {
     DecimalFormat formatter = new DecimalFormat("#,###");
 
     public static Boolean isActive = false;
-    ArrayList<Cart> listProductPayment;
+    ArrayList<Cart> listProductPayment = new ArrayList<>();
     ListView lvPayment;
     String idUser = "";
     String nameShip = new String();
@@ -94,7 +94,7 @@ public class Payment extends AppCompatActivity {
 
         } else {
             singletonUser = SingletonUser.getInstance();
-            Log.i("nhonam", singletonUser.getFullName());
+//            Log.i("nhonam", singletonUser.getFullName());
             idUser = String.valueOf(singletonUser.getIdUser());
             nameShip = singletonUser.getFullName();
 

@@ -2,6 +2,7 @@ package com.example.appsportshop.adapter;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,8 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
 
         ViewHolder viewHolder = new ViewHolder(itemView);
 
+
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -76,9 +79,14 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Category category = categoryList.get(position);
 
-        Glide.with( mContext).load(categoryList.get(position).getImageURL()).into( holder.imgCategory);
-        holder.txtNameCategory.setText(categoryList.get(position).getCategoryName());
+        Glide.with( mContext).load(category.getImageURL()).into( holder.imgCategory);
+        holder.txtNameCategory.setText(category.getCategoryName());
+        Log.d("nam1",category.getSelect().toString());
+        if (category.getSelect()){
+            holder.txtNameCategory.setTextColor(Color.parseColor("#FF0000"));
+        }
 
     }
 
@@ -102,6 +110,7 @@ public class CategoryRCVAdapter extends RecyclerView.Adapter<CategoryRCVAdapter.
 
             txtNameCategory = itemView.findViewById(R.id.txtCategoryProduct);
             imgCategory = itemView.findViewById(R.id.imgCategoryProduct);
+
 //            txtView = itemView.findViewById(R.id.itemrecycle);
 //            birthyear = itemView.findViewById(R.id.birthyear);
 //            detail_button = itemView.findViewById(R.id.detail_button);

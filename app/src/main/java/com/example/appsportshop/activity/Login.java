@@ -394,11 +394,12 @@ public class Login extends AppCompatActivity {
                     }
 
 
-                } else {
-                    Intent intent = new Intent(Login.this, MainAdmin.class);
-                    FragManagerProduct.isDisplayManagerProd= true;
-                    startActivity(intent);
                 }
+//                else {
+//                    Intent intent = new Intent(Login.this, MainAdmin.class);
+//                    FragManagerProduct.isDisplayManagerProd= true;
+//                    startActivity(intent);
+//                }
 
             }
 

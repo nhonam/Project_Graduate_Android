@@ -247,7 +247,7 @@
                         android:background="@drawable/outline_payment"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Thanh toán dễ dàng hơn với MoMo!"
+                        android:text="Thanh toán dễ dàng hơn với ZaloPay!"
                         android:textColor="#C2AC76"
                         android:textStyle="bold" />
                 </LinearLayout>

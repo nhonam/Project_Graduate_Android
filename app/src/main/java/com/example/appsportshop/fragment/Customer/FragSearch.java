@@ -358,14 +358,14 @@ public class FragSearch extends Fragment {
                 messagesListView.setSelection(messageAdapter.getCount() - 1);
                 edtChat.getText().clear();
 
-                APICommon.APIPostWithOutJWT(requireContext(), Utils.URL_CHAT, body, new APICallBack() {
+                APICommon.ChatAPI(requireContext(), Utils.URL_CHAT, body, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
 
 
                         String sanpham = response.getString("result");
-
-                        if (sanpham.equalsIgnoreCase("Giày Đá bóng Puma") || sanpham.equalsIgnoreCase("Vợt cầu lông Yonex")
+                        Log.d("1233",response.toString());
+                        if (sanpham.equalsIgnoreCase("Giày đá bóng Mercurical") || sanpham.equalsIgnoreCase("Vợt cầu lông Yonex")
                                 || sanpham.equalsIgnoreCase("Kính bơi")
                         ) {
                             ApiGetInfoProduct(sanpham);
@@ -394,7 +394,7 @@ public class FragSearch extends Fragment {
 
                     @Override
                     public void onError(VolleyError error) {
-
+                      //  Log.d("error", error.getMessage());
                     }
                 });
             }
@@ -404,6 +404,7 @@ public class FragSearch extends Fragment {
                 APICommon.APIGetWithOutJWT(requireContext(), "product/find-by-name/" + productName, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
+                        Log.d("nhona",response.toString());
 
                         JSONObject data = response.getJSONObject("data");
                         Message message = new Message();

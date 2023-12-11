@@ -76,7 +76,7 @@
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Bạn chưa mua đơn hàng nào"/>
+            android:text="Danh sách chờ đánh giá trống"/>
 
     </LinearLayout>
 

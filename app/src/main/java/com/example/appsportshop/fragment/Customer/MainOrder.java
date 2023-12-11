@@ -15,7 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class  MainOrder extends AppCompatActivity {
 
 
-    private FragWaitConfirm fragWaitConfirm =null;
+    private FragOrder fragWaitConfirm =null;
     private FragBought fragBought =null;
     private FragWaitEvaluate fragWaitEvaluate =null;
 
@@ -37,7 +37,7 @@ public class  MainOrder extends AppCompatActivity {
         mapping();
 
         if (fragWaitConfirm == null)
-            fragWaitConfirm = new FragWaitConfirm();
+            fragWaitConfirm = new FragOrder();
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
@@ -55,7 +55,7 @@ public class  MainOrder extends AppCompatActivity {
                     case R.id.waitconfirm:
                         item.setChecked(true);
                         if (fragWaitConfirm == null)
-                            fragWaitConfirm = new FragWaitConfirm();
+                            fragWaitConfirm = new FragOrder();
                         getSupportFragmentManager()
                                 .beginTransaction()
                                 .setCustomAnimations(
@@ -65,20 +65,7 @@ public class  MainOrder extends AppCompatActivity {
                                 .replace(R.id.content_main_order, fragWaitConfirm)
                                 .commit();
                         break;
-                    case R.id.orderbought:
-                        item.setChecked(true);
-                        if (fragBought == null)
-                            fragBought = new FragBought();
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(
-                                        R.anim.slide_in,
-                                        R.anim.fade_out
-                                )
-                                .replace(R.id.content_main_order, fragBought)
-                                .commit();
 
-                        break;
 
                     case R.id.evaluate:
                         item.setChecked(true);
