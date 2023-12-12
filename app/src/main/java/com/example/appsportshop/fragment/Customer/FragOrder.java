@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.volley.VolleyError;
 import com.example.appsportshop.R;
+import com.example.appsportshop.activity.Main_Customer;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
 import com.example.appsportshop.adapter.OrderCustmAdapter;
@@ -61,7 +62,7 @@ public class FragOrder extends Fragment {
     ListView listViewOrder;
     OrderCustmAdapter orderCustmAdapter;
     int idStautsOrder;
-    ImageView ic_find;
+    ImageView ic_find, backBtn;
 
     EditText startDate, endDate;
     LocalDate currentDate = LocalDate.now();
@@ -103,6 +104,7 @@ public class FragOrder extends Fragment {
         endDate = view.findViewById(R.id.end_date);
         ic_find = view.findViewById(R.id.ic_find);
         seacrch_Order = view.findViewById(R.id.seacrch_Order);
+        backBtn = view.findViewById(R.id.back_odercus);
 
 
     }
@@ -119,6 +121,15 @@ public class FragOrder extends Fragment {
                 showDatePickerDialogStart(view);
             }
         });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragHome.isDispHomeCustommer= true;
+                startActivity(new Intent(getContext(), Main_Customer.class));
+            }
+        });
+
 
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,50 +322,6 @@ public class FragOrder extends Fragment {
 
     }
 
-    private  void ApiCHangeStatusOrder( String idOrder, int idStatus, Context context, String adressShip, String phone, String nameReciver) throws JSONException {
-        JSONObject body = new JSONObject();
-        body.put("id_order_status", idStatus);
-        body.put("id_user", SingletonUser.getInstance().getIdUser());
-        body.put("email", SingletonUser.getInstance().getEmail());
-        APICommon.APIPostWithJWT(context, "order-employee/update-status-order/" + idOrder, body, new APICallBack() {
-            @Override
-            public void onSuccess(JSONObject response) throws JSONException {
-
-
-//                    Log.d("123213", (response.getString("message")));
-//                    Log.d("123213", String.valueOf(response.getString("message").equalsIgnoreCase("1")));
-//                    Log.d("123213", (response.getString("message")));
-
-
-
-
-                    if (response.get("data").toString().equalsIgnoreCase("0")){
-                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng sai!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
-
-                    }else {
-                        if (response.getString("message").equalsIgnoreCase("1"))
-                            PdfExporter.exportBillOrder(getContext(),listOrderItemClick ,"HoaDon"+idOrder+".pdf", adressShip, phone, nameReciver);
-                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
-
-                    }
-                getListOrderByDate(startDate.getText().toString(), endDate.getText().toString());
-                orderCustmAdapter = new OrderCustmAdapter(requireContext(), R.layout.row_manager_order_custm, listOrder);
-//        System.out.println(orderAdapter);
-                listViewOrder.setAdapter(orderCustmAdapter);
-
-
-
-
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                Log.d("status", error.getMessage());
-
-            }
-        });
-    }
 
 
     private void getListOrderByDate(String start, String end) throws JSONException {
@@ -362,7 +329,7 @@ public class FragOrder extends Fragment {
 
         postData.put("date_start", start);
         postData.put("date_end", end);
-        UserAPI.ApiPostandBody(getContext(), Utils.BASE_URL + "order-employee/all", postData, new APICallBack() {
+        UserAPI.ApiPostandBody(getContext(), Utils.BASE_URL + "order/all-order/"+SingletonUser.getInstance().getIdUser(), postData, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 listOrder = new ArrayList<>();
@@ -399,8 +366,6 @@ public class FragOrder extends Fragment {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
                 if (response.getLong("data") == 1) {
-
-
 
                     CustomToast.makeText(myContext, "Hủy đơn đặt hàng thành công !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
                     myContext.startActivity(new Intent( myContext.getApplicationContext(), MainOrder.class));

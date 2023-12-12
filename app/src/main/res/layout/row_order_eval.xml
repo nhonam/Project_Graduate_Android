@@ -73,20 +73,9 @@
                     android:text="Tee basic ss1 CREWZ áo thun tay lỡ unisex Local Brand -Lamo Store(V427)" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:background="@drawable/shape_outline"
-                android:padding="3dp"
-                android:text="Miễn phí 7 ngày đổi trả hàng"
-                android:textColor="#F80000"
-                android:textSize="11dp" />
 
-            <ImageView
-                android:layout_width="100sp"
-                android:layout_height="@dimen/_24sdp"
-                android:src="@drawable/freeship" />
+
+
 
             <TextView
                 android:id="@+id/priceOrderEval"

@@ -4,6 +4,7 @@ package com.example.appsportshop.fragment.Employee;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +26,14 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.appsportshop.R;
 import com.example.appsportshop.activity.ChangePassW;
+import com.example.appsportshop.activity.Main_Customer;
 import com.example.appsportshop.adapter.ItemOrderAdapter;
 import com.example.appsportshop.adapter.OrderAdminAdapter;
 import com.example.appsportshop.adapter.ProductManagerAdapter;
 import com.example.appsportshop.api.APICallBack;
 import com.example.appsportshop.api.APICommon;
 import com.example.appsportshop.api.UserAPI;
+import com.example.appsportshop.fragment.Customer.FragHome;
 import com.example.appsportshop.model.Bill;
 import com.example.appsportshop.model.Order;
 import com.example.appsportshop.model.OrderItem;
@@ -103,6 +106,7 @@ public class FragOrder extends Fragment {
         seacrch_Order = view.findViewById(R.id.seacrch_Order);
 
 
+
     }
 
     private void setEvent() {
@@ -110,6 +114,8 @@ public class FragOrder extends Fragment {
         orderAdminAdapter = new OrderAdminAdapter(getContext(), R.layout.row_manager_order, listOrder);
 //        System.out.println(orderAdapter);
         listViewOrder.setAdapter(orderAdminAdapter);
+
+
 
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,17 +345,18 @@ public class FragOrder extends Fragment {
 
 //                    Log.d("123213", (response.getString("message")));
 //                    Log.d("123213", String.valueOf(response.getString("message").equalsIgnoreCase("1")));
-//                    Log.d("123213", (response.getString("message")));
-
-
-
+                    Log.d("nhonampro", (response.getString("message")));
 
                     if (response.get("data").toString().equalsIgnoreCase("0")){
                         CustomToast.makeText(context, "Chuyển trạng thái đơn hàng sai!", CustomToast.LENGTH_SHORT, CustomToast.WARNING, true).show();
 
                     }else {
-                        if (response.getString("message").equalsIgnoreCase("1"))
+
+                        if (response.getString("message").equalsIgnoreCase("1")) {
                             PdfExporter.exportBillOrder(getContext(),listOrderItemClick ,"HoaDon"+idOrder+".pdf", adressShip, phone, nameReciver);
+                            CustomToast.makeText(context, "Mở tệp tin để xem hóa đơn bán hàng !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
+                        }
                         CustomToast.makeText(context, "Chuyển trạng thái đơn hàng thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
 
                     }
@@ -366,7 +373,7 @@ public class FragOrder extends Fragment {
 
             @Override
             public void onError(VolleyError error) {
-                Log.d("status", error.getMessage());
+
 
             }
         });
@@ -403,7 +410,9 @@ public class FragOrder extends Fragment {
             public void onSuccess(JSONObject response) throws JSONException {
                 listOrder = new ArrayList<>();
 
-                if (response.get("data").toString() != "[]" || response.getInt("data") != 0) {
+//                Log.d("000",response.get("data").toString());
+
+                 if (response.get("data").toString() != "[]" || response.getInt("data") != 0) {
                     JSONArray dataArr = (JSONArray) response.get("data");
                     JSONObject data; //item data in dataArr
                     for (int i = 0; i < dataArr.length(); i++) {

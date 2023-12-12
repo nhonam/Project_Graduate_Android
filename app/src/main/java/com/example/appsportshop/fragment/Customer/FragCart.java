@@ -1,13 +1,18 @@
 package com.example.appsportshop.fragment.Customer;
 // cuối kỳ
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -162,8 +167,6 @@ public class FragCart extends Fragment implements Serializable {
 
         cartAdapter = new CartAdapter(getContext(), R.layout.row_cart, listCart);
         listViewCart.setAdapter(cartAdapter);
-
-
 
 
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#41000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:orientation="vertical"
+        android:background="@drawable/card_white_22_background"
+        android:padding="25dp">
+
+        <TextView
+            android:id="@+id/txt_popup_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chỉnh Sửa Số Lượng Sản Phẩm"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Chọn số lượng"
+            android:textColor="#444"
+            android:textStyle="bold" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textStyle="bold"
+
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:id="@+id/reduce_cart"
+                android:gravity="center"
+                android:text="-" />
+
+            <TextView
+
+                android:id="@+id/quantity_in_Cart"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/black"
+                android:text="1"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:id="@+id/increase_cart"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="+" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp">
+
+            <Button
+
+                android:id="@+id/YES_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_25sdp"
+                android:text="Lưu"
+                android:layout_weight="0.5"
+                android:layout_marginRight="4dp"/>
+
+            <Button
+                android:id="@+id/NO_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_25sdp"
+                android:text="Thoát"
+                android:layout_marginLeft="4dp"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

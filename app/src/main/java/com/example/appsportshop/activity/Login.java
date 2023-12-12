@@ -114,8 +114,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                username = String.valueOf(edtUserName.getText());
-                password = String.valueOf(edtpassWord.getText());
+                username = String.valueOf(edtUserName.getText().toString().trim());
+                password = String.valueOf(edtpassWord.getText().toString().trim());
 
                 try {
                     APILogin();

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class CartAdapter extends ArrayAdapter<Cart> {
     Context myContext;
     int myLayout;
-
+    int quantiCart_chang_item =0;
     ArrayList<Cart> listCart ;
     public static Double  sumCart=0.0;
     DecimalFormat formatter = new DecimalFormat("#,###");
@@ -100,7 +100,95 @@ public class CartAdapter extends ArrayAdapter<Cart> {
         dialog.show();
     }
 
+    private void clickQuantity(long idCartItem, int i) {
+        quantiCart_chang_item = listCart.get(i).getQuantity();
+        Dialog dialog = new Dialog(getContext());
 
+        dialog.setContentView(R.layout.incre_reduce_quanti);
+
+        Button btnYes = dialog.findViewById(R.id.YES_cart);
+        Button btnNo = dialog.findViewById(R.id.NO_cart);
+        TextView btnreduce,btnIncrease, quantiTiDialog;
+        btnreduce = dialog.findViewById(R.id.reduce_cart);
+        btnIncrease = dialog.findViewById(R.id.increase_cart);
+        quantiTiDialog = dialog.findViewById(R.id.quantity_in_Cart);
+
+        quantiTiDialog.setText( String.valueOf(listCart.get(i).getQuantity()));
+
+        btnreduce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int quantity = Integer.parseInt(quantiTiDialog.getText().toString()) - 1;
+                if (quantity <= 0) {
+                    CustomToast.makeText(getContext(), "Vui Lòng Chọn Số Lượng Lớn Hơn 0 !!!", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
+                    quantiTiDialog.setText("1");
+                } else {
+                    quantiTiDialog.setText(String.valueOf(quantity));
+                }
+                quantiCart_chang_item = Integer.parseInt(quantiTiDialog.getText().toString());
+
+
+            }
+        });
+
+        btnIncrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int quantity = Integer.parseInt(quantiTiDialog.getText().toString()) + 1;
+                quantiTiDialog.setText(String.valueOf(quantity));
+
+                quantiCart_chang_item = Integer.parseInt(quantiTiDialog.getText().toString());
+            }
+        });
+
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Call api xóa
+                try {
+                    CartAPI.DeleteCart(getContext().getApplicationContext(), Utils.BASE_URL + "cart-management/"+ idCartItem, new APICallBack() {
+                        @Override
+                        public void onSuccess(JSONObject response) throws JSONException {
+
+                            for (int j = 0; j < listCart.size(); j++) {
+                                if (listCart.get(i).getId()==idCartItem ){
+                                    listCart.get(i).setPrice_total( ( listCart.get(i).getPrice_total() /  listCart.get(i).getQuantity() ) * quantiCart_chang_item);
+                                    listCart.get(i).setQuantity(quantiCart_chang_item);
+
+                                }
+                            }
+
+
+                            CustomToast.makeText(getContext(), "thêm số lượng Thành Công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+                            notifyDataSetChanged();
+                            dialog.dismiss();
+//                            listCart.remove(i);
+
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+//                            CustomToast.makeText(getContext(), "Xóa Sản Phẩm Không Thành Công", CustomToast.LENGTH_SHORT, CustomToast.ERROR, true).show();
+                        }
+                    });
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+                dialog.dismiss();
+            }
+        });
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+    }
 
     private Boolean checkAll(){
         int j =0;
@@ -153,7 +241,12 @@ public class CartAdapter extends ArrayAdapter<Cart> {
 
         }
 
-//        viewHolder.
+        viewHolder.txtQuanti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickQuantity(cart.getId(),i);
+            }
+        });
 
 
         viewHolder.Delete.setOnClickListener(new View.OnClickListener() {

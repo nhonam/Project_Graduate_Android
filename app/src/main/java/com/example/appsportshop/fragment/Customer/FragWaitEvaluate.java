@@ -260,7 +260,7 @@ public class FragWaitEvaluate extends Fragment {
                             if (response.getInt("status")== 200){
                                 CustomToast.makeText(getContext(), "Đánh giá thành công, Cảm ơn bạn đã đánh giá!", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
 
-                                orderEvalAdapter.notifyDataSetChanged();
+                                getOrderItemByIdUser();
                                 dialog.dismiss();
                             }
 

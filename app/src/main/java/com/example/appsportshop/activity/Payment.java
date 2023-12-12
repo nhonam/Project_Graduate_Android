@@ -246,6 +246,8 @@ public class Payment extends AppCompatActivity {
                         if (ProductDetail.isBuyInCart)
                             RemoveProductInCart();
                         else {
+
+                            
                             CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
                             Intent intent = new Intent(getApplicationContext(), MainOrder.class);
