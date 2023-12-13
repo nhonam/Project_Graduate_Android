@@ -243,16 +243,28 @@ public class Payment extends AppCompatActivity {
                 districtName, idProducts, idQuantities, phoneNumber, nameShip, new APICallBack() {
                     @Override
                     public void onSuccess(JSONObject response) throws JSONException {
-                        if (ProductDetail.isBuyInCart)
-                            RemoveProductInCart();
-                        else {
 
-                            
-                            CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
 
-                            Intent intent = new Intent(getApplicationContext(), MainOrder.class);
+                        Log.d("1122", response.get("data").toString());
+                        if (response.getBoolean("data")){
+
+                            if (ProductDetail.isBuyInCart)
+                                RemoveProductInCart();
+                            else {
+
+
+                                CustomToast.makeText(Payment.this, "     Mua hàng thành công ! \n Cảm ơn bạn đã tin tưởng Shop", CustomToast.LENGTH_LONG, CustomToast.SUCCESS, true).show();
+
+                                Intent intent = new Intent(getApplicationContext(), MainOrder.class);
+                                startActivity(intent);
+                            }
+                        }else {
+                            CustomToast.makeText(Payment.this, "     Mua hàng thất bại ! \n Sản phẩm không đủ số lượng !!!", CustomToast.LENGTH_LONG, CustomToast.ERROR, true).show();
+                            Intent intent = new Intent(getApplicationContext(), Main_Customer.class);
                             startActivity(intent);
+
                         }
+
                     }
 
                     @Override

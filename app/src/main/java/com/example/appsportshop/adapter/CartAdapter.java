@@ -160,7 +160,7 @@ public class CartAdapter extends ArrayAdapter<Cart> {
                             }
 
 
-                            CustomToast.makeText(getContext(), "thêm số lượng Thành Công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+//                            CustomToast.makeText(getContext(), "thêm số lượng Thành Công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
                             notifyDataSetChanged();
                             dialog.dismiss();
 //                            listCart.remove(i);
