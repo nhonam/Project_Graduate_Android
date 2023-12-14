@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -337,7 +338,6 @@ public class FragOrder extends Fragment {
         JSONObject body = new JSONObject();
         body.put("id_order_status", idStatus);
         body.put("id_user", SingletonUser.getInstance().getIdUser());
-        body.put("email", SingletonUser.getInstance().getEmail());
         APICommon.APIPostWithJWT(context, "order-employee/update-status-order/" + idOrder, body, new APICallBack() {
             @Override
             public void onSuccess(JSONObject response) throws JSONException {
@@ -353,11 +353,16 @@ public class FragOrder extends Fragment {
                     }else {
 
                         if (response.getString("message").equalsIgnoreCase("1")) {
+//                            String pathtofont = "app/src/main/java/com/example/appsportshop/utils/times.ttf";
+
                             PdfExporter.exportBillOrder(getContext(),listOrderItemClick ,"HoaDon"+idOrder+".pdf", adressShip, phone, nameReciver);
                             CustomToast.makeText(context, "Mở tệp tin để xem hóa đơn bán hàng !", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
 
                         }
-                        CustomToast.makeText(context, "Chuyển trạng thái đơn hàng thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+                        else {
+                            CustomToast.makeText(context, "Chuyển trạng thái đơn hàng thành công", CustomToast.LENGTH_SHORT, CustomToast.SUCCESS, true).show();
+
+                        }
 
                     }
                 getListOrderByDate(startDate.getText().toString(), endDate.getText().toString());
